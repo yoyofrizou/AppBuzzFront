@@ -43,6 +43,8 @@ export default function PaymentScreen({ navigation, route }) {
       setLoading(true);
       setPaymentError("");
 
+      console.log("API URL =", EXPO_PUBLIC_API_URL);
+
       const response = await fetch(
         `${API_URL}/payments/payment-methods/${token}`
       );
