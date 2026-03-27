@@ -46,7 +46,7 @@ export default function InscriptionScreen({ navigation }) {
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaType.Images,
+      mediaTypes: ["images"],
       allowsEditing: true,
       aspect: [1, 1],
       quality: 0.8,
@@ -96,62 +96,62 @@ export default function InscriptionScreen({ navigation }) {
     return null;
   };
 
-  const handleSignup = async () => {
-    const errorMessage = validateForm();
+const handleSignup = async () => {
+  const errorMessage = validateForm();
 
-    if (errorMessage) {
-      Alert.alert("Erreur", errorMessage);
+  if (errorMessage) {
+    Alert.alert("Erreur", errorMessage);
+    return;
+  }
+
+  try {
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append("prenom", prenom.trim());
+    formData.append("nom", nom.trim());
+    formData.append("email", email.trim().toLowerCase());
+    formData.append("telephone", telephone.trim());
+    formData.append("password", password);
+    formData.append("confirmPassword", confirmPassword);
+
+    formData.append("profilePhoto", {
+      uri: profileImage.uri,
+      name: profileImage.fileName || `profile-${Date.now()}.jpg`,
+      type: profileImage.mimeType || "image/jpeg",
+    });
+
+    const response = await fetch(`${EXPO_PUBLIC_API_URL}/users/register`, {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.result) {
+      Alert.alert(
+        "Erreur",
+        data.error || data.message || "Erreur lors de la création du compte."
+      );
       return;
     }
 
-    try {
-      setLoading(true);
-
-      const formData = new FormData();
-      formData.append("prenom", prenom.trim());
-      formData.append("nom", nom.trim());
-      formData.append("email", email.trim().toLowerCase());
-      formData.append("telephone", telephone.trim());
-      formData.append("password", password);
-      formData.append("confirmPassword", confirmPassword);
-
-      formData.append("profilePhoto", {
-        uri: profileImage.uri,
-        name: `profile-${Date.now()}.jpg`,
-        type: "image/jpeg",
-      });
-
-      const response = await fetch(`${EXPO_PUBLIC_API_URL}/users/register`, {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await response.json();
-
-      if (!response.ok || !data.result) {
-        Alert.alert(
-          "Erreur",
-          data.error || data.message || "Erreur lors de la création du compte."
-        );
-        return;
-      }
-
-      Alert.alert(
-        "Compte créé",
-        "Votre compte a bien été créé. Vous pouvez maintenant vous connecter.",
-        [
-          {
-            text: "OK",
-            onPress: () => navigation.replace("Connexion"),
-          },
-        ]
-      );
-    } catch (error) {
-      Alert.alert("Erreur", "Erreur serveur ou problème réseau.");
-    } finally {
-      setLoading(false);
-    }
-  };
+    Alert.alert(
+      "Compte créé",
+      "Votre compte a bien été créé. Vous pouvez maintenant vous connecter.",
+      [
+        {
+          text: "OK",
+          onPress: () => navigation.replace("Connexion"),
+        },
+      ]
+    );
+  } catch (error) {
+    Alert.alert("Erreur", "Erreur serveur ou problème réseau.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <SafeAreaView style={styles.screen}>

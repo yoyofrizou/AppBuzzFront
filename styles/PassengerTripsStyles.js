@@ -309,5 +309,8 @@ validationInfoText: {
   lineHeight: 18,
   color: "#355B3D",
 },
-  
+tripMainRow: {
+  flexDirection: "row",
+  alignItems: "stretch",
+},
 });

@@ -99,7 +99,7 @@ function SliderBlock({ title, value, onChange, max = MAX_WALK_MINUTES }) {
       >
         <View style={[styles.sliderBadge, { left: badgeLeft }]}>
           <Text style={styles.sliderBadgeText}>
-            {value} min à pied (-{minutesToMeters(value)} m)
+           {value} min à pied (~{Math.round(minutesToMeters(value))} m)
           </Text>
         </View>
 
@@ -116,7 +116,7 @@ function SliderBlock({ title, value, onChange, max = MAX_WALK_MINUTES }) {
         />
 
         <View style={styles.sliderScaleRow}>
-          {[0, 5, 10, 15, 20].map((item) => (
+          {[0, 10, 20].map((item) => (
             <Text key={item} style={styles.sliderScaleText}>
               {item}
             </Text>
@@ -320,6 +320,14 @@ export default function PassengerSearchScreen({ navigation }) {
       return;
     }
 
+      if (!selectedDeparture || !selectedDestination) {
+    Alert.alert(
+      "Erreur",
+      "Merci de sélectionner le départ et l’arrivée dans les suggestions."
+    );
+    return;
+  }
+
     try {
       setLoadingSearch(true);
 
@@ -328,30 +336,26 @@ export default function PassengerSearchScreen({ navigation }) {
       setShowDestinationSuggestions(false);
 
       const payload = {
-        departure: departureQuery.trim(),
-        destination: destinationQuery.trim(),
-        dateTime: departureDateTime.toISOString(),
-        pickupWalkMinutes,
-        dropoffWalkMinutes,
-        pickupWalkDistanceMeters: minutesToMeters(pickupWalkMinutes),
-        dropoffWalkDistanceMeters: minutesToMeters(dropoffWalkMinutes),
-        departureCoordinates: selectedDeparture
-          ? {
-              latitude: selectedDeparture.latitude,
-              longitude: selectedDeparture.longitude,
-            }
-          : null,
-        destinationCoordinates: selectedDestination
-          ? {
-              latitude: selectedDestination.latitude,
-              longitude: selectedDestination.longitude,
-            }
-          : null,
-      };
+      departure: departureQuery.trim(),
+      destination: destinationQuery.trim(),
+      dateTime: departureDateTime.toISOString(),
+      pickupWalkMinutes,
+      dropoffWalkMinutes,
+      pickupWalkDistanceMeters: minutesToMeters(pickupWalkMinutes),
+      dropoffWalkDistanceMeters: minutesToMeters(dropoffWalkMinutes),
+      departureCoordinates: {
+        latitude: selectedDeparture.latitude,
+        longitude: selectedDeparture.longitude,
+      },
+      destinationCoordinates: {
+        latitude: selectedDestination.latitude,
+        longitude: selectedDestination.longitude,
+      },
+    };
 
       dispatch(setSearchParams(payload));
 
-      const response = await fetch(
+      /*const response = await fetch(
         `${EXPO_PUBLIC_API_URL}/rides/search?departure=${encodeURIComponent(
           payload.departure
         )}&destination=${encodeURIComponent(
@@ -361,7 +365,23 @@ export default function PassengerSearchScreen({ navigation }) {
         )}&pickupWalkMinutes=${payload.pickupWalkMinutes}&dropoffWalkMinutes=${
           payload.dropoffWalkMinutes
         }`
-      );
+      );*/
+
+        const params = new URLSearchParams({
+      departure: payload.departure,
+      destination: payload.destination,
+      dateTime: payload.dateTime,
+      pickupWalkMinutes: String(payload.pickupWalkMinutes),
+      dropoffWalkMinutes: String(payload.dropoffWalkMinutes),
+      departureLat: String(payload.departureCoordinates.latitude),
+      departureLng: String(payload.departureCoordinates.longitude),
+      destinationLat: String(payload.destinationCoordinates.latitude),
+      destinationLng: String(payload.destinationCoordinates.longitude),
+    });
+
+    const response = await fetch(
+      `${EXPO_PUBLIC_API_URL}/rides/search?${params.toString()}`
+    );
 
       const data = await response.json();
 
@@ -375,7 +395,7 @@ export default function PassengerSearchScreen({ navigation }) {
       }
 
       dispatch(setSearchedRides(data.rides || []));
-      navigation.navigate("PassengerSearchResultsScreen");
+      navigation.navigate("PassengerSearchResults");
     } catch (error) {
       console.log("Erreur recherche trajets :", error);
       Alert.alert("Erreur", "Impossible d’effectuer la recherche.");

@@ -166,7 +166,7 @@ export default function PassengerHomeScreen({ navigation }) {
         <TouchableOpacity
           style={styles.searchBar}
           activeOpacity={0.8}
-          onPress={() => navigation.navigate("PassengerSearchScreen")}
+          onPress={() => navigation.navigate("PassengerSearch")}
         >
           <Text style={styles.searchPlaceholder}>Où allez-vous ?</Text>
           <Ionicons name="search-outline" size={30} color="#7A7A7A" />

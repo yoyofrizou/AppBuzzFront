@@ -137,7 +137,7 @@ export default function PassengerSearchResultsScreen({ navigation }) {
           <Text style={styles.logo}>BUZZ</Text>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate("ProfileScreen")}
+            onPress={() => navigation.navigate("Profile")}
             style={styles.profileButton}
             activeOpacity={0.7}
           >

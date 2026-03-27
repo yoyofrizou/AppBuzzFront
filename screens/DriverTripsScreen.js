@@ -6,6 +6,7 @@ import {
   FlatList,
   ActivityIndicator,
   Alert,
+  Image,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,20 +58,6 @@ export default function DriverTripsScreen({ navigation, route }) {
   );
   const [bookingActionLoadingId, setBookingActionLoadingId] = useState(null);
   const [startRideLoadingId, setStartRideLoadingId] = useState(null);
-
-  const hasCarInfo = Boolean(
-    user?.car?.brand &&
-      user?.car?.model &&
-      user?.car?.color &&
-      user?.car?.nbSeats > 0 &&
-      user?.car?.licencePlate
-  );
-
-  const hasDriverDocuments = Boolean(
-    user?.driverProfile?.driverLicenseUrl &&
-      user?.driverProfile?.identityDocumentUrl &&
-      user?.driverProfile?.insuranceDocumentUrl
-  );
 
   const canPublishRide = Boolean(user?.driverProfile?.isProfileComplete);
 
@@ -174,6 +161,39 @@ export default function DriverTripsScreen({ navigation, route }) {
     });
   };
 
+  const handleManualValidate = async (bookingId) => {
+    try {
+      setBookingActionLoadingId(bookingId);
+
+      const response = await fetch(
+        `${EXPO_PUBLIC_API_URL}/rides/bookings/${bookingId}/manual-validate`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok || !data.result) {
+        Alert.alert(
+          "Erreur",
+          data?.error || "Impossible de valider manuellement le passager."
+        );
+        return;
+      }
+
+      await fetchDriverRides();
+    } catch (error) {
+      console.log("Erreur validation manuelle passager :", error);
+      Alert.alert("Erreur", "Impossible de valider manuellement le passager.");
+    } finally {
+      setBookingActionLoadingId(null);
+    }
+  };
+
   const handleMarkAbsent = async (bookingId) => {
     try {
       setBookingActionLoadingId(bookingId);
@@ -211,15 +231,12 @@ export default function DriverTripsScreen({ navigation, route }) {
     try {
       setStartRideLoadingId(rideId);
 
-      const response = await fetch(
-        `${EXPO_PUBLIC_API_URL}/rides/${rideId}/start`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${EXPO_PUBLIC_API_URL}/rides/${rideId}/start`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       const data = await response.json();
 
@@ -234,7 +251,7 @@ export default function DriverTripsScreen({ navigation, route }) {
       await fetchDriverRides();
 
       navigation.navigate("DriverTripTracking", {
-        rideId: rideId,
+        rideId,
       });
     } catch (error) {
       console.log("Erreur démarrage trajet :", error);
@@ -302,58 +319,73 @@ export default function DriverTripsScreen({ navigation, route }) {
     const isLoading = bookingActionLoadingId === booking._id;
 
     return (
-      <View key={booking._id} style={styles.passengerRow}>
-        <View style={styles.passengerInfo}>
-          <Text style={styles.passengerName}>
-            {passenger?.prenom || passenger?.firstname || ""}{" "}
-            {passenger?.nom || passenger?.lastname || ""}
-          </Text>
+    <View key={booking._id} style={styles.passengerCard}>
+      {passenger?.profilePhoto ? (
+        <Image
+          source={{ uri: passenger.profilePhoto }}
+          style={styles.passengerAvatar}
+        />
+      ) : (
+        <View style={styles.passengerAvatarPlaceholder}>
+          <Ionicons name="person" size={24} color="#FFFFFF" />
+        </View>
+      )}
 
-          {!showContactOnly && (
-            <Text style={styles.passengerStatus}>
-              {getPresenceLabel(status)}
+      <Text style={styles.passengerCardName} numberOfLines={2}>
+        {passenger?.prenom || passenger?.firstname || ""}{" "}
+      </Text>
+
+      <Text style={styles.passengerCardStatus}>
+        {getPresenceLabel(status)}
+      </Text>
+
+      {showContactOnly ? (
+        <TouchableOpacity
+          style={styles.passengerCardPrimaryButton}
+          activeOpacity={0.8}
+          onPress={() => handleContactPassenger(ride, booking)}
+        >
+          <Text style={styles.passengerCardPrimaryButtonText}>Contacter</Text>
+        </TouchableOpacity>
+      ) : isPending ? (
+        <View style={styles.passengerCardButtons}>
+          <TouchableOpacity
+            style={styles.passengerCardPrimaryButton}
+            activeOpacity={0.8}
+            disabled={isLoading}
+            onPress={() => handleScanPassenger(booking._id)}
+          >
+            <Text style={styles.passengerCardPrimaryButtonText}>
+              {isLoading ? "..." : "Scanner le QR"}
             </Text>
-          )}
-        </View>
+          </TouchableOpacity>
 
-        <View style={styles.passengerActions}>
-          {showContactOnly ? (
-            <TouchableOpacity
-              style={styles.passengerActionButton}
-              activeOpacity={0.8}
-              onPress={() => handleContactPassenger(ride, booking)}
-            >
-              <Text style={styles.passengerActionButtonText}>Contacter</Text>
-            </TouchableOpacity>
-          ) : isPending ? (
-            <>
-              <TouchableOpacity
-                style={styles.passengerActionButton}
-                activeOpacity={0.8}
-                disabled={isLoading}
-                onPress={() => handleScanPassenger(booking._id)}
-              >
-                <Text style={styles.passengerActionButtonText}>
-                  {isLoading ? "..." : "Scanner le QR"}
-                </Text>
-              </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.passengerCardSecondaryButton}
+            activeOpacity={0.8}
+            disabled={isLoading}
+            onPress={() => handleManualValidate(booking._id)}
+          >
+            <Text style={styles.passengerCardSecondaryButtonText}>
+              Valider manuellement
+            </Text>
+          </TouchableOpacity>
 
-              <TouchableOpacity
-                style={styles.passengerSecondaryActionButton}
-                activeOpacity={0.8}
-                disabled={isLoading}
-                onPress={() => handleMarkAbsent(booking._id)}
-              >
-                <Text style={styles.passengerSecondaryActionButtonText}>
-                  Absent
-                </Text>
-              </TouchableOpacity>
-            </>
-          ) : null}
+          <TouchableOpacity
+            style={styles.passengerCardSecondaryButton}
+            activeOpacity={0.8}
+            disabled={isLoading}
+            onPress={() => handleMarkAbsent(booking._id)}
+          >
+            <Text style={styles.passengerCardSecondaryButtonText}>
+              Absent
+            </Text>
+          </TouchableOpacity>
         </View>
-      </View>
-    );
-  };
+      ) : null}
+    </View>
+  );
+};
 
   const renderRide = ({ item }) => {
     const passengers = item.passengers || [];
@@ -374,16 +406,14 @@ export default function DriverTripsScreen({ navigation, route }) {
         >
           <View style={styles.rideHeader}>
             <View style={styles.rideHeaderLeft}>
+              <Text style={styles.rideRouteText}>
+                {item.departureAddress || item.departureCity || "Départ"} -{" "}
+                {formatHour(item.departureDateTime)}
+              </Text>
 
-             <Text style={styles.rideRouteText}>
-  {item.departureAddress || item.departureCity || "Départ"} -{" "}
-  {formatHour(item.departureDateTime)}
-</Text>
-
-<Text style={styles.rideRouteText}>
-  {item.destinationAddress || item.destinationCity || "Destination"}
-</Text>
-
+              <Text style={styles.rideRouteText}>
+                {item.destinationAddress || item.destinationCity || "Destination"}
+              </Text>
             </View>
 
             <Ionicons name="chevron-forward" size={22} color="#8B2332" />
@@ -418,17 +448,19 @@ export default function DriverTripsScreen({ navigation, route }) {
                 Aucun passager pour le moment.
               </Text>
             ) : (
-              passengers.map((booking) => renderPassengerRow(booking, item, false))
+              <View style={styles.passengersGrid}>
+                {passengers.map((booking) => renderPassengerCard(booking, item, false))}
+              </View>
             )}
 
             <TouchableOpacity
+              disabled={!canStartRide || isStartLoading}
               style={[
                 styles.startRideButton,
                 (!canStartRide || isStartLoading) &&
                   styles.startRideButtonDisabled,
               ]}
               activeOpacity={canStartRide && !isStartLoading ? 0.8 : 1}
-              disabled={!canStartRide || isStartLoading}
               onPress={() => handleStartRide(item._id)}
             >
               <Text
@@ -457,7 +489,9 @@ export default function DriverTripsScreen({ navigation, route }) {
                 Aucun passager sur ce trajet.
               </Text>
             ) : (
-              passengers.map((booking) => renderPassengerRow(booking, item, true))
+             <View style={styles.passengersGrid}>
+             {passengers.map((booking) => renderPassengerCard(booking, item, true))}
+             </View>
             )}
           </View>
         )}
@@ -520,8 +554,6 @@ export default function DriverTripsScreen({ navigation, route }) {
       </View>
 
       <View style={styles.content}>
-
-
         <View style={styles.tabsWrapper}>
           <TouchableOpacity
             style={[

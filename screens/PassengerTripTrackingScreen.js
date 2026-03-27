@@ -375,11 +375,11 @@ export default function PassengerTripTrackingScreen({ navigation, route }) {
         <View style={styles.infoCard}>
           <Text style={styles.infoTitle}>Conducteur</Text>
           <Text style={styles.infoText}>
-            {ride.driver?.prenom || ""} {ride.driver?.nom || ""}
+            {ride.user?.prenom || ""} {ride.user?.nom || ""}
           </Text>
           <Text style={styles.infoSubtext}>
-            {ride.driver?.car?.brand || "Voiture"}{" "}
-            {ride.driver?.car?.model || ""}
+            {ride.user?.car?.brand || "Voiture"}{" "}
+            {ride.user?.car?.model || ""}
           </Text>
         </View>
 
@@ -399,7 +399,7 @@ export default function PassengerTripTrackingScreen({ navigation, route }) {
           activeOpacity={0.8}
           onPress={() =>
             navigation.navigate("PassengerRate", {
-              driver: ride.driver,
+              driver: ride.user,
               rideId: ride._id,
             })
           }

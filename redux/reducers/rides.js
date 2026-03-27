@@ -4,9 +4,7 @@ const initialState = {
   searchedRides: [],
   searchParams: null,
   selectedRide: null,
-
   driverRides: [],
-
   passengerBookings: [],
 };
 

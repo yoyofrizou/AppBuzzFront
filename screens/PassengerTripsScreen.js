@@ -11,7 +11,10 @@ import {
 import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { setPassengerBookings } from "../redux/reducers/rides";
+import {
+  setPassengerBookings,
+  removePassengerBooking,
+} from "../redux/reducers/rides";
 import styles from "../styles/PassengerTripsStyles";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
@@ -46,6 +49,28 @@ function getTripCategory(ride) {
   return "past";
 }
 
+function formatDisplayedPrice(booking, ride, activeTab) {
+  const hasBookingFinalAmount =
+    typeof booking?.finalAmount === "number" && booking.finalAmount >= 0;
+
+  const hasBookingMaxAmount =
+    typeof booking?.maxAmount === "number" && booking.maxAmount >= 0;
+
+  if (activeTab === "past" && hasBookingFinalAmount) {
+    return `${(booking.finalAmount / 100).toFixed(2)} €`;
+  }
+
+  if ((activeTab === "upcoming" || activeTab === "current") && hasBookingMaxAmount) {
+    return `${(booking.maxAmount / 100).toFixed(2)} €`;
+  }
+
+  if (typeof ride?.price === "number") {
+    return `${ride.price.toFixed(2)} €`;
+  }
+
+  return "0,00 €";
+}
+
 export default function PassengerTripsScreen({ navigation, route }) {
   const dispatch = useDispatch();
 
@@ -56,6 +81,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
   const [activeTab, setActiveTab] = useState(
     route?.params?.initialTab || "upcoming"
   );
+  const [bookingActionLoadingId, setBookingActionLoadingId] = useState(null);
 
   const fetchPassengerBookings = useCallback(async () => {
     if (!EXPO_PUBLIC_API_URL) {
@@ -116,6 +142,8 @@ export default function PassengerTripsScreen({ navigation, route }) {
     const past = [];
 
     bookings.forEach((booking) => {
+      if (booking?.status === "cancelled") return;
+
       const ride = booking.ride;
       const category =
         booking.tripCategory || ride?.tripCategory || getTripCategory(ride);
@@ -147,22 +175,27 @@ export default function PassengerTripsScreen({ navigation, route }) {
   }, [bookings]);
 
   const displayedBookings = useMemo(() => {
-    if (activeTab === "current") {
-      return categorized.current;
-    }
-
-    if (activeTab === "past") {
-      return categorized.past;
-    }
-
+    if (activeTab === "current") return categorized.current;
+    if (activeTab === "past") return categorized.past;
     return categorized.upcoming;
   }, [activeTab, categorized]);
 
   const handleContactDriver = async (booking) => {
     try {
-      const ride = booking?.ride;
+      if (!EXPO_PUBLIC_API_URL) {
+        Alert.alert("Erreur", "API URL manquante.");
+        return;
+      }
 
-      if (!ride?._id || !ride?.driver?._id) {
+      if (!user?.token) {
+        Alert.alert("Erreur", "Utilisateur non connecté.");
+        return;
+      }
+
+      const ride = booking?.ride;
+      const driverUser = ride?.user || ride?.driver;
+
+      if (!ride?._id || !driverUser?._id) {
         Alert.alert("Erreur", "Impossible de trouver cette conversation.");
         return;
       }
@@ -177,7 +210,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
           body: JSON.stringify({
             token: user.token,
             rideId: ride._id,
-            otherUserId: ride.driver._id,
+            otherUserId: driverUser._id,
           }),
         }
       );
@@ -202,15 +235,71 @@ export default function PassengerTripsScreen({ navigation, route }) {
     }
   };
 
+  const handleCancelBooking = (bookingId) => {
+    Alert.alert(
+      "Annuler la réservation",
+      "Voulez-vous vraiment annuler ce trajet ?",
+      [
+        { text: "Non", style: "cancel" },
+        {
+          text: "Oui",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              if (!EXPO_PUBLIC_API_URL) {
+                Alert.alert("Erreur", "API URL manquante.");
+                return;
+              }
+
+              setBookingActionLoadingId(bookingId);
+
+              const response = await fetch(
+                `${EXPO_PUBLIC_API_URL}/bookings/delete/${bookingId}`,
+                {
+                  method: "DELETE",
+                }
+              );
+
+              const data = await response.json();
+
+              if (!response.ok || !data.result) {
+                Alert.alert(
+                  "Erreur",
+                  data.error || "Impossible d’annuler la réservation."
+                );
+                return;
+              }
+
+              dispatch(removePassengerBooking(bookingId));
+              Alert.alert("Réservation annulée");
+              await fetchPassengerBookings();
+            } catch (error) {
+              console.log("Erreur annulation réservation :", error);
+              Alert.alert("Erreur", "Impossible d’annuler la réservation.");
+            } finally {
+              setBookingActionLoadingId(null);
+            }
+          },
+        },
+      ]
+    );
+  };
+
   const renderTripCard = ({ item }) => {
     const ride = item.ride;
     if (!ride) return null;
 
+    const driverUser = ride?.user || ride?.driver || null;
+
     const isCurrent = activeTab === "current";
     const isUpcoming = activeTab === "upcoming";
+    const isPast = activeTab === "past";
+
     const canTrackRide = ride?.status === "started";
     const isQrValidated = item?.passengerPresenceStatus === "scanned";
-    const isManualValidation = item?.passengerPresenceStatus === "manual";
+    const isBookingActionLoading = bookingActionLoadingId === item._id;
+
+    const displayedPrice = formatDisplayedPrice(item, ride, activeTab);
 
     return (
       <View style={styles.tripCard}>
@@ -228,15 +317,13 @@ export default function PassengerTripsScreen({ navigation, route }) {
 
             <View style={styles.tripDivider} />
 
-            <Text style={styles.tripPrice}>
-              {(ride.price ?? 0).toFixed(2)} €
-            </Text>
+            <Text style={styles.tripPrice}>{displayedPrice}</Text>
           </View>
 
           <View style={styles.tripMiddle}>
-            {ride.driver?.profilePhoto ? (
+            {driverUser?.profilePhoto ? (
               <Image
-                source={{ uri: ride.driver.profilePhoto }}
+                source={{ uri: driverUser.profilePhoto }}
                 style={styles.driverImage}
               />
             ) : (
@@ -246,14 +333,15 @@ export default function PassengerTripsScreen({ navigation, route }) {
             )}
 
             <Text style={styles.driverName}>
-              {ride.driver?.prenom || ""} {ride.driver?.nom || ""}
+              {driverUser?.prenom || driverUser?.firstname || ""}{" "}
+              {driverUser?.nom || driverUser?.lastname || ""}
             </Text>
 
             <Text style={styles.driverCar}>
-              {ride.driver?.car?.brand || "Voiture"}{" "}
-              {ride.driver?.car?.model || ""}
-              {ride.driver?.car?.licencePlate
-                ? ` - ${ride.driver.car.licencePlate}`
+              {driverUser?.car?.brand || "Voiture"}{" "}
+              {driverUser?.car?.model || ""}
+              {driverUser?.car?.licencePlate
+                ? ` - ${driverUser.car.licencePlate}`
                 : ""}
             </Text>
           </View>
@@ -289,20 +377,45 @@ export default function PassengerTripsScreen({ navigation, route }) {
             )}
 
             {isUpcoming && (
-              <TouchableOpacity
-                style={styles.actionButton}
-                activeOpacity={0.8}
-                onPress={() =>
-                  navigation.navigate("PassengerQR", {
-                    bookingId: item._id,
-                  })
-                }
-              >
-                <Text style={styles.actionButtonText}>Voir le QR code</Text>
-              </TouchableOpacity>
+              <>
+                <TouchableOpacity
+                  style={styles.actionButton}
+                  activeOpacity={0.8}
+                  onPress={() =>
+                    navigation.navigate("PassengerQR", {
+                      bookingId: item._id,
+                    })
+                  }
+                >
+                  <Text style={styles.actionButtonText}>Voir le QR code</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[
+                    styles.actionButton,
+                    styles.secondaryActionButton,
+                    isBookingActionLoading && styles.actionButtonDisabled,
+                  ]}
+                  activeOpacity={isBookingActionLoading ? 1 : 0.8}
+                  disabled={isBookingActionLoading}
+                  onPress={() => handleCancelBooking(item._id)}
+                >
+                  <Text
+                    style={[
+                      styles.actionButtonText,
+                      styles.secondaryActionButtonText,
+                      isBookingActionLoading && styles.actionButtonTextDisabled,
+                    ]}
+                  >
+                    {isBookingActionLoading
+                      ? "Annulation..."
+                      : "Annuler la réservation"}
+                  </Text>
+                </TouchableOpacity>
+              </>
             )}
 
-            {activeTab === "past" && (
+            {isPast && (
               <>
                 <TouchableOpacity
                   style={styles.actionButton}
@@ -342,18 +455,6 @@ export default function PassengerTripsScreen({ navigation, route }) {
             </Text>
           </View>
         )}
-
-        {isUpcoming && isManualValidation && (
-          <View style={styles.manualWarningBox}>
-            <Text style={styles.manualWarningTitle}>
-              Présence validée manuellement
-            </Text>
-            <Text style={styles.manualWarningText}>
-              Le conducteur a validé votre présence manuellement. Vérifiez la
-              plaque, le véhicule et l’identité du chauffeur avant de monter.
-            </Text>
-          </View>
-        )}
       </View>
     );
   };
@@ -387,7 +488,13 @@ export default function PassengerTripsScreen({ navigation, route }) {
         <TouchableOpacity
           style={styles.topBarBack}
           activeOpacity={0.7}
-          onPress={() => navigation.goBack()}
+          onPress={() => {
+            if (navigation.canGoBack()) {
+              navigation.goBack();
+            } else {
+              navigation.navigate("PassengerHome");
+            }
+          }}
         >
           <Ionicons name="arrow-back" size={28} color="#FFFFFF" />
         </TouchableOpacity>

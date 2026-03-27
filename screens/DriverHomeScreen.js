@@ -338,7 +338,7 @@ export default function DriverHomeScreen({ navigation }) {
                 style={styles.allowButton}
                 onPress={() => {
                   setShowDriverProfileModal(false);
-                  navigation.navigate("DriverProfileScreen");
+                  navigation.navigate("DriverProfile");
                 }}
               >
                 <Text style={styles.allowButtonText}>Compléter maintenant</Text>

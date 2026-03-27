@@ -18,7 +18,7 @@ export default function MainHeader({ navigation }) {
         BUZZ
       </Text>
 
-      <TouchableOpacity onPress={() => navigation.navigate("ProfileScreen")}>
+      <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
         <Ionicons name="person-circle-outline" size={40} color="#111" />
       </TouchableOpacity>
     </View>

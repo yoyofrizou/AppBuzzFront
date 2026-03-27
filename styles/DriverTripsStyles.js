@@ -176,72 +176,6 @@ export default StyleSheet.create({
     marginBottom: 12,
   },
 
-  passengerRow: {
-    backgroundColor: "#F8F8F8",
-    borderRadius: 16,
-    padding: 12,
-    marginBottom: 10,
-  },
-
-  passengerInfo: {
-    marginBottom: 10,
-  },
-
-  passengerName: {
-    fontSize: 15,
-    fontWeight: "800",
-    color: "#222222",
-  },
-
-  passengerStatus: {
-    marginTop: 4,
-    fontSize: 13,
-    color: "#6F6F6F",
-  },
-
-  passengerActions: {
-    flexDirection: "row",
-    gap: 8,
-  },
-
-  passengerActionButton: {
-    flex: 1,
-    backgroundColor: "#7A2335",
-    borderRadius: 18,
-    paddingVertical: 14,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-
-  passengerActionButtonText: {
-    color: "#FFFFFF",
-    fontSize: 14,
-    fontWeight: "800",
-    textAlign: "center",
-  },
-
-  passengerSecondaryActionButton: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-    borderWidth: 1,
-    borderColor: "#7A2335",
-    borderRadius: 18,
-    paddingVertical: 14,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  passengerSecondaryActionButtonText: {
-    color: "#7A2335",
-    fontSize: 14,
-    fontWeight: "800",
-    textAlign: "center",
-  },
-
   startRideButton: {
     marginTop: 14,
     backgroundColor: "#7A2335",
@@ -258,6 +192,7 @@ export default StyleSheet.create({
 
   startRideButtonDisabled: {
     backgroundColor: "#D9D9D9",
+  opacity: 0.9,
   },
 
   startRideButtonText: {
@@ -328,4 +263,94 @@ export default StyleSheet.create({
     fontSize: 14,
     fontWeight: "800",
   },
+  passengersGrid: {
+  flexDirection: "row",
+  flexWrap: "wrap",
+  justifyContent: "space-between",
+  gap: 12,
+},
+
+passengerCard: {
+  width: "47%",
+  backgroundColor: "#F8F8F8",
+  borderRadius: 18,
+  padding: 12,
+  alignItems: "center",
+  marginBottom: 10,
+  gap: 6,
+},
+
+passengerAvatar: {
+  width: 64,
+  height: 64,
+  borderRadius: 32,
+  marginBottom: 10,
+},
+
+passengerAvatarPlaceholder: {
+  width: 64,
+  height: 64,
+  borderRadius: 32,
+  backgroundColor: "#7A2335",
+  alignItems: "center",
+  justifyContent: "center",
+  marginBottom: 10,
+},
+
+passengerCardName: {
+  fontSize: 14,
+  fontWeight: "800",
+  color: "#222222",
+  textAlign: "center",
+  marginBottom: 6,
+  maxWidth: "100%",
+},
+
+passengerCardStatus: {
+  fontSize: 12,
+  color: "#6F6F6F",
+  textAlign: "center",
+  marginBottom: 10,
+},
+
+passengerCardButtons: {
+  width: "100%",
+  gap: 8,
+  alignItems: "center", // centre les boutons
+},
+
+passengerCardPrimaryButton: {
+  width: "100%",
+  backgroundColor: "#7A2335",
+  borderRadius: 14,
+  paddingVertical: 12,
+  alignItems: "center",
+  justifyContent: "center",
+},
+
+passengerCardPrimaryButtonText: {
+  color: "#FFFFFF",
+  fontSize: 13,
+  fontWeight: "800",
+  textAlign: "center",
+},
+
+passengerCardSecondaryButton: {
+  width: "100%",
+  maxWidth: 140,
+  backgroundColor: "#FFFFFF",
+  borderWidth: 1,
+  borderColor: "#7A2335",
+  borderRadius: 14,
+  paddingVertical: 12,
+  alignItems: "center",
+  justifyContent: "center",
+},
+
+passengerCardSecondaryButtonText: {
+  color: "#7A2335",
+  fontSize: 12,
+  fontWeight: "800",
+  textAlign: "center",
+},
 });
