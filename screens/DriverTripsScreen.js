@@ -312,80 +312,115 @@ export default function DriverTripsScreen({ navigation, route }) {
     }
   };
 
-  const renderPassengerRow = (booking, ride, showContactOnly = false) => {
+   const handleOpenPassengerProfile = (booking, ride) => {
+  const passenger = booking.passenger || booking.user;
+
+  if (!passenger?._id || !ride?._id) {
+    Alert.alert("Erreur", "Impossible d'ouvrir le profil du passager.");
+    return;
+  }
+
+  navigation.navigate("PassengerPublicProfile", {
+    passengerId: passenger._id,
+    rideId: ride._id,
+  });
+};
+
+
+    const renderPassengerCard = (booking, ride, showContactOnly = false) => {
     const passenger = booking.passenger || booking.user;
     const status = booking.passengerPresenceStatus || "pending";
     const isPending = status === "pending";
     const isLoading = bookingActionLoadingId === booking._id;
 
     return (
-    <View key={booking._id} style={styles.passengerCard}>
-      {passenger?.profilePhoto ? (
-        <Image
-          source={{ uri: passenger.profilePhoto }}
-          style={styles.passengerAvatar}
-        />
-      ) : (
-        <View style={styles.passengerAvatarPlaceholder}>
-          <Ionicons name="person" size={24} color="#FFFFFF" />
-        </View>
-      )}
-
-      <Text style={styles.passengerCardName} numberOfLines={2}>
-        {passenger?.prenom || passenger?.firstname || ""}{" "}
-      </Text>
-
-      <Text style={styles.passengerCardStatus}>
-        {getPresenceLabel(status)}
-      </Text>
-
-      {showContactOnly ? (
+      <View key={booking._id} style={styles.passengerCard}>
         <TouchableOpacity
-          style={styles.passengerCardPrimaryButton}
           activeOpacity={0.8}
-          onPress={() => handleContactPassenger(ride, booking)}
+          onPress={() => handleOpenPassengerProfile(booking, ride)}
         >
-          <Text style={styles.passengerCardPrimaryButtonText}>Contacter</Text>
+          {passenger?.profilePhoto ? (
+            <Image
+              source={{ uri: passenger.profilePhoto }}
+              style={styles.passengerAvatar}
+            />
+          ) : (
+            <View style={styles.passengerAvatarPlaceholder}>
+              <Ionicons name="person" size={24} color="#FFFFFF" />
+            </View>
+          )}
         </TouchableOpacity>
-      ) : isPending ? (
-        <View style={styles.passengerCardButtons}>
+
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => handleOpenPassengerProfile(booking, ride)}
+        >
+          <Text style={styles.passengerCardName} numberOfLines={2}>
+            {passenger?.prenom || passenger?.firstname || ""}{" "}
+            {passenger?.nom || passenger?.lastname || ""}
+          </Text>
+        </TouchableOpacity>
+
+        <Text style={styles.passengerCardStatus}>
+          {getPresenceLabel(status)}
+        </Text>
+
+        {showContactOnly ? (
           <TouchableOpacity
             style={styles.passengerCardPrimaryButton}
             activeOpacity={0.8}
-            disabled={isLoading}
-            onPress={() => handleScanPassenger(booking._id)}
+            onPress={() => handleContactPassenger(ride, booking)}
           >
-            <Text style={styles.passengerCardPrimaryButtonText}>
-              {isLoading ? "..." : "Scanner le QR"}
-            </Text>
+            <Text style={styles.passengerCardPrimaryButtonText}>Contacter</Text>
           </TouchableOpacity>
+        ) : isPending ? (
+          <View style={styles.passengerCardButtons}>
+            <TouchableOpacity
+              style={styles.passengerCardPrimaryButton}
+              activeOpacity={0.8}
+              disabled={isLoading}
+              onPress={() => handleScanPassenger(booking._id)}
+            >
+              <Text style={styles.passengerCardPrimaryButtonText}>
+                {isLoading ? "..." : "Scanner le QR"}
+              </Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.passengerCardSecondaryButton}
-            activeOpacity={0.8}
-            disabled={isLoading}
-            onPress={() => handleManualValidate(booking._id)}
-          >
-            <Text style={styles.passengerCardSecondaryButtonText}>
-              Valider manuellement
-            </Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.passengerCardSecondaryButton}
+              activeOpacity={0.8}
+              disabled={isLoading}
+              onPress={() => handleManualValidate(booking._id)}
+            >
+              <Text style={styles.passengerCardSecondaryButtonText}>
+                Valider manuellement
+              </Text>
+            </TouchableOpacity>
 
+            <TouchableOpacity
+              style={styles.passengerCardSecondaryButton}
+              activeOpacity={0.8}
+              disabled={isLoading}
+              onPress={() => handleMarkAbsent(booking._id)}
+            >
+              <Text style={styles.passengerCardSecondaryButtonText}>
+                Absent
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
           <TouchableOpacity
-            style={styles.passengerCardSecondaryButton}
+            style={styles.passengerCardPrimaryButton}
             activeOpacity={0.8}
-            disabled={isLoading}
-            onPress={() => handleMarkAbsent(booking._id)}
+            onPress={() => handleContactPassenger(ride, booking)}
           >
-            <Text style={styles.passengerCardSecondaryButtonText}>
-              Absent
-            </Text>
+            <Text style={styles.passengerCardPrimaryButtonText}>Contacter</Text>
           </TouchableOpacity>
-        </View>
-      ) : null}
-    </View>
-  );
-};
+        )}
+      </View>
+    );
+  };
+
 
   const renderRide = ({ item }) => {
     const passengers = item.passengers || [];

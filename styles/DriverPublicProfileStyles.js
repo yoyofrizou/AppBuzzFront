@@ -27,15 +27,18 @@ export default StyleSheet.create({
     justifyContent: "space-between",
   },
 
-  backButton: {
-    width: 32,
-    alignItems: "flex-start",
-    justifyContent: "center",
-  },
-
   headerSpacer: {
-    width: 32,
-  },
+  width: 42,
+  height: 42,
+},
+
+closeButton: {
+  width: 42,
+  height: 42,
+  borderRadius: 21,
+  justifyContent: "center",
+  alignItems: "center",
+},
 
   pageTitle: {
     fontSize: 20,
@@ -136,13 +139,25 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 10,
+    paddingVertical: 6,
+    borderRadius: 12,
+  },
+
+   histogramRowActive: {
+    backgroundColor: "#F0E4E7",
+    paddingHorizontal: 8,
   },
 
   histogramLabel: {
-    width: 28,
+    width: 72,
     fontSize: 14,
     fontWeight: "700",
     color: "#333333",
+  },
+
+  histogramLabelActive: {
+    color: BORDEAUX,
+    fontWeight: "800",
   },
 
   histogramBarBackground: {
@@ -161,13 +176,27 @@ export default StyleSheet.create({
   },
 
   histogramCount: {
-    width: 22,
+    width: 24,
     textAlign: "right",
     fontSize: 13,
     color: "#666666",
     fontWeight: "700",
   },
 
+   histogramCountActive: {
+    color: BORDEAUX,
+    fontWeight: "800",
+  },
+
+  showAllText: {
+    marginTop: 10,
+    color: BORDEAUX,
+    fontSize: 14,
+    fontWeight: "700",
+    textDecorationLine: "underline",
+    alignSelf: "flex-start",
+  },
+  
   reviewCard: {
     backgroundColor: "#FAFAFA",
     borderRadius: 18,

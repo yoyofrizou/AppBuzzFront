@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -34,6 +34,34 @@ function formatDateTime(dateString) {
   });
 }
 
+function formatReviewDate(dateString) {
+  if (!dateString) return "";
+
+  const date = new Date(dateString);
+
+  if (Number.isNaN(date.getTime())) return "";
+
+  return date.toLocaleDateString("fr-FR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
+function renderStars(rating = 0, size = 16, color = BORDEAUX) {
+  const rounded = Math.round(Number(rating) || 0);
+
+  return [1, 2, 3, 4, 5].map((star) => (
+    <Ionicons
+      key={star}
+      name={star <= rounded ? "star" : "star-outline"}
+      size={size}
+      color={color}
+      style={{ marginRight: 2 }}
+    />
+  ));
+}
+
 export default function DriverPublicProfileScreen({ navigation, route }) {
   const { driverId, driverName = "", rideId } = route.params || {};
 
@@ -46,6 +74,7 @@ export default function DriverPublicProfileScreen({ navigation, route }) {
   const [distribution, setDistribution] = useState([]);
   const [total, setTotal] = useState(0);
   const [upcomingRides, setUpcomingRides] = useState([]);
+  const [selectedRating, setSelectedRating] = useState(null);
 
   const fetchDriverPublicProfile = useCallback(
     async (isRefresh = false) => {
@@ -67,10 +96,6 @@ export default function DriverPublicProfileScreen({ navigation, route }) {
         );
 
         const data = await response.json();
-        console.log("driver public profile response:", data);
-
-        console.log("rideId courant:", rideId);
-        console.log("upcomingRides avant filtre:", data.upcomingRides);
 
         if (!response.ok || !data.result) {
           setDriver(null);
@@ -82,18 +107,21 @@ export default function DriverPublicProfileScreen({ navigation, route }) {
           return;
         }
 
+        const sortedRates = Array.isArray(data.rates)
+          ? [...data.rates].sort(
+              (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+            )
+          : [];
+
         setDriver(data.driver || null);
-        setRates(data.rates || []);
-        setAverage(data.average || 0);
-        setDistribution(data.distribution || []);
-        setTotal(data.total || 0);
+        setRates(sortedRates);
+        setAverage(Number(data.average) || 0);
+        setDistribution(Array.isArray(data.distribution) ? data.distribution : []);
+        setTotal(Number(data.total) || 0);
 
-        // on enlève éventuellement le trajet déjà consulté
-       const filteredUpcoming = (data.upcomingRides || []).filter(
-       (item) => String(item?._id) !== String(rideId)
+        const filteredUpcoming = (data.upcomingRides || []).filter(
+          (item) => String(item?._id) !== String(rideId)
         );
-
-         console.log("upcomingRides après filtre:", filteredUpcoming);
 
         setUpcomingRides(filteredUpcoming);
       } catch (error) {
@@ -118,24 +146,26 @@ export default function DriverPublicProfileScreen({ navigation, route }) {
     }, [fetchDriverPublicProfile])
   );
 
-  const renderAverageStars = () => {
-    const rounded = Math.round(average);
+  const filteredRates = useMemo(() => {
+    if (!selectedRating) return rates;
 
-    return [1, 2, 3, 4, 5].map((star) => (
-      <Ionicons
-        key={star}
-        name={star <= rounded ? "star" : "star-outline"}
-        size={22}
-        color={BORDEAUX}
-        style={{ marginRight: 2 }}
-      />
-    ));
-  };
+    return rates.filter(
+      (item) => Math.round(Number(item.rating) || 0) === selectedRating
+    );
+  }, [rates, selectedRating]);
 
   const maxDistribution = Math.max(
-    ...distribution.map((item) => item.count),
+    ...distribution.map((item) => Number(item.count) || 0),
     1
   );
+
+  const handleSelectRating = (star) => {
+    setSelectedRating(star);
+  };
+
+  const handleShowAllComments = () => {
+    setSelectedRating(null);
+  };
 
   if (loading) {
     return (
@@ -153,19 +183,19 @@ export default function DriverPublicProfileScreen({ navigation, route }) {
       <StatusBar barStyle="dark-content" backgroundColor="#F4F4F6" />
 
       <View style={styles.screen}>
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => navigation.goBack()}
-            activeOpacity={0.7}
-          >
-            <Ionicons name="arrow-back" size={28} color="#111111" />
-          </TouchableOpacity>
+      <View style={styles.header}>
+  <View style={styles.headerSpacer} />
 
-          <Text style={styles.pageTitle}>Profil conducteur</Text>
+  <Text style={styles.pageTitle}>Profil conducteur</Text>
 
-          <View style={styles.headerSpacer} />
-        </View>
+  <TouchableOpacity
+    style={styles.closeButton}
+    onPress={() => navigation.goBack()}
+    activeOpacity={0.7}
+  >
+    <Ionicons name="close" size={28} color="#111111" />
+  </TouchableOpacity>
+</View>
 
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -195,7 +225,7 @@ export default function DriverPublicProfileScreen({ navigation, route }) {
               {driver?.lastname || driver?.nom || ""}
             </Text>
 
-            <View style={styles.starsRow}>{renderAverageStars()}</View>
+            <View style={styles.starsRow}>{renderStars(average, 22)}</View>
 
             <Text style={styles.averageText}>
               {average > 0 ? average.toFixed(1) : "0.0"} / 5
@@ -226,33 +256,80 @@ export default function DriverPublicProfileScreen({ navigation, route }) {
           <View style={styles.sectionCard}>
             <Text style={styles.sectionTitle}>Répartition des notes</Text>
 
-            {distribution.map((item) => (
-              <View key={item.star} style={styles.histogramRow}>
-                <Text style={styles.histogramLabel}>{item.star}★</Text>
+            {distribution.map((item) => {
+              const star = Number(item.star) || 0;
+              const count = Number(item.count) || 0;
+              const isActive = selectedRating === star;
 
-                <View style={styles.histogramBarBackground}>
-                  <View
+              return (
+                <TouchableOpacity
+                  key={item.star}
+                  style={[
+                    styles.histogramRow,
+                    isActive && styles.histogramRowActive,
+                  ]}
+                  activeOpacity={0.8}
+                  onPress={() => handleSelectRating(star)}
+                >
+                  <Text
                     style={[
-                      styles.histogramBarFill,
-                      {
-                        width: `${(item.count / maxDistribution) * 100}%`,
-                      },
+                      styles.histogramLabel,
+                      isActive && styles.histogramLabelActive,
                     ]}
-                  />
-                </View>
+                  >
+                    {star} étoiles
+                  </Text>
 
-                <Text style={styles.histogramCount}>{item.count}</Text>
-              </View>
-            ))}
+                  <View style={styles.histogramBarBackground}>
+                    <View
+                      style={[
+                        styles.histogramBarFill,
+                        {
+                          width: `${(count / maxDistribution) * 100}%`,
+                        },
+                      ]}
+                    />
+                  </View>
+
+                  <Text
+                    style={[
+                      styles.histogramCount,
+                      isActive && styles.histogramCountActive,
+                    ]}
+                  >
+                    {count}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+
+            {selectedRating ? (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={handleShowAllComments}
+              >
+                <Text style={styles.showAllText}>
+                  Voir tous les commentaires
+                </Text>
+              </TouchableOpacity>
+            ) : null}
           </View>
 
           <View style={styles.sectionCard}>
-            <Text style={styles.sectionTitle}>Avis</Text>
+            <Text style={styles.sectionTitle}>
+              {selectedRating
+                ? `Commentaires ${selectedRating} étoiles`
+                : "Tous les commentaires"}
+            </Text>
 
-            {rates.length === 0 ? (
-              <Text style={styles.emptyText}>Aucun avis pour le moment.</Text>
+            {filteredRates.length === 0 ? (
+              <Text style={styles.emptyText}>
+                {selectedRating
+                  ? `Aucun avis ${selectedRating} étoiles pour le moment.`
+                  : "Aucun avis pour le moment."}
+              </Text>
             ) : (
-              rates.map((item) => (
+              filteredRates.map((item) => (
                 <View key={item._id} style={styles.reviewCard}>
                   <View style={styles.reviewHeader}>
                     <View style={styles.reviewAvatarWrapper}>
@@ -270,26 +347,20 @@ export default function DriverPublicProfileScreen({ navigation, route }) {
 
                     <View style={styles.reviewHeaderContent}>
                       <Text style={styles.reviewerName}>
-                        {item.reviewer?.prenom || "Utilisateur"}{" "}
-                        {item.reviewer?.nom || ""}
+                        {item.reviewer?.prenom ||
+                          item.reviewer?.firstname ||
+                          "Utilisateur"}{" "}
+                        {item.reviewer?.nom || item.reviewer?.lastname || ""}
                       </Text>
 
                       <Text style={styles.reviewDate}>
-                        {new Date(item.createdAt).toLocaleDateString("fr-FR")}
+                        {formatReviewDate(item.createdAt)}
                       </Text>
                     </View>
                   </View>
 
                   <View style={styles.reviewStarsRow}>
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <Ionicons
-                        key={star}
-                        name={star <= item.rating ? "star" : "star-outline"}
-                        size={16}
-                        color={BORDEAUX}
-                        style={{ marginRight: 2 }}
-                      />
-                    ))}
+                    {renderStars(item.rating, 16)}
                     <Text style={styles.reviewRatingText}>{item.rating}</Text>
                   </View>
 
@@ -328,9 +399,7 @@ export default function DriverPublicProfileScreen({ navigation, route }) {
                   </Text>
 
                   <View style={styles.rideFooter}>
-                    <Text style={styles.ridePrice}>
-                      {ride.price ?? 0}€
-                    </Text>
+                    <Text style={styles.ridePrice}>{ride.price ?? 0}€</Text>
 
                     <Text style={styles.rideSeats}>
                       {ride.placesLeft ?? 0} place
