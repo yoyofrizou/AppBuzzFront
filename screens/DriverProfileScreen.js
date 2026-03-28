@@ -27,19 +27,16 @@ export default function DriverProfileScreen() {
 
   const user = useSelector((state) => state.user.value);
 
-const [profileImage, setProfileImage] = useState(user?.profilePhoto || null);
-
-useEffect(() => {
-  if (user?.profilePhoto) {
-    setProfileImage(user.profilePhoto);
-  }
-}, [user?.profilePhoto]);
-
+  const [profileImage, setProfileImage] = useState(user?.profilePhoto || null);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
   const [loadingPhoto, setLoadingPhoto] = useState(false);
 
-   const hasCarInfo = Boolean(
+  useEffect(() => {
+    setProfileImage(user?.profilePhoto || null);
+  }, [user?.profilePhoto]);
+
+  const hasCarInfo = Boolean(
     user?.car?.brand &&
       user?.car?.model &&
       user?.car?.color &&
@@ -53,17 +50,14 @@ useEffect(() => {
       user?.driverProfile?.insuranceDocumentUrl
   );
 
-  useEffect(() => {
-    if (user.profilePhoto) {
-      setProfileImage(user.profilePhoto);
-    }
-  }, [user.profilePhoto]);
-
   const pickImage = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (!permission.granted) {
-      Alert.alert("Permission refusée", "Tu dois autoriser l'accès aux photos.");
+      Alert.alert(
+        "Permission refusée",
+        "Tu dois autoriser l'accès aux photos."
+      );
       return;
     }
 
@@ -79,7 +73,10 @@ useEffect(() => {
     }
 
     if (!EXPO_PUBLIC_API_URL) {
-      Alert.alert("Erreur", "EXPO_PUBLIC_API_URL est manquant dans le fichier .env.");
+      Alert.alert(
+        "Erreur",
+        "EXPO_PUBLIC_API_URL est manquant dans le fichier .env."
+      );
       return;
     }
 
@@ -107,7 +104,10 @@ useEffect(() => {
       const data = await response.json();
 
       if (!data.result) {
-        Alert.alert("Erreur", data.error || "Impossible de mettre à jour la photo.");
+        Alert.alert(
+          "Erreur",
+          data.error || "Impossible de mettre à jour la photo."
+        );
         return;
       }
 
@@ -142,7 +142,10 @@ useEffect(() => {
     setDeleteModalVisible(false);
 
     if (!EXPO_PUBLIC_API_URL) {
-      Alert.alert("Erreur", "EXPO_PUBLIC_API_URL est manquant dans le fichier .env.");
+      Alert.alert(
+        "Erreur",
+        "EXPO_PUBLIC_API_URL est manquant dans le fichier .env."
+      );
       return;
     }
 
@@ -157,7 +160,10 @@ useEffect(() => {
       const data = await response.json();
 
       if (!data.result) {
-        Alert.alert("Erreur", data.error || "Impossible de supprimer le compte.");
+        Alert.alert(
+          "Erreur",
+          data.error || "Impossible de supprimer le compte."
+        );
         return;
       }
 
@@ -215,7 +221,7 @@ useEffect(() => {
           <FontAwesome name="angle-right" size={20} color="#000" />
         </TouchableOpacity>
 
-      <TouchableOpacity
+        <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate("DriverVehicule")}
         >
@@ -234,8 +240,6 @@ useEffect(() => {
 
           <FontAwesome name="angle-right" size={20} color="#000" />
         </TouchableOpacity>
-
-        {/* DOCUMENTS */}
 
         <TouchableOpacity
           style={styles.button}

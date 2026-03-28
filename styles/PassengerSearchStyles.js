@@ -160,7 +160,7 @@ export default StyleSheet.create({
     backgroundColor: "#F4B63C",
     borderRadius: 22,
     paddingVertical: 10,
-    paddingHorizontal: 12,
+    paddingHorizontal: 10,
     alignItems: "center",
     justifyContent: "center",
     zIndex: 2,
@@ -168,7 +168,7 @@ export default StyleSheet.create({
 
   sliderBadgeText: {
     color: "#FFFFFF",
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: "800",
   },
 
@@ -263,5 +263,65 @@ export default StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 20,
     fontWeight: "800",
+  },
+
+  pickerOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.35)",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+
+  pickerCard: {
+    width: "100%",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 20,
+    padding: 20,
+  },
+
+  pickerTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#111111",
+    textAlign: "center",
+    marginBottom: 12,
+  },
+
+  pickerButtonsRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 16,
+    gap: 12,
+  },
+
+  pickerSecondaryButton: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "#8B2332",
+    borderRadius: 14,
+    paddingVertical: 12,
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+  },
+
+  pickerSecondaryButtonText: {
+    color: "#8B2332",
+    fontWeight: "700",
+    fontSize: 15,
+  },
+
+  pickerPrimaryButton: {
+    flex: 1,
+    borderRadius: 14,
+    paddingVertical: 12,
+    alignItems: "center",
+    backgroundColor: "#8B2332",
+  },
+
+  pickerPrimaryButtonText: {
+    color: "#FFFFFF",
+    fontWeight: "700",
+    fontSize: 15,
   },
 });

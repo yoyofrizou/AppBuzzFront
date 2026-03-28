@@ -21,7 +21,9 @@ import DriverRateScreen from "../screens/DriverRateScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import PassengerSearchScreen from "../screens/PassengerSearchScreen";
 import PassengerSearchResultsScreen from "../screens/PassengerSearchResultsScreen";
+import DriverPublicProfileScreen from "../screens/DriverPublicProfileScreen";
 
+import PassengerPublicProfileScreen from "../screens/PassengerPublicProfileScreen";
 import PassengerQRScreen from "../screens/PassengerQRScreen";
 import PassengerTripTrackingScreen from "../screens/PassengerTripTrackingScreen";
 import PassengerRateScreen from "../screens/PassengerRateScreen";
@@ -89,6 +91,8 @@ export default function RootNavigator() {
 
 <Stack.Screen name="CreateRide" component={CreateRideScreen} />
 
+<Stack.Screen name="PassengerPublicProfile" component={PassengerPublicProfileScreen} />
+
 <Stack.Screen name="DriverQrScanner" component={DriverQrScannerScreen} />
 
 <Stack.Screen name="DriverTripTracking" component={DriverTripTrackingScreen} />
@@ -113,6 +117,10 @@ export default function RootNavigator() {
         name="PassengerSearchResults"
         component={PassengerSearchResultsScreen}
       />
+      <Stack.Screen
+  name="DriverPublicProfile"
+  component={DriverPublicProfileScreen}
+/>
       <Stack.Screen
         name="PassengerEvaluations"
         component={PassengerEvaluationsScreen}

@@ -31,11 +31,8 @@ export default function DriverEvaluationsScreen({ navigation }) {
   const fetchRates = useCallback(
     async (isRefresh = false) => {
       try {
-        if (isRefresh) {
-          setRefreshing(true);
-        } else {
-          setLoading(true);
-        }
+        if (isRefresh) setRefreshing(true);
+        else setLoading(true);
 
         const response = await fetch(
           `${EXPO_PUBLIC_API_URL}/rates/driver/${user.token}`
@@ -93,6 +90,7 @@ export default function DriverEvaluationsScreen({ navigation }) {
     1
   );
 
+  // Loader
   if (loading) {
     return (
       <SafeAreaView style={styles.safeArea}>
@@ -109,10 +107,11 @@ export default function DriverEvaluationsScreen({ navigation }) {
       <StatusBar barStyle="dark-content" backgroundColor="#F4F4F6" />
 
       <View style={styles.screen}>
+        {/* HEADER */}
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.goBack()} // ✅ SIMPLE
             activeOpacity={0.7}
           >
             <Ionicons name="arrow-back" size={28} color="#111111" />
@@ -134,18 +133,22 @@ export default function DriverEvaluationsScreen({ navigation }) {
             />
           }
         >
+          {/* MOYENNE */}
           <View style={styles.summaryCard}>
             <Text style={styles.averageText}>
               {average > 0 ? average.toFixed(1) : "0.0"} / 5
             </Text>
 
-            <View style={styles.averageStarsRow}>{renderAverageStars()}</View>
+            <View style={styles.averageStarsRow}>
+              {renderAverageStars()}
+            </View>
 
             <Text style={styles.totalText}>
               {total} avis reçu{total > 1 ? "s" : ""}
             </Text>
           </View>
 
+          {/* DISTRIBUTION */}
           <View style={styles.histogramCard}>
             {distribution.map((item) => (
               <View key={item.star} style={styles.histogramRow}>
@@ -167,6 +170,7 @@ export default function DriverEvaluationsScreen({ navigation }) {
             ))}
           </View>
 
+          {/* AVIS */}
           {rates.map((item) => (
             <View key={item._id} style={styles.reviewCard}>
               <View style={styles.avatarWrapper}>
@@ -220,88 +224,3 @@ export default function DriverEvaluationsScreen({ navigation }) {
     </SafeAreaView>
   );
 }
-
-/*import { StyleSheet, Text, View, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { reviewUser } from "../reducers/review";
-import Review from "../components/review";
-import Arrow from "../components/Arrow";
-
-export default function ReviewScreen() {
-  const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
-  const dispatch = useDispatch();
-  const reviews = useSelector((state) => state.review.reviews);
-
-  const moyenne =
-    reviews.reduce((sum, review) => sum + Number(review.note), 0) /
-      reviews.length || 0;
-
-  useEffect(() => {
-    fetch(`${EXPO_PUBLIC_API_URL}/reviews`)
-      .then((response) => response.json())
-      .then((data) => {
-        dispatch(reviewUser(data.reviews));
-      });
-  }, []);
-
-  return (
-    <SafeAreaView style={styles.container}>
-      <Arrow top={80}/>
-      <View style={styles.header}>
-        <Text style={styles.title}>Mes évaluations</Text>
-      </View>
-      <View style={styles.globalNote}>
-        <Text style={styles.noteNumber}>{moyenne}</Text>
-        <Text style={styles.noteText}>Note moyenne</Text>
-      </View>
-      <ScrollView style={styles.listeBox}>
-        {reviews.map((data, i) => (
-          <Review
-            key={i}
-            photo={data.user?.photo}
-            name={data.user?.name}
-            note={data.note}
-            text={data.message}
-          />
-        ))}
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f4f6f8",
-    paddingTop: 60,
-  },
-  header: {
-    paddingHorizontal: 20,
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: "bold",
-    color: "#A7333F",
-    textAlign: "center",
-  },
-  globalNote: {
-    alignItems: "center",
-    marginBottom: 25,
-  },
-  noteNumber: {
-    fontSize: 40,
-    fontWeight: "bold",
-    color: "#FFC107",
-  },
-  noteText: {
-    fontSize: 14,
-    color: "#A7333F",
-  },
-  listeBox: {
-    paddingHorizontal: 15,
-  },
-});
-*/

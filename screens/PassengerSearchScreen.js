@@ -12,6 +12,7 @@ import {
   ActivityIndicator,
   TouchableWithoutFeedback,
   Keyboard,
+  Modal,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Slider from "@react-native-community/slider";
@@ -52,10 +53,14 @@ function mapboxFeatureToSuggestion(feature) {
   const fallbackGeometry = feature?.geometry?.coordinates || [];
 
   const longitude =
-    typeof coords.longitude === "number" ? coords.longitude : fallbackGeometry[0];
+    typeof coords.longitude === "number"
+      ? coords.longitude
+      : fallbackGeometry[0];
 
   const latitude =
-    typeof coords.latitude === "number" ? coords.latitude : fallbackGeometry[1];
+    typeof coords.latitude === "number"
+      ? coords.latitude
+      : fallbackGeometry[1];
 
   const label =
     props.full_address ||
@@ -99,7 +104,7 @@ function SliderBlock({ title, value, onChange, max = MAX_WALK_MINUTES }) {
       >
         <View style={[styles.sliderBadge, { left: badgeLeft }]}>
           <Text style={styles.sliderBadgeText}>
-           {value} min à pied (~{Math.round(minutesToMeters(value))} m)
+            {value} min à pied (~{Math.round(minutesToMeters(value))} m)
           </Text>
         </View>
 
@@ -146,6 +151,9 @@ export default function PassengerSearchScreen({ navigation }) {
 
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
+
+  const [tempDate, setTempDate] = useState(new Date());
+  const [tempTime, setTempTime] = useState(new Date());
 
   const [loadingSearch, setLoadingSearch] = useState(false);
   const [loadingDepartureSuggestions, setLoadingDepartureSuggestions] =
@@ -271,28 +279,36 @@ export default function PassengerSearchScreen({ navigation }) {
     setShowDestinationSuggestions(false);
   };
 
-  const handleDateChange = (_, selectedDate) => {
-    setShowDatePicker(false);
-
-    if (!selectedDate) return;
-
-    const updated = new Date(departureDateTime);
-    updated.setFullYear(
-      selectedDate.getFullYear(),
-      selectedDate.getMonth(),
-      selectedDate.getDate()
-    );
-    setDepartureDateTime(updated);
+  const openDatePicker = () => {
+    setTempDate(new Date(departureDateTime));
+    setShowDatePicker(true);
   };
 
-  const handleTimeChange = (_, selectedTime) => {
-    setShowTimePicker(false);
+  const openTimePicker = () => {
+    setTempTime(new Date(departureDateTime));
+    setShowTimePicker(true);
+  };
 
-    if (!selectedTime) return;
-
+  const handleConfirmDate = () => {
     const updated = new Date(departureDateTime);
-    updated.setHours(selectedTime.getHours(), selectedTime.getMinutes(), 0, 0);
+
+    updated.setFullYear(
+      tempDate.getFullYear(),
+      tempDate.getMonth(),
+      tempDate.getDate()
+    );
+
     setDepartureDateTime(updated);
+    setShowDatePicker(false);
+  };
+
+  const handleConfirmTime = () => {
+    const updated = new Date(departureDateTime);
+
+    updated.setHours(tempTime.getHours(), tempTime.getMinutes(), 0, 0);
+
+    setDepartureDateTime(updated);
+    setShowTimePicker(false);
   };
 
   const handleSearch = async () => {
@@ -320,13 +336,13 @@ export default function PassengerSearchScreen({ navigation }) {
       return;
     }
 
-      if (!selectedDeparture || !selectedDestination) {
-    Alert.alert(
-      "Erreur",
-      "Merci de sélectionner le départ et l’arrivée dans les suggestions."
-    );
-    return;
-  }
+    if (!selectedDeparture || !selectedDestination) {
+      Alert.alert(
+        "Erreur",
+        "Merci de sélectionner le départ et l’arrivée dans les suggestions."
+      );
+      return;
+    }
 
     try {
       setLoadingSearch(true);
@@ -336,52 +352,40 @@ export default function PassengerSearchScreen({ navigation }) {
       setShowDestinationSuggestions(false);
 
       const payload = {
-      departure: departureQuery.trim(),
-      destination: destinationQuery.trim(),
-      dateTime: departureDateTime.toISOString(),
-      pickupWalkMinutes,
-      dropoffWalkMinutes,
-      pickupWalkDistanceMeters: minutesToMeters(pickupWalkMinutes),
-      dropoffWalkDistanceMeters: minutesToMeters(dropoffWalkMinutes),
-      departureCoordinates: {
-        latitude: selectedDeparture.latitude,
-        longitude: selectedDeparture.longitude,
-      },
-      destinationCoordinates: {
-        latitude: selectedDestination.latitude,
-        longitude: selectedDestination.longitude,
-      },
-    };
+        departure: departureQuery.trim(),
+        destination: destinationQuery.trim(),
+        dateTime: departureDateTime.toISOString(),
+        pickupWalkMinutes,
+        dropoffWalkMinutes,
+        pickupWalkDistanceMeters: minutesToMeters(pickupWalkMinutes),
+        dropoffWalkDistanceMeters: minutesToMeters(dropoffWalkMinutes),
+        departureCoordinates: {
+          latitude: selectedDeparture.latitude,
+          longitude: selectedDeparture.longitude,
+        },
+        destinationCoordinates: {
+          latitude: selectedDestination.latitude,
+          longitude: selectedDestination.longitude,
+        },
+      };
 
       dispatch(setSearchParams(payload));
 
-      /*const response = await fetch(
-        `${EXPO_PUBLIC_API_URL}/rides/search?departure=${encodeURIComponent(
-          payload.departure
-        )}&destination=${encodeURIComponent(
-          payload.destination
-        )}&dateTime=${encodeURIComponent(
-          payload.dateTime
-        )}&pickupWalkMinutes=${payload.pickupWalkMinutes}&dropoffWalkMinutes=${
-          payload.dropoffWalkMinutes
-        }`
-      );*/
+      const params = new URLSearchParams({
+        departure: payload.departure,
+        destination: payload.destination,
+        dateTime: payload.dateTime,
+        pickupWalkMinutes: String(payload.pickupWalkMinutes),
+        dropoffWalkMinutes: String(payload.dropoffWalkMinutes),
+        departureLat: String(payload.departureCoordinates.latitude),
+        departureLng: String(payload.departureCoordinates.longitude),
+        destinationLat: String(payload.destinationCoordinates.latitude),
+        destinationLng: String(payload.destinationCoordinates.longitude),
+      });
 
-        const params = new URLSearchParams({
-      departure: payload.departure,
-      destination: payload.destination,
-      dateTime: payload.dateTime,
-      pickupWalkMinutes: String(payload.pickupWalkMinutes),
-      dropoffWalkMinutes: String(payload.dropoffWalkMinutes),
-      departureLat: String(payload.departureCoordinates.latitude),
-      departureLng: String(payload.departureCoordinates.longitude),
-      destinationLat: String(payload.destinationCoordinates.latitude),
-      destinationLng: String(payload.destinationCoordinates.longitude),
-    });
-
-    const response = await fetch(
-      `${EXPO_PUBLIC_API_URL}/rides/search?${params.toString()}`
-    );
+      const response = await fetch(
+        `${EXPO_PUBLIC_API_URL}/rides/search?${params.toString()}`
+      );
 
       const data = await response.json();
 
@@ -543,11 +547,7 @@ export default function PassengerSearchScreen({ navigation }) {
                 onChange={setDropoffWalkMinutes}
               />
 
-              <TouchableOpacity
-                style={styles.dateTimeButton}
-                activeOpacity={0.8}
-                onPress={() => setShowDatePicker(true)}
-              >
+              <View style={styles.dateTimeButton}>
                 <Ionicons
                   name="calendar-outline"
                   size={24}
@@ -556,13 +556,13 @@ export default function PassengerSearchScreen({ navigation }) {
                 <Text style={styles.dateTimeText}>
                   {formatDateTimeLabel(departureDateTime)}
                 </Text>
-              </TouchableOpacity>
+              </View>
 
               <View style={styles.dateTimeActions}>
                 <TouchableOpacity
                   style={styles.smallDateButton}
                   activeOpacity={0.8}
-                  onPress={() => setShowDatePicker(true)}
+                  onPress={openDatePicker}
                 >
                   <Text style={styles.smallDateButtonText}>
                     Changer la date
@@ -572,7 +572,7 @@ export default function PassengerSearchScreen({ navigation }) {
                 <TouchableOpacity
                   style={styles.smallDateButton}
                   activeOpacity={0.8}
-                  onPress={() => setShowTimePicker(true)}
+                  onPress={openTimePicker}
                 >
                   <Text style={styles.smallDateButtonText}>
                     Changer l'heure
@@ -601,86 +601,111 @@ export default function PassengerSearchScreen({ navigation }) {
             </View>
           </ScrollView>
 
-          {showDatePicker && (
-            <DateTimePicker
-              value={departureDateTime}
-              mode="date"
-              display={Platform.OS === "ios" ? "spinner" : "default"}
-              onChange={handleDateChange}
-              minimumDate={new Date()}
-            />
-          )}
+          <Modal
+            visible={showDatePicker}
+            transparent
+            animationType="fade"
+            onRequestClose={() => setShowDatePicker(false)}
+          >
+            <Pressable
+              style={styles.pickerOverlay}
+              onPress={() => setShowDatePicker(false)}
+            >
+              <Pressable
+                style={styles.pickerCard}
+                onPress={() => {}}
+              >
+                <Text style={styles.pickerTitle}>Choisir une date</Text>
 
-          {showTimePicker && (
-            <DateTimePicker
-              value={departureDateTime}
-              mode="time"
-              display={Platform.OS === "ios" ? "spinner" : "default"}
-              onChange={handleTimeChange}
-            />
-          )}
+                <DateTimePicker
+                  value={tempDate}
+                  mode="date"
+                  display="spinner"
+                  locale="fr-FR"
+                  onChange={(event, value) => {
+                    if (value) {
+                      setTempDate(value);
+                    }
+                  }}
+                  minimumDate={new Date()}
+                />
+
+                <View style={styles.pickerButtonsRow}>
+                  <TouchableOpacity
+                    style={styles.pickerSecondaryButton}
+                    activeOpacity={0.8}
+                    onPress={() => setShowDatePicker(false)}
+                  >
+                    <Text style={styles.pickerSecondaryButtonText}>
+                      Annuler
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.pickerPrimaryButton}
+                    activeOpacity={0.8}
+                    onPress={handleConfirmDate}
+                  >
+                    <Text style={styles.pickerPrimaryButtonText}>OK</Text>
+                  </TouchableOpacity>
+                </View>
+              </Pressable>
+            </Pressable>
+          </Modal>
+
+          <Modal
+            visible={showTimePicker}
+            transparent
+            animationType="fade"
+            onRequestClose={() => setShowTimePicker(false)}
+          >
+            <Pressable
+              style={styles.pickerOverlay}
+              onPress={() => setShowTimePicker(false)}
+            >
+              <Pressable
+                style={styles.pickerCard}
+                onPress={() => {}}
+              >
+                <Text style={styles.pickerTitle}>Choisir une heure</Text>
+
+                <DateTimePicker
+                  value={tempTime}
+                  mode="time"
+                  display="spinner"
+                  locale="fr-FR"
+                  is24Hour={true}
+                  onChange={(event, value) => {
+                    if (value) {
+                      setTempTime(value);
+                    }
+                  }}
+                />
+
+                <View style={styles.pickerButtonsRow}>
+                  <TouchableOpacity
+                    style={styles.pickerSecondaryButton}
+                    activeOpacity={0.8}
+                    onPress={() => setShowTimePicker(false)}
+                  >
+                    <Text style={styles.pickerSecondaryButtonText}>
+                      Annuler
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.pickerPrimaryButton}
+                    activeOpacity={0.8}
+                    onPress={handleConfirmTime}
+                  >
+                    <Text style={styles.pickerPrimaryButtonText}>OK</Text>
+                  </TouchableOpacity>
+                </View>
+              </Pressable>
+            </Pressable>
+          </Modal>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 }
-
-/*import { View, Text, Alert } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  setSearchedRides,
-  setSearchParams,
-} from "../redux/reducers/rides";
-
-const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
-
-export default function PassengerSearchScreen({ navigation }) {
-  const dispatch = useDispatch();
-  const searchParams = useSelector((state) => state.rides.searchParams);
-
-  const departure = searchParams?.departure || "";
-  const destination = searchParams?.destination || "";
-  const date = searchParams?.date || "";
-
-  const handleSearch = async () => {
-    try {
-      if (!EXPO_PUBLIC_API_URL) {
-        Alert.alert("Erreur", "EXPO_PUBLIC_API_URL manquant.");
-        return;
-      }
-
-      dispatch(
-        setSearchParams({
-          departure,
-          destination,
-          date,
-        })
-      );
-
-      const response = await fetch(
-        `${EXPO_PUBLIC_API_URL}/rides/search?departure=${encodeURIComponent(
-          departure
-        )}&destination=${encodeURIComponent(destination)}`
-      );
-
-      const data = await response.json();
-
-      if (response.ok && data.result) {
-        dispatch(setSearchedRides(data.rides || []));
-        navigation.navigate("PassengerSearchResultsScreen");
-      } else {
-        dispatch(setSearchedRides([]));
-        Alert.alert("Aucun trajet", "Aucun trajet trouvé.");
-      }
-    } catch (error) {
-      console.log("Erreur recherche trajets :", error);
-      Alert.alert("Erreur", "Impossible d’effectuer la recherche.");
-    }
-  };
-
-  return (
-    <View>
-      <Text>Passenger Search Screen</Text>
-    </View>
-  );
-} */

@@ -257,6 +257,7 @@ export default StyleSheet.create({
     alignItems: "center",
     marginTop: 6,
     flexWrap: "wrap",
+    alignSelf: "flex-start",
   },
 
   driverStarsRow: {
@@ -277,6 +278,30 @@ export default StyleSheet.create({
     fontWeight: "500",
   },
 
+  modalDateTime: {
+    fontSize: 15,
+    fontWeight: "800",
+    color: "#1F1F1F",
+    marginBottom: 14,
+  },
+
+  modalAddressBlock: {
+    marginBottom: 12,
+  },
+
+  modalAddressLabel: {
+    fontSize: 13,
+    fontWeight: "800",
+    color: "#8B2332",
+    marginBottom: 4,
+  },
+
+  modalAddressText: {
+    fontSize: 14,
+    color: "#2A2A2A",
+    lineHeight: 20,
+  },
+
   modalRoute: {
     fontSize: 15,
     color: "#333",
@@ -295,6 +320,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginTop: 8,
     marginBottom: 18,
     paddingVertical: 4,
   },

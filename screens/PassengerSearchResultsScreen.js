@@ -11,6 +11,7 @@ import {
 import MapView, { Marker } from "react-native-maps";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
 import styles from "../styles/PassengerSearchResultsStyles";
 
 function formatHour(dateString) {
@@ -76,6 +77,14 @@ export default function PassengerSearchResultsScreen({ navigation }) {
   const mapRef = useRef(null);
   const [selectedRide, setSelectedRide] = useState(null);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => {
+        setSelectedRide(null);
+      };
+    }, [])
+  );
+
   const initialRegion = useMemo(() => {
     if (rides.length > 0) {
       return {
@@ -113,12 +122,32 @@ export default function PassengerSearchResultsScreen({ navigation }) {
       return;
     }
 
+    setSelectedRide(null);
+
     navigation.navigate("Payment", {
       rideId: selectedRide._id,
       amount: selectedRide.price ?? 0,
       currency: "eur",
       seatsBooked: 1,
       message: "",
+    });
+  };
+
+  const handleOpenDriverPublicProfile = () => {
+    if (!selectedRide?.user?._id) {
+      Alert.alert("Erreur", "Conducteur introuvable.");
+      return;
+    }
+
+    setSelectedRide(null);
+
+    navigation.navigate("DriverPublicProfile", {
+      driverId: selectedRide.user._id,
+      rideId: selectedRide._id,
+      driverName:
+        `${selectedRide.user?.firstname || selectedRide.user?.prenom || ""} ${
+          selectedRide.user?.lastname || selectedRide.user?.nom || ""
+        }`.trim(),
     });
   };
 
@@ -162,7 +191,12 @@ export default function PassengerSearchResultsScreen({ navigation }) {
         ref={mapRef}
         style={styles.map}
         initialRegion={initialRegion}
-        onPress={() => setSelectedRide(null)}
+        onPress={(event) => {
+          if (event?.nativeEvent?.action === "marker-press") {
+            return;
+          }
+          setSelectedRide(null);
+        }}
       >
         {rides.map((ride) => {
           const latitude = Number(ride.departureLatitude);
@@ -176,7 +210,7 @@ export default function PassengerSearchResultsScreen({ navigation }) {
             <Marker
               key={ride._id}
               coordinate={{ latitude, longitude }}
-              onPress={() => handleMarkerPress(ride)}
+              onSelect={() => handleMarkerPress(ride)}
             >
               <View style={styles.priceMarker}>
                 <View style={styles.priceMarkerTop}>
@@ -241,7 +275,11 @@ export default function PassengerSearchResultsScreen({ navigation }) {
 
                 <Text style={styles.modalTitle}>Détails du trajet</Text>
 
-<View style={styles.driverCard}>
+                <TouchableOpacity
+                  style={styles.driverCard}
+                  activeOpacity={0.85}
+                  onPress={handleOpenDriverPublicProfile}
+                >
                   {selectedRide.user?.profilePhoto ? (
                     <Image
                       source={{ uri: selectedRide.user.profilePhoto }}
@@ -279,24 +317,35 @@ export default function PassengerSearchResultsScreen({ navigation }) {
                       </Text>
                     </View>
                   </View>
+                </TouchableOpacity>
+
+                <Text style={styles.modalDateTime}>
+                  Départ le {formatFullDate(selectedRide.departureDateTime)}
+                </Text>
+
+                <View style={styles.modalAddressBlock}>
+                  <Text style={styles.modalAddressLabel}>Départ</Text>
+                  <Text style={styles.modalAddressText}>
+                    {selectedRide.departureAddress ||
+                      "Adresse de départ non renseignée"}
+                  </Text>
                 </View>
 
-
-                <Text style={styles.modalRoute}>
-                  {selectedRide.departureAddress} →{" "}
-                  {selectedRide.destinationAddress}
-                </Text>
-
-                <Text style={styles.modalMeta}>
-                  Départ : {formatFullDate(selectedRide.departureDateTime)}
-                </Text>
+                <View style={styles.modalAddressBlock}>
+                  <Text style={styles.modalAddressLabel}>Arrivée</Text>
+                  <Text style={styles.modalAddressText}>
+                    {selectedRide.destinationAddress ||
+                      "Adresse d’arrivée non renseignée"}
+                  </Text>
+                </View>
 
                 <View style={styles.modalPriceRow}>
                   <Text style={styles.modalPrice}>
                     {selectedRide.price ?? 0}€
                   </Text>
                   <Text style={styles.modalSeats}>
-                    {selectedRide.placesLeft ?? 1} place(s)
+                    {selectedRide.placesLeft ?? 1} place
+                    {(selectedRide.placesLeft ?? 1) > 1 ? "s" : ""} disponibles
                   </Text>
                 </View>
 
@@ -317,60 +366,3 @@ export default function PassengerSearchResultsScreen({ navigation }) {
     </View>
   );
 }
-
-/* import React from "react";
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { setSelectedRide } from "../redux/reducers/rides";
-
-export default function PassengerSearchResultsScreen({ navigation }) {
-  const dispatch = useDispatch();
-  const rides = useSelector((state) => state.rides.searchedRides) || [];
-
-  const renderRide = ({ item }) => {
-    return (
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => {
-          dispatch(setSelectedRide(item));
-          navigation.navigate("RideDetailsScreen");
-        }}
-        style={{
-          backgroundColor: "#fff",
-          borderRadius: 16,
-          padding: 16,
-          marginBottom: 12,
-        }}
-      >
-        <Text style={{ fontWeight: "700", fontSize: 16 }}>
-          {item.departureAddress} → {item.destinationAddress}
-        </Text>
-
-        <Text>
-          {item.date} • {item.time}
-        </Text>
-
-        <Text>{item.price} €</Text>
-      </TouchableOpacity>
-    );
-  };
-
-  return (
-    <View style={{ flex: 1, backgroundColor: "#F7F5F5", padding: 20 }}>
-      <Text style={{ fontSize: 24, fontWeight: "800", marginBottom: 20 }}>
-        Trajets trouvés
-      </Text>
-
-      <FlatList
-        data={rides}
-        keyExtractor={(item, index) => item._id || index.toString()}
-        renderItem={renderRide}
-        ListEmptyComponent={
-          <View style={{ alignItems: "center", marginTop: 40 }}>
-            <Text>Aucun trajet trouvé</Text>
-          </View>
-        }
-      />
-    </View>
-  );
-} */
