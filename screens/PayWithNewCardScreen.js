@@ -1,12 +1,12 @@
 import React, { useMemo, useState } from "react";
 import {
-  SafeAreaView,
   View,
   Text,
   TouchableOpacity,
   ActivityIndicator,
   Alert,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useStripe } from "@stripe/stripe-react-native";
 import { useSelector } from "react-redux";
 import styles from "../styles/PayWithNewCardStyles";
