@@ -21,6 +21,9 @@ export default function ChatScreen({ route }) {
 
   const { conversationId, conversation } = route.params;
 
+  console.log("CHAT CONVERSATION =", JSON.stringify(conversation, null, 2));
+console.log("CHAT CURRENT USER ID =", currentUserId);
+
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(true);
