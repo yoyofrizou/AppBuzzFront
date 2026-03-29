@@ -1,4 +1,4 @@
- import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -15,12 +15,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "../styles/PassengerHomeStyles";
 
-const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
-
 export default function PassengerHomeScreen({ navigation }) {
   const [location, setLocation] = useState(null);
   const [showLocationModal, setShowLocationModal] = useState(false);
-  const [rides, setRides] = useState([]);
   const [locationDenied, setLocationDenied] = useState(false);
 
   const mapRef = useRef(null);
@@ -75,32 +72,9 @@ export default function PassengerHomeScreen({ navigation }) {
     }
   }, [checkLocationPermissionAgain]);
 
-  const fetchAvailableRides = useCallback(async () => {
-    try {
-      if (!EXPO_PUBLIC_API_URL) {
-        console.log("EXPO_PUBLIC_API_URL manquant");
-        setRides([]);
-        return;
-      }
-
-      const response = await fetch(`${EXPO_PUBLIC_API_URL}/rides/available`);
-      const data = await response.json();
-
-      if (data.result) {
-        setRides(data.rides || []);
-      } else {
-        setRides([]);
-      }
-    } catch (error) {
-      console.log("Erreur récupération trajets :", error);
-      setRides([]);
-    }
-  }, []);
-
   useEffect(() => {
     checkIfLocationModalShouldOpen();
-    fetchAvailableRides();
-  }, [checkIfLocationModalShouldOpen, fetchAvailableRides]);
+  }, [checkIfLocationModalShouldOpen]);
 
   useFocusEffect(
     useCallback(() => {
@@ -205,27 +179,6 @@ export default function PassengerHomeScreen({ navigation }) {
               title="Vous êtes ici"
             />
           )}
-
-         {rides.map((ride) => {
-  const latitude = Number(ride.departureLatitude);
-  const longitude = Number(ride.departureLongitude);
-
-            if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
-              return null;
-            }
-
-            return (
-              <Marker
-                key={ride._id}
-                coordinate={{
-                  latitude,
-                  longitude,
-                }}
-                title={ride.title || "Trajet disponible"}
-                description={ride.description || "Aucune description"}
-              />
-            );
-          })}
         </MapView>
 
         <TouchableOpacity

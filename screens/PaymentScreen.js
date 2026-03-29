@@ -67,7 +67,11 @@ export default function PaymentScreen({ navigation, route }) {
 
     const cards = data.cards || [];
     setSavedCards(cards);
-    setSelectedCard(cards[0] || null);
+   
+    const defaultCard =
+  cards.find((card) => card.id === data.defaultPaymentMethodId) || cards[0] || null;
+   setSelectedCard(defaultCard); 
+
   } catch (error) {
     console.log("Erreur fetchPaymentMethods =", error);
     setPaymentError(error.message || "Impossible de charger les cartes.");

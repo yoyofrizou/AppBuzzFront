@@ -47,11 +47,11 @@ export default function DriverTabs() {
         },
 
         tabBarIcon: ({ color, size }) => {
-          if (route.name === "Accueil") {
+          if (route.name === "PassengerHome") {
             return <Ionicons name="home" size={size} color={color} />;
           }
 
-          if (route.name === "Trajets") {
+          if (route.name === "DriverTrips") {
             return (
               <MaterialCommunityIcons
                 name="road-variant"
@@ -75,8 +75,8 @@ export default function DriverTabs() {
         },
       })}
     >
-      <Tab.Screen name="Accueil" component={DriverHomeScreen} />
-      <Tab.Screen name="Trajets" component={DriverTripsScreen} />
+      <Tab.Screen name="DriverHome" component={DriverHomeScreen} />
+      <Tab.Screen name="DriverTrips" component={DriverTripsScreen} />
       <Tab.Screen name="Messages" component={MessagesScreen} />
     </Tab.Navigator>
   );

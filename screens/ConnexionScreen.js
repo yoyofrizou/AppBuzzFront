@@ -34,7 +34,9 @@ const [forgotModalVisible, setForgotModalVisible] = useState(false);
 const [forgotEmail, setForgotEmail] = useState("");
 const [forgotLoading, setForgotLoading] = useState(false);
 
-  const handleLogin = async () => {
+
+
+const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert("Erreur", "Veuillez remplir l'email et le mot de passe.");
       return;
@@ -93,13 +95,13 @@ if (!response.ok || !data.result) {
         })
       );
 
-      navigation.replace("MainTabs", { screen: "Accueil" });
+      navigation.replace("MainTabs", { screen: "PassengerHome" });
     } catch (error) {
       Alert.alert("Erreur", "Erreur serveur ou problème réseau.");
     } finally {
       setLoading(false);
     }
-  };
+  }; 
 
         const handleForgotPassword = async () => {
   if (!forgotEmail.trim()) {

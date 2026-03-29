@@ -32,11 +32,11 @@ export default function MainTabs() {
           textAlign: "center",
         },
         tabBarIcon: ({ color, size }) => {
-          if (route.name === "Accueil") {
+          if (route.name === "PassengerHome") {
             return <Ionicons name="home" size={size} color={color} />;
           }
 
-          if (route.name === "Trajets") {
+          if (route.name === "PassengerTrips") {
             return (
               <MaterialCommunityIcons
                 name="road-variant"
@@ -59,8 +59,8 @@ export default function MainTabs() {
         },
       })}
     >
-      <Tab.Screen name="Accueil" component={PassengerHomeScreen} />
-      <Tab.Screen name="Trajets" component={PassengerTripsScreen} />
+      <Tab.Screen name="PassengerHome" component={PassengerHomeScreen} />
+      <Tab.Screen name="PassengerTrips" component={PassengerTripsScreen} />
       <Tab.Screen name="Messages" component={MessagesScreen} />
     </Tab.Navigator>
   );

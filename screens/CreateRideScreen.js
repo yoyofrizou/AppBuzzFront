@@ -374,7 +374,7 @@ const confirmTimeSelection = () => {
         {
           text: "OK",
           onPress: () => navigation.navigate("DriverTabs", {
-  screen: "Trajets",
+  screen: "DriverTrips",
   params: { initialTab: "upcoming" }, 
        })
         },
