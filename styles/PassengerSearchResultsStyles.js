@@ -366,4 +366,16 @@ export default StyleSheet.create({
   validateButtonDisabled: {
     opacity: 0.7,
   },
+  addressRow: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  marginBottom: 4,
+},
+
+walkingTimeText: {
+  fontSize: 13,
+  color: "#8B2332",
+  fontWeight: "600",
+},
 });

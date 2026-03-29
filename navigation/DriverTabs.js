@@ -47,7 +47,7 @@ export default function DriverTabs() {
         },
 
         tabBarIcon: ({ color, size }) => {
-          if (route.name === "PassengerHome") {
+          if (route.name === "DriverHome") {
             return <Ionicons name="home" size={size} color={color} />;
           }
 

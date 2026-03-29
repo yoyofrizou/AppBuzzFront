@@ -13,7 +13,7 @@ export default function MainApp() {
   }}
     >
       <Tab.Screen name="PassengerHome" component={PassengerHomeScreen} />
-      <Tab.Screen name="Trips" component={PassengerTripsScreen} />
+      <Tab.Screen name="PassengerTrips" component={PassengerTripsScreen} />
       <Tab.Screen name="Messages" component={MessagesScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>

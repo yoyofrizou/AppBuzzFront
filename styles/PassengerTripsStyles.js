@@ -80,13 +80,11 @@ export default StyleSheet.create({
 
   tripCard: {
     backgroundColor: "#FFFFFF",
-    borderRadius: 26,
+    borderRadius: 24,
     borderWidth: 2,
     borderColor: "#6E2333",
-    padding: 16,
+    padding: 18,
     marginBottom: 18,
-    flexDirection: "row",
-    alignItems: "stretch",
     shadowColor: "#000",
     shadowOpacity: 0.06,
     shadowRadius: 8,
@@ -94,90 +92,79 @@ export default StyleSheet.create({
   },
 
   tripLeft: {
-    flex: 1.2,
-    justifyContent: "space-between",
-    paddingRight: 14,
-  },
+  width: "100%",
+  marginBottom: 14,
+},
 
-  tripMiddle: {
-    flex: 1.1,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 14,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    borderColor: "#E4E4E4",
-  },
+ tripMiddle: {
+  flexDirection: "row",
+  alignItems: "center",
+  marginBottom: 16,
+},
 
-  tripRight: {
-    flex: 1,
-    justifyContent: "center",
-    paddingLeft: 14,
-    gap: 12,
-  },
+ tripRight: {
+  width: "100%",
+},
 
   tripRouteText: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "700",
     color: "#222222",
     lineHeight: 22,
+    marginBottom: 6,
   },
 
   tripDivider: {
     height: 1,
     backgroundColor: "#E0E0E0",
-    marginVertical: 14,
+    marginVertical: 10,
   },
 
   tripPrice: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "900",
     color: "#1E1E1E",
+    marginTop: 4,
   },
 
   driverImage: {
-    width: 82,
-    height: 82,
-    borderRadius: 41,
-    marginBottom: 12,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    marginRight: 12,
   },
 
   driverPlaceholder: {
-    width: 82,
-    height: 82,
-    borderRadius: 41,
-    marginBottom: 12,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     backgroundColor: "#7A2335",
     alignItems: "center",
     justifyContent: "center",
+    marginRight: 12,
   },
 
   driverName: {
     fontSize: 15,
     fontWeight: "800",
     color: "#222222",
-    textAlign: "center",
     marginBottom: 4,
   },
 
   driverCar: {
     fontSize: 12,
     color: "#7B7B7B",
-    textAlign: "center",
-    lineHeight: 18,
+    lineHeight: 17,
   },
 
   actionButton: {
     backgroundColor: "#7A2335",
-    borderRadius: 18,
-    paddingVertical: 16,
-    paddingHorizontal: 10,
+    borderRadius: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 12,
     alignItems: "center",
     justifyContent: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 2,
+    marginBottom: 10,
   },
 
   actionButtonText: {
@@ -254,7 +241,6 @@ actionButtonTextDisabled: {
 },
 
 secondaryActionButton: {
-    marginTop: 8,
     backgroundColor: "#FFFFFF",
     borderWidth: 1,
     borderColor: "#7A2335",
@@ -310,7 +296,6 @@ validationInfoText: {
   color: "#355B3D",
 },
 tripMainRow: {
-  flexDirection: "row",
-  alignItems: "stretch",
+  width: "100%",
 },
 });

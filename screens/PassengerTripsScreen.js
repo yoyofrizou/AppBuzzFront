@@ -311,8 +311,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
             </Text>
 
             <Text style={styles.tripRouteText}>
-              {ride.destinationAddress || "Arrivée"} -{" "}
-              {formatHour(ride.departureDateTime)}
+              {ride.destinationAddress || "Arrivée"} 
             </Text>
 
             <View style={styles.tripDivider} />
@@ -320,31 +319,35 @@ export default function PassengerTripsScreen({ navigation, route }) {
             <Text style={styles.tripPrice}>{displayedPrice}</Text>
           </View>
 
-          <View style={styles.tripMiddle}>
-            {driverUser?.profilePhoto ? (
-              <Image
-                source={{ uri: driverUser.profilePhoto }}
-                style={styles.driverImage}
-              />
-            ) : (
-              <View style={styles.driverPlaceholder}>
-                <Ionicons name="person" size={22} color="#FFFFFF" />
-              </View>
-            )}
+          
+        <View style={styles.tripMiddle}>
+  {driverUser?.profilePhoto ? (
+    <Image
+      source={{ uri: driverUser.profilePhoto }}
+      style={styles.driverImage}
+    />
+  ) : (
+    <View style={styles.driverPlaceholder}>
+      <Ionicons name="person" size={22} color="#FFFFFF" />
+    </View>
+  )}
 
-            <Text style={styles.driverName}>
-              {driverUser?.prenom || driverUser?.firstname || ""}{" "}
-              {driverUser?.nom || driverUser?.lastname || ""}
-            </Text>
+  <View style={{ flex: 1 }}>
+    <Text style={styles.driverName}>
+      {driverUser?.prenom || driverUser?.firstname || ""}{" "}
+      {driverUser?.nom || driverUser?.lastname || ""}
+    </Text>
 
-            <Text style={styles.driverCar}>
-              {driverUser?.car?.brand || "Voiture"}{" "}
-              {driverUser?.car?.model || ""}
-              {driverUser?.car?.licencePlate
-                ? ` - ${driverUser.car.licencePlate}`
-                : ""}
-            </Text>
-          </View>
+    <Text style={styles.driverCar}>
+      {driverUser?.car?.brand || "Voiture"}{" "}
+      {driverUser?.car?.model || ""}
+      {driverUser?.car?.licencePlate
+        ? ` • ${driverUser.car.licencePlate}`
+        : ""}
+    </Text>
+  </View>
+</View>
+
 
           <View style={styles.tripRight}>
             {isCurrent && (

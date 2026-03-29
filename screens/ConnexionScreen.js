@@ -10,7 +10,7 @@ import {
   Modal,
 } from "react-native";
 import { useDispatch } from "react-redux";
- import { Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 import { login } from "../redux/reducers/user";
 import CustomButton from "../components/CustomButton";
@@ -30,13 +30,11 @@ export default function ConnexionScreen({ navigation }) {
   const [emailError, setEmailError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-const [forgotModalVisible, setForgotModalVisible] = useState(false);
-const [forgotEmail, setForgotEmail] = useState("");
-const [forgotLoading, setForgotLoading] = useState(false);
+  const [forgotModalVisible, setForgotModalVisible] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotLoading, setForgotLoading] = useState(false);
 
-
-
-const handleLogin = async () => {
+  const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert("Erreur", "Veuillez remplir l'email et le mot de passe.");
       return;
@@ -51,7 +49,10 @@ const handleLogin = async () => {
     setEmailError(false);
 
     if (!EXPO_PUBLIC_API_URL) {
-      Alert.alert("Erreur", "La variable EXPO_PUBLIC_API_URL manque dans le fichier .env.");
+      Alert.alert(
+        "Erreur",
+        "La variable EXPO_PUBLIC_API_URL manque dans le fichier .env."
+      );
       return;
     }
 
@@ -59,22 +60,32 @@ const handleLogin = async () => {
       setLoading(true);
 
       const response = await fetch(`${EXPO_PUBLIC_API_URL}/users/login`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-  email: email.trim().toLowerCase(),
-  password,
-}),
-})
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
+          password,
+        }),
+      });
 
-    const data = await response.json();
+      const rawText = await response.text();
 
-if (!response.ok || !data.result) {
-  Alert.alert("Erreur", data.error || data.message || "Erreur de connexion.");
-  return;
-}
+      let data = {};
+      try {
+        data = rawText ? JSON.parse(rawText) : {};
+      } catch (parseError) {
+        throw new Error(`Réponse non JSON: ${rawText}`);
+      }
+
+      if (!response.ok || !data.result) {
+        Alert.alert(
+          "Erreur",
+          data.error || data.message || "Erreur de connexion."
+        );
+        return;
+      }
 
       dispatch(
         login({
@@ -85,11 +96,9 @@ if (!response.ok || !data.result) {
           email: data.user?.email || email.trim().toLowerCase(),
           telephone: data.user?.telephone || null,
           profilePhoto: data.user?.profilePhoto || null,
-          
           car: data.user?.car || null,
           photos: data.user?.photos || [],
           driverProfile: data.user?.driverProfile || null,
-
           stripeCustomerId: data.user?.stripeCustomerId || null,
           defaultPaymentMethodId: data.user?.defaultPaymentMethodId || null,
         })
@@ -97,59 +106,67 @@ if (!response.ok || !data.result) {
 
       navigation.replace("MainTabs", { screen: "PassengerHome" });
     } catch (error) {
-      Alert.alert("Erreur", "Erreur serveur ou problème réseau.");
+      Alert.alert(
+        "Erreur",
+        error.message || "Erreur serveur ou problème réseau."
+      );
     } finally {
       setLoading(false);
     }
-  }; 
+  };
 
-        const handleForgotPassword = async () => {
-  if (!forgotEmail.trim()) {
-    Alert.alert("Erreur", "Veuillez entrer votre adresse email.");
-    return;
-  }
+  const handleForgotPassword = async () => {
+    if (!forgotEmail.trim()) {
+      Alert.alert("Erreur", "Veuillez entrer votre adresse email.");
+      return;
+    }
 
-  if (!EMAIL_REGEX.test(forgotEmail.trim())) {
-    Alert.alert("Erreur", "Adresse email invalide.");
-    return;
-  }
+    if (!EMAIL_REGEX.test(forgotEmail.trim())) {
+      Alert.alert("Erreur", "Adresse email invalide.");
+      return;
+    }
 
-  if (!EXPO_PUBLIC_API_URL) {
-    Alert.alert("Erreur", "La variable EXPO_PUBLIC_API_URL manque dans le fichier .env.");
-    return;
-  }
+    if (!EXPO_PUBLIC_API_URL) {
+      Alert.alert(
+        "Erreur",
+        "La variable EXPO_PUBLIC_API_URL manque dans le fichier .env."
+      );
+      return;
+    }
 
-  try {
-    setForgotLoading(true);
+    try {
+      setForgotLoading(true);
 
-    const response = await fetch(`${EXPO_PUBLIC_API_URL}/users/forgot-password`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: forgotEmail.trim().toLowerCase(),
-      }),
-    });
+      const response = await fetch(
+        `${EXPO_PUBLIC_API_URL}/users/forgot-password`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: forgotEmail.trim().toLowerCase(),
+          }),
+        }
+      );
 
-    const data = await response.json();
+      const data = await response.json();
 
-    setForgotModalVisible(false);
+      setForgotModalVisible(false);
 
-    Alert.alert(
-      "Email envoyé",
-      data.message ||
-        "Si un compte existe avec cette adresse, un email de réinitialisation a été envoyé."
-    );
+      Alert.alert(
+        "Email envoyé",
+        data.message ||
+          "Si un compte existe avec cette adresse, un email de réinitialisation a été envoyé."
+      );
 
-    setForgotEmail("");
-  } catch (error) {
-    Alert.alert("Erreur", "Erreur serveur ou problème réseau.");
-  } finally {
-    setForgotLoading(false);
-  }
-};
-  
+      setForgotEmail("");
+    } catch (error) {
+      Alert.alert("Erreur", "Erreur serveur ou problème réseau.");
+    } finally {
+      setForgotLoading(false);
+    }
+  };
 
   return (
     <View style={styles.screen}>
@@ -158,13 +175,12 @@ if (!response.ok || !data.result) {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={styles.card}>
-          
           <TouchableOpacity
-    onPress={() => navigation.navigate("Home")}
-    style={styles.backButton}
-  >
-    <Ionicons name="arrow-back" size={26} color="#111" />
-  </TouchableOpacity>
+            onPress={() => navigation.navigate("Home")}
+            style={styles.backButton}
+          >
+            <Ionicons name="arrow-back" size={26} color="#111" />
+          </TouchableOpacity>
 
           <Text style={styles.logo}>BUZZ</Text>
           <Text style={styles.title}>Se connecter</Text>
@@ -180,26 +196,28 @@ if (!response.ok || !data.result) {
             autoComplete="email"
           />
 
-          {emailError && <Text style={styles.error}>Adresse email invalide</Text>}
+          {emailError && (
+            <Text style={styles.error}>Adresse email invalide</Text>
+          )}
 
           <View style={styles.passwordContainer}>
-                        <TextInput
-                          placeholder="Mot de passe"
-                          style={styles.passwordInput}
-                          onChangeText={setPassword}
-                          value={password}
-                          secureTextEntry={!showPassword}
-                          autoCapitalize="none"
-                        />
-          
-                        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                          <Ionicons
-                            name={showPassword ? "eye-off-outline" : "eye-outline"}
-                            size={22}
-                            color="#555"
-                          />
-                        </TouchableOpacity>
-                      </View>
+            <TextInput
+              placeholder="Mot de passe"
+              style={styles.passwordInput}
+              onChangeText={setPassword}
+              value={password}
+              secureTextEntry={!showPassword}
+              autoCapitalize="none"
+            />
+
+            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+              <Ionicons
+                name={showPassword ? "eye-off-outline" : "eye-outline"}
+                size={22}
+                color="#555"
+              />
+            </TouchableOpacity>
+          </View>
 
           <TouchableOpacity onPress={() => setForgotModalVisible(true)}>
             <Text style={styles.forgotPassword}>Mot de passe oublié ?</Text>
@@ -212,7 +230,8 @@ if (!response.ok || !data.result) {
           />
         </View>
       </KeyboardAvoidingView>
-     <Modal visible={forgotModalVisible} transparent animationType="fade">
+
+      <Modal visible={forgotModalVisible} transparent animationType="fade">
         <View style={styles.modalOverlay}>
           <View style={styles.modalBox}>
             <Text style={styles.modalTitle}>Réinitialiser le mot de passe</Text>

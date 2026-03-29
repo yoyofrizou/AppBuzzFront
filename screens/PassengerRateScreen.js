@@ -63,9 +63,8 @@ export default function PassengerRateScreen({ navigation, route }) {
         {
           text: "OK",
           onPress: () =>
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "Home" }],
+            navigation.navigate("MainTabs", {
+              screen: "PassengerHome",
             }),
         },
       ]);

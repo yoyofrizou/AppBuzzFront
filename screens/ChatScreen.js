@@ -25,10 +25,15 @@ export default function ChatScreen({ route }) {
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  const headerName =
-    String(conversation.driver) === String(currentUserId)
-      ? conversation.passengerName
-      : conversation.driverName;
+  const isCurrentUserDriver =
+  String(conversation.driver?._id || conversation.driver) === String(currentUserId);
+
+const otherUser = isCurrentUserDriver ? conversation.passenger : conversation.driver;
+
+const headerName =
+  `${otherUser?.prenom || otherUser?.firstname || ""} ${otherUser?.nom || otherUser?.lastname || ""}`.trim() ||
+  (isCurrentUserDriver ? conversation.passengerName : conversation.driverName) ||
+  "Utilisateur";
 
   const loadMessages = async () => {
     try {
@@ -90,7 +95,7 @@ export default function ChatScreen({ route }) {
 
   const renderMessage = ({ item }) => {
     const isSystem = item.type === "system";
-    const isMine = String(item.sender) === String(currentUserId);
+    const isMine = String(item.sender?._id || item.sender) === String(currentUserId);
 
     if (isSystem) {
       return (

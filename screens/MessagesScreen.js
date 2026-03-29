@@ -57,41 +57,45 @@ export default function MessagesScreen({ navigation }) {
   );
 
   const renderConversation = ({ item }) => {
-    const otherUserName =
-      String(item.driver) === String(currentUserId)
-        ? item.passengerName
-        : item.driverName;
+  const isCurrentUserDriver =
+    String(item.driver?._id || item.driver) === String(currentUserId);
 
-    const previewText =
-      String(item.driver) === String(currentUserId)
-        ? item.lastMessagePreviewDriver
-        : item.lastMessagePreviewPassenger;
+  const otherUser = isCurrentUserDriver ? item.passenger : item.driver;
 
-    return (
-      <TouchableOpacity
-        style={styles.card}
-        onPress={() =>
-          navigation.navigate("Chat", {
-            conversationId: item._id,
-            conversation: item,
-          })
-        }
-      >
-        <View style={styles.avatar}>
-          <Text style={styles.avatarText}>
-            {otherUserName ? otherUserName.charAt(0).toUpperCase() : "?"}
-          </Text>
-        </View>
+  const otherUserName =
+    `${otherUser?.prenom || otherUser?.firstname || ""} ${otherUser?.nom || otherUser?.lastname || ""}`.trim() ||
+    (isCurrentUserDriver ? item.passengerName : item.driverName) ||
+    "Utilisateur";
 
-        <View style={styles.textContainer}>
-          <Text style={styles.name}>{otherUserName}</Text>
-          <Text style={styles.preview} numberOfLines={1}>
-            {previewText || "Aucun message"}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
+  const previewText = isCurrentUserDriver
+    ? item.lastMessagePreviewDriver
+    : item.lastMessagePreviewPassenger;
+
+  return (
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() =>
+        navigation.navigate("Chat", {
+          conversationId: item._id,
+          conversation: item,
+        })
+      }
+    >
+      <View style={styles.avatar}>
+        <Text style={styles.avatarText}>
+          {otherUserName ? otherUserName.charAt(0).toUpperCase() : "?"}
+        </Text>
+      </View>
+
+      <View style={styles.textContainer}>
+        <Text style={styles.name}>{otherUserName}</Text>
+        <Text style={styles.preview} numberOfLines={1}>
+          {previewText || "Aucun message"}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
 
   return (
     <SafeAreaView style={styles.container}>

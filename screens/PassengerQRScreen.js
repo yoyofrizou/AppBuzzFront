@@ -32,10 +32,11 @@ export default function PassengerQRScreen({ navigation, route }) {
         <TouchableOpacity
           style={styles.button}
           onPress={() =>
-            navigation.navigate("PassengerTrips", {
-              initialTab: "upcoming",
-            })
-          }
+           navigation.navigate("MainTabs", {
+             screen: "PassengerTrips",
+             params: { initialTab: "upcoming" },
+           })
+              }
           activeOpacity={0.85}
         >
           <Text style={styles.buttonText}>Voir mon trajet</Text>
@@ -43,7 +44,11 @@ export default function PassengerQRScreen({ navigation, route }) {
 
         <TouchableOpacity
           style={styles.secondaryButton}
-          onPress={() => navigation.navigate("Home")}
+          onPress={() =>
+                   navigation.navigate("MainTabs", {
+                     screen: "PassengerHome",
+                     })
+                     }
           activeOpacity={0.85}
         >
           <Text style={styles.secondaryButtonText}>Retour à l’accueil</Text>

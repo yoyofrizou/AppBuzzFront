@@ -70,6 +70,19 @@ function renderRatingStars(rating) {
   ));
 }
 
+function formatWalkingMinutes(distanceMeters) {
+  const parsed = Number(distanceMeters);
+
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    return null;
+  }
+
+  // base simple : 80 mètres par minute à pied
+  const minutes = Math.max(1, Math.round(parsed / 80));
+
+  return `${minutes} min à pied`;
+}
+
 export default function PassengerSearchResultsScreen({ navigation }) {
   const rides = useSelector((state) => state.rides.searchedRides) || [];
   const searchParams = useSelector((state) => state.rides.searchParams);
@@ -150,6 +163,14 @@ export default function PassengerSearchResultsScreen({ navigation }) {
         }`.trim(),
     });
   };
+
+  const pickupWalkTime = formatWalkingMinutes(
+  selectedRide?.departureDistanceMeters
+);
+
+const dropoffWalkTime = formatWalkingMinutes(
+  selectedRide?.destinationDistanceMeters
+);
 
   return (
     <View style={styles.container}>
@@ -324,20 +345,32 @@ export default function PassengerSearchResultsScreen({ navigation }) {
                 </Text>
 
                 <View style={styles.modalAddressBlock}>
-                  <Text style={styles.modalAddressLabel}>Départ</Text>
-                  <Text style={styles.modalAddressText}>
+                <View style={styles.addressRow}>
+               <Text style={styles.modalAddressLabel}>Départ</Text>
+                {pickupWalkTime && (
+                 <Text style={styles.walkingTimeText}>{pickupWalkTime}</Text>
+                 )}
+                 </View>
+
+                <Text style={styles.modalAddressText}>
                     {selectedRide.departureAddress ||
-                      "Adresse de départ non renseignée"}
-                  </Text>
-                </View>
+                  "Adresse de départ non renseignée"}
+                </Text>
+                 </View>
 
                 <View style={styles.modalAddressBlock}>
-                  <Text style={styles.modalAddressLabel}>Arrivée</Text>
-                  <Text style={styles.modalAddressText}>
-                    {selectedRide.destinationAddress ||
-                      "Adresse d’arrivée non renseignée"}
-                  </Text>
+                 <View style={styles.addressRow}>
+                 <Text style={styles.modalAddressLabel}>Arrivée</Text>
+                 {dropoffWalkTime && (
+                 <Text style={styles.walkingTimeText}>{dropoffWalkTime}</Text>
+                 )}
                 </View>
+
+                <Text style={styles.modalAddressText}>
+                {selectedRide.destinationAddress ||
+                "Adresse d’arrivée non renseignée"}
+                 </Text>
+                 </View>
 
                 <View style={styles.modalPriceRow}>
                   <Text style={styles.modalPrice}>
