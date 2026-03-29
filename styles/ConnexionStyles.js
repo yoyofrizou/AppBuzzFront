@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 
 const styles = StyleSheet.create({
   screen: {
@@ -79,10 +79,13 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 
-  backButton: {
-    alignSelf: "flex-start",
-    marginBottom: 15,
-  },
+ backButton: {
+  position: "absolute",
+  top: Platform.OS === "ios" ? 60 : 40,
+  left: 20,
+  zIndex: 20,
+  padding: 8,
+},
 
   modalOverlay: {
     flex: 1,

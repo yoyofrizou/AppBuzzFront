@@ -6,6 +6,7 @@ const initialState = {
   selectedRide: null,
   driverRides: [],
   passengerBookings: [],
+  unreadMessagesCount: 0,
 };
 
 export const ridesSlice = createSlice({
@@ -76,6 +77,14 @@ export const ridesSlice = createSlice({
       );
     },
 
+    setUnreadMessagesCount: (state, action) => {
+      state.unreadMessagesCount = action.payload || 0;
+    },
+
+    clearUnreadMessagesCount: (state) => {
+      state.unreadMessagesCount = 0;
+    },
+
     resetRidesState: () => initialState,
   },
 });
@@ -94,6 +103,8 @@ export const {
   addPassengerBooking,
   updatePassengerBooking,
   removePassengerBooking,
+  setUnreadMessagesCount,
+  clearUnreadMessagesCount,
   resetRidesState,
 } = ridesSlice.actions;
 

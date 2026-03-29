@@ -154,25 +154,25 @@ const handleSignup = async () => {
 };
 
   return (
-    <SafeAreaView style={styles.screen}>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <ScrollView
-          contentContainerStyle={styles.container}
-          keyboardShouldPersistTaps="handled"
-        >
-          <View style={styles.card}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Home")}
-              style={styles.backButton}
-            >
-              <Ionicons name="arrow-back" size={26} color="#111" />
-            </TouchableOpacity>
+  <SafeAreaView style={styles.screen}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate("Home")}
+      style={styles.backButton}
+    >
+      <Ionicons name="arrow-back" size={26} color="#111" />
+    </TouchableOpacity>
 
-            <Text style={styles.logo}>BUZZ</Text>
-            <Text style={styles.title}>Créer un compte</Text>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.card}>
+          <Text style={styles.logo}>BUZZ</Text>
+          <Text style={styles.title}>Créer un compte</Text>
 
             <TouchableOpacity
               style={styles.avatarWrapper}

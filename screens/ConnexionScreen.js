@@ -4,8 +4,8 @@ import {
   Text,
   TextInput,
   Alert,
-  KeyboardAvoidingView,
   Platform,
+  KeyboardAvoidingView,
   TouchableOpacity,
   Modal,
 } from "react-native";
@@ -169,21 +169,21 @@ export default function ConnexionScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.screen}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <View style={styles.card}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Home")}
-            style={styles.backButton}
-          >
-            <Ionicons name="arrow-back" size={26} color="#111" />
-          </TouchableOpacity>
+  <View style={styles.screen}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate("Home")}
+      style={styles.backButton}
+    >
+      <Ionicons name="arrow-back" size={26} color="#111" />
+    </TouchableOpacity>
 
-          <Text style={styles.logo}>BUZZ</Text>
-          <Text style={styles.title}>Se connecter</Text>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <View style={styles.card}>
+        <Text style={styles.logo}>BUZZ</Text>
+        <Text style={styles.title}>Se connecter</Text>
 
           <TextInput
             placeholder="Email"

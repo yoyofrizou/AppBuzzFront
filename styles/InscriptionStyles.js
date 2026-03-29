@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 
 const styles = StyleSheet.create({
   screen: {
@@ -123,6 +123,13 @@ const styles = StyleSheet.create({
     marginTop: -4,
     fontSize: 13,
   },
+  backButton: {
+  position: "absolute",
+  top: Platform.OS === "ios" ? 60 : 30,
+  left: 20,
+  zIndex: 20,
+  padding: 8,
+},
 });
 
 export default styles;
