@@ -60,7 +60,10 @@ function formatDisplayedPrice(booking, ride, activeTab) {
     return `${(booking.finalAmount / 100).toFixed(2)} €`;
   }
 
-  if ((activeTab === "upcoming" || activeTab === "current") && hasBookingMaxAmount) {
+  if (
+    (activeTab === "upcoming" || activeTab === "current") &&
+    hasBookingMaxAmount
+  ) {
     return `${(booking.maxAmount / 100).toFixed(2)} €`;
   }
 
@@ -94,13 +97,13 @@ export default function PassengerTripsScreen({ navigation, route }) {
     }
 
     if (!user?.token) {
-      dispatch(setPassengerBookings([]));
       setLoading(false);
       return;
     }
 
     try {
       setLoading(true);
+      console.time("front-passenger-bookings");
 
       const response = await fetch(
         `${EXPO_PUBLIC_API_URL}/rides/passenger-bookings/${user.token}`
@@ -108,15 +111,17 @@ export default function PassengerTripsScreen({ navigation, route }) {
 
       const data = await response.json();
 
+      console.timeEnd("front-passenger-bookings");
+      console.log("PASSENGER BOOKINGS RESPONSE =", data);
+
       if (!response.ok || !data.result) {
-        dispatch(setPassengerBookings([]));
+        console.log("Erreur backend bookings =", data.error);
         return;
       }
 
       dispatch(setPassengerBookings(data.bookings || []));
     } catch (error) {
-      
-      dispatch(setPassengerBookings([]));
+      console.log("Erreur fetch bookings =", error);
     } finally {
       setLoading(false);
     }
@@ -230,7 +235,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
         conversation: data.conversation,
       });
     } catch (error) {
-      
+      console.log("Erreur ouverture conversation passager =", error);
       Alert.alert("Erreur", "Impossible d'ouvrir la conversation.");
     }
   };
@@ -274,7 +279,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
               Alert.alert("Réservation annulée");
               await fetchPassengerBookings();
             } catch (error) {
-             
+              console.log("Erreur annulation réservation =", error);
               Alert.alert("Erreur", "Impossible d’annuler la réservation.");
             } finally {
               setBookingActionLoadingId(null);
@@ -311,7 +316,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
             </Text>
 
             <Text style={styles.tripRouteText}>
-              {ride.destinationAddress || "Arrivée"} 
+              {ride.destinationAddress || "Arrivée"}
             </Text>
 
             <View style={styles.tripDivider} />
@@ -319,35 +324,33 @@ export default function PassengerTripsScreen({ navigation, route }) {
             <Text style={styles.tripPrice}>{displayedPrice}</Text>
           </View>
 
-          
-        <View style={styles.tripMiddle}>
-  {driverUser?.profilePhoto ? (
-    <Image
-      source={{ uri: driverUser.profilePhoto }}
-      style={styles.driverImage}
-    />
-  ) : (
-    <View style={styles.driverPlaceholder}>
-      <Ionicons name="person" size={22} color="#FFFFFF" />
-    </View>
-  )}
+          <View style={styles.tripMiddle}>
+            {driverUser?.profilePhoto ? (
+              <Image
+                source={{ uri: driverUser.profilePhoto }}
+                style={styles.driverImage}
+              />
+            ) : (
+              <View style={styles.driverPlaceholder}>
+                <Ionicons name="person" size={22} color="#FFFFFF" />
+              </View>
+            )}
 
-  <View style={{ flex: 1 }}>
-    <Text style={styles.driverName}>
-      {driverUser?.prenom || driverUser?.firstname || ""}{" "}
-      {driverUser?.nom || driverUser?.lastname || ""}
-    </Text>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.driverName}>
+                {driverUser?.prenom || driverUser?.firstname || ""}{" "}
+                {driverUser?.nom || driverUser?.lastname || ""}
+              </Text>
 
-    <Text style={styles.driverCar}>
-      {driverUser?.car?.brand || "Voiture"}{" "}
-      {driverUser?.car?.model || ""}
-      {driverUser?.car?.licencePlate
-        ? ` • ${driverUser.car.licencePlate}`
-        : ""}
-    </Text>
-  </View>
-</View>
-
+              <Text style={styles.driverCar}>
+                {driverUser?.car?.brand || "Voiture"}{" "}
+                {driverUser?.car?.model || ""}
+                {driverUser?.car?.licencePlate
+                  ? ` • ${driverUser.car.licencePlate}`
+                  : ""}
+              </Text>
+            </View>
+          </View>
 
           <View style={styles.tripRight}>
             {isCurrent && (
@@ -485,6 +488,8 @@ export default function PassengerTripsScreen({ navigation, route }) {
     );
   };
 
+  const shouldShowLoader = loading && bookings.length === 0;
+
   return (
     <View style={styles.screen}>
       <View style={styles.topBar}>
@@ -495,7 +500,9 @@ export default function PassengerTripsScreen({ navigation, route }) {
             if (navigation.canGoBack()) {
               navigation.goBack();
             } else {
-              navigation.navigate("PassengerHome");
+                navigation.navigate("MainTabs", {
+    screen: "PassengerHome",
+  });
             }
           }}
         >
@@ -564,7 +571,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
           </TouchableOpacity>
         </View>
 
-        {loading ? (
+        {shouldShowLoader ? (
           <View style={styles.loaderContainer}>
             <ActivityIndicator size="large" color="#7A2335" />
           </View>

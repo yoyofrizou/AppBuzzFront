@@ -128,4 +128,9 @@ export default StyleSheet.create({
     fontWeight: "700",
     fontSize: 14,
   },
+  backArrow: {
+  position: "absolute",
+  left: -170,
+  fontSize: 24,
+}
 });

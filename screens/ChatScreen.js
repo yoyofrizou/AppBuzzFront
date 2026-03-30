@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   View,
   Text,
@@ -10,11 +10,12 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
 import styles from "../styles/ChatStyles";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
-export default function ChatScreen({ route }) {
+export default function ChatScreen({ route, navigation }) {
   const user = useSelector((state) => state.user.value);
   const token = user?.token;
   const currentUserId = user?._id;
@@ -26,14 +27,21 @@ export default function ChatScreen({ route }) {
   const [isLoading, setIsLoading] = useState(true);
 
   const isCurrentUserDriver =
-  String(conversation.driver?._id || conversation.driver) === String(currentUserId);
+    String(conversation.driver?._id || conversation.driver) ===
+    String(currentUserId);
 
-const otherUser = isCurrentUserDriver ? conversation.passenger : conversation.driver;
+  const otherUser = isCurrentUserDriver
+    ? conversation.passenger
+    : conversation.driver;
 
-const headerName =
-  `${otherUser?.prenom || otherUser?.firstname || ""} ${otherUser?.nom || otherUser?.lastname || ""}`.trim() ||
-  (isCurrentUserDriver ? conversation.passengerName : conversation.driverName) ||
-  "Utilisateur";
+  const headerName =
+    `${otherUser?.prenom || otherUser?.firstname || ""} ${
+      otherUser?.nom || otherUser?.lastname || ""
+    }`.trim() ||
+    (isCurrentUserDriver
+      ? conversation.passengerName
+      : conversation.driverName) ||
+    "Utilisateur";
 
   const loadMessages = async () => {
     try {
@@ -45,7 +53,7 @@ const headerName =
       const data = await response.json();
 
       if (data.result) {
-        setMessages(data.messages);
+        setMessages(data.messages || []);
       } else {
         setMessages([]);
       }
@@ -56,11 +64,13 @@ const headerName =
     }
   };
 
-  useEffect(() => {
-    if (token) {
-      loadMessages();
-    }
-  }, [token, conversationId]);
+  useFocusEffect(
+    useCallback(() => {
+      if (token && conversationId) {
+        loadMessages();
+      }
+    }, [token, conversationId])
+  );
 
   const sendMessage = async () => {
     if (!text.trim()) return;
@@ -83,15 +93,14 @@ const headerName =
       if (data.result) {
         setText("");
         loadMessages();
-      } else {
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const renderMessage = ({ item }) => {
     const isSystem = item.type === "system";
-    const isMine = String(item.sender?._id || item.sender) === String(currentUserId);
+    const isMine =
+      String(item.sender?._id || item.sender) === String(currentUserId);
 
     if (isSystem) {
       return (
@@ -136,6 +145,10 @@ const headerName =
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Text style={styles.backArrow}>←</Text>
+          </TouchableOpacity>
+
           <Text style={styles.headerTitle}>{headerName}</Text>
         </View>
 
@@ -146,7 +159,7 @@ const headerName =
         ) : (
           <FlatList
             data={messages}
-            keyExtractor={(item) => item._id}
+            keyExtractor={(item) => String(item._id)}
             renderItem={renderMessage}
             contentContainerStyle={styles.messagesList}
           />

@@ -139,7 +139,7 @@ export default function RootNavigator() {
  <Stack.Screen name="PassengerRate" component={PassengerRateScreen} />
 
  <Stack.Screen name="Messages" component={MessagesScreen} />
-      <Stack.Screen name="Chat" component={ChatScreen} />
+      <Stack.Screen name="ChatScreen" component={ChatScreen} />
 
     </Stack.Navigator>
   );

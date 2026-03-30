@@ -40,20 +40,13 @@ export default StyleSheet.create({
     borderRadius: 18,
   },
 
-  avatar: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: "#E8C9CF",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  avatarText: {
-    fontSize: 20,
-    fontWeight: "700",
-    color: "#A34757",
-  },
+avatarImage: {
+  width: 50,
+  height: 50,
+  borderRadius: 25,
+  borderWidth: 2,
+  borderColor: "#8B2332",
+},
 
   textContainer: {
     marginLeft: 14,
@@ -71,4 +64,41 @@ export default StyleSheet.create({
     fontSize: 14,
     color: "#555",
   },
+  nameUnread: {
+  fontWeight: "800",
+  color: "#111111",
+},
+
+previewUnread: {
+  color: "#111111",
+  fontWeight: "600",
+},
+
+unreadBadge: {
+  minWidth: 22,
+  height: 22,
+  borderRadius: 11,
+  backgroundColor: "#8B2332",
+  alignItems: "center",
+  justifyContent: "center",
+  paddingHorizontal: 6,
+  marginLeft: 10,
+},
+
+unreadBadgeText: {
+  color: "#FFFFFF",
+  fontSize: 12,
+  fontWeight: "700",
+},
+
+nameUnread: {
+  fontWeight: "700",
+  color: "#111",
+},
+
+previewUnread: {
+  fontWeight: "600",
+  color: "#111",
+},
+
 });
