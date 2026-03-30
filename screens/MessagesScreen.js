@@ -33,7 +33,13 @@ export default function MessagesScreen({ navigation }) {
       console.time("front-load-conversations");
 
       const response = await fetch(`${API_URL}/conversations/${token}`);
-      console.log("CONVERSATIONS JSON =", JSON.stringify(json, null, 2));
+     console.log(
+  "UNREAD COUNTS FRONT =",
+  json?.conversations?.map((c) => ({
+    id: c._id,
+    unreadCount: c.unreadCount,
+  }))
+);
       const json = await response.json();
 
       console.timeEnd("front-load-conversations");
