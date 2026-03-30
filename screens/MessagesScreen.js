@@ -25,22 +25,18 @@ export default function MessagesScreen({ navigation }) {
     try {
       setIsLoading(true);
 
-      console.log("TOKEN =", token);
-      console.log("URL =", `${API_URL}/conversations/${token}`);
 
       const response = await fetch(`${API_URL}/conversations/${token}`);
       const json = await response.json();
-
-      console.log("CONVERSATIONS RESPONSE =", JSON.stringify(json, null, 2));
 
       if (json.result) {
         setConversations(json.conversations || []);
       } else {
         setConversations([]);
-        console.log("BACK ERROR =", json.error);
+        
       }
     } catch (error) {
-      console.log("Erreur loadConversations :", error);
+
       setConversations([]);
     } finally {
       setIsLoading(false);

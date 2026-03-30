@@ -88,7 +88,7 @@ export default function DriverHomeScreen({ navigation }) {
         setDriverAddress(formattedAddress || "Adresse non disponible");
       }
     } catch (error) {
-      console.log("Erreur récupération adresse :", error);
+      
       setDriverAddress("Adresse non disponible");
     }
   };
@@ -124,7 +124,7 @@ export default function DriverHomeScreen({ navigation }) {
       setLocationDenied(true);
     }
   } catch (error) {
-    console.log("Erreur vérification localisation :", error);
+    
   }
 }, []);
 
@@ -166,7 +166,7 @@ export default function DriverHomeScreen({ navigation }) {
       );
     }
   } catch (error) {
-    console.log("Erreur AsyncStorage driver profile intro:", error);
+   
   }
 }, [canPublishRide, showDriverProfileModal]);
 

@@ -52,7 +52,6 @@ export default function DriverEvaluationsScreen({ navigation }) {
         setDistribution(data.distribution || []);
         setTotal(data.total || 0);
       } catch (error) {
-        console.log("Erreur récupération évaluations conducteur :", error);
         setRates([]);
         setAverage(0);
         setDistribution([]);

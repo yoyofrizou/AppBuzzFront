@@ -40,11 +40,9 @@ export default function SnapScreen() {
       const photo = await cameraRef.current?.takePictureAsync({ quality: 0.3 });
 
       if (photo?.uri) {
-        console.log("Photo capturée :", photo.uri);
         dispatch(addPhoto(photo.uri));
       }
     } catch (error) {
-      console.log("Erreur lors de la prise de photo :", error);
     }
   };
 

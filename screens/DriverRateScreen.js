@@ -108,7 +108,7 @@ export default function DriverRateScreen({ navigation, route }) {
         },
       ]);
     } catch (error) {
-      console.log("Erreur envoi évaluations passagers :", error);
+   
       Alert.alert("Erreur", error.message);
     } finally {
       setLoading(false);

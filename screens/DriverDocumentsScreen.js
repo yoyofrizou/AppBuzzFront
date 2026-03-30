@@ -107,7 +107,6 @@ export default function DriverDocumentsScreen({ navigation }) {
 
       Alert.alert("Succès", "Document ajouté.");
     } catch (error) {
-      console.log("Erreur upload document :", error);
       Alert.alert("Erreur", "Erreur serveur ou problème réseau.");
     } finally {
       setUploadingType(null);

@@ -115,7 +115,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
 
       dispatch(setPassengerBookings(data.bookings || []));
     } catch (error) {
-      console.log("Erreur récupération trajets passager :", error);
+      
       dispatch(setPassengerBookings([]));
     } finally {
       setLoading(false);
@@ -230,7 +230,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
         conversation: data.conversation,
       });
     } catch (error) {
-      console.log("Erreur ouverture conversation passager :", error);
+      
       Alert.alert("Erreur", "Impossible d'ouvrir la conversation.");
     }
   };
@@ -274,7 +274,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
               Alert.alert("Réservation annulée");
               await fetchPassengerBookings();
             } catch (error) {
-              console.log("Erreur annulation réservation :", error);
+             
               Alert.alert("Erreur", "Impossible d’annuler la réservation.");
             } finally {
               setBookingActionLoadingId(null);

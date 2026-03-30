@@ -148,7 +148,7 @@ export default function CreateRideScreen({ navigation }) {
 
       setSuggestions(mapped);
     } catch (error) {
-      console.log("Erreur suggestions Mapbox :", error);
+     
       setSuggestions([]);
     } finally {
       if (currentRequestId === requestIdRef.current) {
@@ -380,7 +380,7 @@ const confirmTimeSelection = () => {
         },
       ]);
     } catch (error) {
-      console.log("Erreur création trajet :", error);
+     
       Alert.alert("Erreur", "Impossible de créer le trajet.");
     } finally {
       setLoadingCreate(false);

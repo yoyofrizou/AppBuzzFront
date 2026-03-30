@@ -128,7 +128,7 @@ export default function PassengerTripTrackingScreen({ navigation, route }) {
 
       setBooking(foundBooking || null);
     } catch (error) {
-      console.log("Erreur suivi trajet passager :", error);
+      
       setBooking(null);
     } finally {
       setLoading(false);

@@ -123,7 +123,7 @@ export default function DriverTripTrackingScreen({ navigation, route }) {
       const foundRide = (data.rides || []).find((item) => item._id === rideId);
       setRide(foundRide || null);
     } catch (error) {
-      console.log("Erreur récupération suivi conducteur :", error);
+     
       setRide(null);
     } finally {
       setLoading(false);
@@ -147,7 +147,7 @@ export default function DriverTripTrackingScreen({ navigation, route }) {
           }),
         });
       } catch (error) {
-        console.log("Erreur envoi position backend :", error);
+       
       }
     },
     [rideId, user?.token]
@@ -218,7 +218,7 @@ export default function DriverTripTrackingScreen({ navigation, route }) {
         }
       );
     } catch (error) {
-      console.log("Erreur position conducteur :", error);
+      
     }
   }, [animatedDriverLocation, sendLocationToBackend]);
 

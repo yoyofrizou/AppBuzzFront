@@ -51,7 +51,7 @@ export default function PassengerEvaluationsScreen() {
       setDistribution(data.distribution || []);
       setTotal(data.total || 0);
     } catch (error) {
-      console.log("Erreur récupération évaluations passager :", error);
+      
       setRates([]);
       setAverage(0);
       setDistribution([]);

@@ -48,6 +48,7 @@ export default function DriverTabs() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
+        lazy: true,
         headerShown: false,
         tabBarActiveTintColor: "#8B2332",
         tabBarInactiveTintColor: "#8A8A8A",

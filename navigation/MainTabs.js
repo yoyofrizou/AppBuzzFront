@@ -31,7 +31,7 @@ export default function MainTabs() {
         setUnreadCount(0);
       }
     } catch (error) {
-      console.log("Erreur unread count :", error);
+     
       setUnreadCount(0);
     }
   }, [user?.token]);
@@ -45,6 +45,7 @@ export default function MainTabs() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
+        lazy: true,
         headerShown: false,
         tabBarActiveTintColor: "#8B2332",
         tabBarInactiveTintColor: "#8A8A8A",

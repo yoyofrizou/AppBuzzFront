@@ -69,7 +69,7 @@ export default function PassengerRateScreen({ navigation, route }) {
         },
       ]);
     } catch (error) {
-      console.log("Erreur envoi évaluation :", error);
+     
       Alert.alert("Erreur", error.message);
     } finally {
       setLoading(false);

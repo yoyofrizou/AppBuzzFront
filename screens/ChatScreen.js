@@ -21,9 +21,6 @@ export default function ChatScreen({ route }) {
 
   const { conversationId, conversation } = route.params;
 
-  console.log("CHAT CONVERSATION =", JSON.stringify(conversation, null, 2));
-console.log("CHAT CURRENT USER ID =", currentUserId);
-
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -51,10 +48,8 @@ const headerName =
         setMessages(data.messages);
       } else {
         setMessages([]);
-        console.log(data.error);
       }
     } catch (error) {
-      console.log("Erreur loadMessages :", error);
       setMessages([]);
     } finally {
       setIsLoading(false);
@@ -89,10 +84,8 @@ const headerName =
         setText("");
         loadMessages();
       } else {
-        console.log(data.error);
       }
     } catch (error) {
-      console.log("Erreur sendMessage :", error);
     }
   };
 

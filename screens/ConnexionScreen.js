@@ -59,6 +59,8 @@ export default function ConnexionScreen({ navigation }) {
     try {
       setLoading(true);
 
+      console.log("LOGIN URL =", `${EXPO_PUBLIC_API_URL}/users/login`);
+
       const response = await fetch(`${EXPO_PUBLIC_API_URL}/users/login`, {
         method: "POST",
         headers: {
@@ -69,6 +71,8 @@ export default function ConnexionScreen({ navigation }) {
           password,
         }),
       });
+
+      console.log("LOGIN STATUS =", response.status);
 
 const rawText = await response.text();
 

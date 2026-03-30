@@ -51,15 +51,11 @@ export default function PaymentScreen({ navigation, route }) {
       throw new Error("Token utilisateur manquant");
     }
 
-    console.log("API URL =", API_URL);
-    console.log("token =", token);
-
     const response = await fetch(
       `${API_URL}/payments/payment-methods/${token}`
     );
 
     const data = await response.json();
-    console.log("payment methods =", data);
 
     if (!response.ok || !data.result) {
       throw new Error(data.error || "Impossible de charger les cartes");
@@ -73,7 +69,6 @@ export default function PaymentScreen({ navigation, route }) {
    setSelectedCard(defaultCard); 
 
   } catch (error) {
-    console.log("Erreur fetchPaymentMethods =", error);
     setPaymentError(error.message || "Impossible de charger les cartes.");
   } finally {
     setLoading(false);

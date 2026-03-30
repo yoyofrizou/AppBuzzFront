@@ -125,7 +125,7 @@ export default function DriverPublicProfileScreen({ navigation, route }) {
 
         setUpcomingRides(filteredUpcoming);
       } catch (error) {
-        console.log("Erreur récupération profil public conducteur :", error);
+        
         setDriver(null);
         setRates([]);
         setAverage(0);

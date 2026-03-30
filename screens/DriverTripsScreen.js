@@ -83,7 +83,7 @@ export default function DriverTripsScreen({ navigation, route }) {
         dispatch(setDriverRides([]));
       }
     } catch (error) {
-      console.log("Erreur récupération trajets conducteur :", error);
+      
       dispatch(setDriverRides([]));
     } finally {
       setLoading(false);
@@ -187,7 +187,7 @@ export default function DriverTripsScreen({ navigation, route }) {
 
       await fetchDriverRides();
     } catch (error) {
-      console.log("Erreur validation manuelle passager :", error);
+      
       Alert.alert("Erreur", "Impossible de valider manuellement le passager.");
     } finally {
       setBookingActionLoadingId(null);
@@ -220,7 +220,7 @@ export default function DriverTripsScreen({ navigation, route }) {
 
       await fetchDriverRides();
     } catch (error) {
-      console.log("Erreur passager absent :", error);
+  
       Alert.alert("Erreur", "Impossible de marquer le passager absent.");
     } finally {
       setBookingActionLoadingId(null);

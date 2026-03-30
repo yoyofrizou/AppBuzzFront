@@ -71,7 +71,7 @@ export default function DriverPayoutsScreen({ navigation }) {
 
       setPayouts(data.payouts || []);
     } catch (error) {
-      console.log("Erreur récupération versements conducteur :", error);
+      
       setPayouts([]);
     } finally {
       setLoading(false);

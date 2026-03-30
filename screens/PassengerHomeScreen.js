@@ -51,7 +51,7 @@ export default function PassengerHomeScreen({ navigation }) {
         setLocationDenied(true);
       }
     } catch (error) {
-      console.log("Erreur vérification localisation :", error);
+     
     }
   }, [centerMapOnUser]);
 
@@ -68,7 +68,7 @@ export default function PassengerHomeScreen({ navigation }) {
         checkLocationPermissionAgain();
       }
     } catch (error) {
-      console.log("Erreur AsyncStorage :", error);
+      
     }
   }, [checkLocationPermissionAgain]);
 
@@ -98,7 +98,7 @@ export default function PassengerHomeScreen({ navigation }) {
       setShowLocationModal(false);
       centerMapOnUser(currentPosition.coords);
     } catch (error) {
-      console.log("Erreur géolocalisation :", error);
+      
       setShowLocationModal(false);
     }
   };

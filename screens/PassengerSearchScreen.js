@@ -218,7 +218,7 @@ export default function PassengerSearchScreen({ navigation }) {
 
       setSuggestions(mapped);
     } catch (error) {
-      console.log("Erreur suggestions Mapbox :", error);
+      
       setSuggestions([]);
     } finally {
       if (currentRequestId === requestIdRef.current) {
@@ -401,7 +401,7 @@ export default function PassengerSearchScreen({ navigation }) {
       dispatch(setSearchedRides(data.rides || []));
       navigation.navigate("PassengerSearchResults");
     } catch (error) {
-      console.log("Erreur recherche trajets :", error);
+     
       Alert.alert("Erreur", "Impossible d’effectuer la recherche.");
     } finally {
       setLoadingSearch(false);

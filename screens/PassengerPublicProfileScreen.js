@@ -89,7 +89,7 @@ export default function PassengerPublicProfileScreen({ navigation, route }) {
         rates: sortedRates,
       });
     } catch (error) {
-      console.log("Erreur profil public passager :", error);
+     
       Alert.alert("Erreur", "Impossible de charger le profil du passager.");
       setProfileData(null);
     } finally {
@@ -142,7 +142,7 @@ export default function PassengerPublicProfileScreen({ navigation, route }) {
         conversation: data.conversation,
       });
     } catch (error) {
-      console.log("Erreur ouverture conversation profil passager :", error);
+    
       Alert.alert("Erreur", "Impossible d'ouvrir la conversation.");
     } finally {
       setContactLoading(false);
