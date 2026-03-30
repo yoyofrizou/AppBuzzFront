@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -21,40 +21,40 @@ export default function MessagesScreen({ navigation }) {
   const [conversations, setConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const loadConversations = async () => {
+  const loadConversations = useCallback(async () => {
+    if (!token || !API_URL) {
+      setIsLoading(false);
+      return;
+    }
+
     try {
       setIsLoading(true);
-
+      console.time("front-load-conversations");
 
       const response = await fetch(`${API_URL}/conversations/${token}`);
       const json = await response.json();
 
-      if (json.result) {
+      console.timeEnd("front-load-conversations");
+      console.log("CONVERSATIONS JSON =", json);
+
+      if (response.ok && json.result) {
         setConversations(json.conversations || []);
       } else {
-        setConversations([]);
-        
+        console.log("Erreur backend conversations =", json.error);
+        // ✅ on garde les anciennes conversations
       }
     } catch (error) {
-
-      setConversations([]);
+      console.log("Erreur loadConversations :", error);
+      // ✅ on garde les anciennes conversations
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (token) {
-      loadConversations();
     }
   }, [token]);
 
   useFocusEffect(
     useCallback(() => {
-      if (token) {
-        loadConversations();
-      }
-    }, [token])
+      loadConversations();
+    }, [loadConversations])
   );
 
   const renderConversation = ({ item }) => {
@@ -64,7 +64,7 @@ export default function MessagesScreen({ navigation }) {
     const otherUser = isCurrentUserDriver ? item.passenger : item.driver;
 
     const otherUserName =
-      `${otherUser?.prenom || otherUser?.firstname || ""} ${otherUser?.nom || otherUser?.lastname || ""}`.trim() ||
+      `${otherUser?.prenom || ""} ${otherUser?.nom || ""}`.trim() ||
       (isCurrentUserDriver ? item.passengerName : item.driverName) ||
       "Utilisateur";
 
@@ -98,13 +98,15 @@ export default function MessagesScreen({ navigation }) {
     );
   };
 
+  const shouldShowEmpty = !isLoading && conversations.length === 0;
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Messages</Text>
 
-      {isLoading ? (
+      {isLoading && conversations.length === 0 ? (
         <ActivityIndicator size="large" color="#A34757" style={styles.loader} />
-      ) : conversations.length === 0 ? (
+      ) : shouldShowEmpty ? (
         <Text style={styles.emptyText}>Aucune conversation</Text>
       ) : (
         <FlatList
@@ -117,6 +119,7 @@ export default function MessagesScreen({ navigation }) {
     </SafeAreaView>
   );
 }
+
 /*import React, { useEffect, useState, useCallback } from "react";
 import {
   View,
