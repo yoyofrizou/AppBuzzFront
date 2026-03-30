@@ -70,7 +70,7 @@ export default function ConnexionScreen({ navigation }) {
         }),
       });
 
-      const rawText = await response.text();
+const rawText = await response.text();
 
       let data = {};
       try {
@@ -106,11 +106,12 @@ export default function ConnexionScreen({ navigation }) {
 
       navigation.replace("MainTabs", { screen: "PassengerHome" });
     } catch (error) {
-      Alert.alert(
-        "Erreur",
-        error.message || "Erreur serveur ou problème réseau."
-      );
-    } finally {
+  console.log("LOGIN ERROR =", error);
+  Alert.alert(
+    "Erreur",
+    error.message || "Erreur serveur ou problème réseau."
+  );
+} finally {
       setLoading(false);
     }
   };
