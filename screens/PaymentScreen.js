@@ -75,34 +75,6 @@ export default function PaymentScreen({ navigation, route }) {
   }
 };
 
-  /*const fetchPaymentMethods = async () => {
-    try {
-      setLoading(true);
-      setPaymentError("");
-
-      console.log("API URL =", API_URL);
-
-      const response = await fetch(
-        `${API_URL}/payments/payment-methods/${token}`
-      );
-       const data = await response.json();
-
-       console.log("API URL =", API_URL);
-
-      if (!response.ok || !data.result) {
-        throw new Error(data.error || "Impossible de charger les cartes");
-      }
-
-      const cards = data.cards || [];
-      setSavedCards(cards);
-      setSelectedCard(cards[0] || null);
-    } catch (error) {
-      setPaymentError("Impossible de charger les cartes.");
-    } finally {
-      setLoading(false);
-    }
-  };*/
-
   useFocusEffect(
     useCallback(() => {
       fetchPaymentMethods();
