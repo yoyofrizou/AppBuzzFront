@@ -15,6 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { login } from "../redux/reducers/user";
 import CustomButton from "../components/CustomButton";
 import styles from "../styles/ConnexionStyles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -59,8 +60,6 @@ export default function ConnexionScreen({ navigation }) {
     try {
       setLoading(true);
 
-      console.log("LOGIN URL =", `${EXPO_PUBLIC_API_URL}/users/login`);
-
       const response = await fetch(`${EXPO_PUBLIC_API_URL}/users/login`, {
         method: "POST",
         headers: {
@@ -72,9 +71,7 @@ export default function ConnexionScreen({ navigation }) {
         }),
       });
 
-      console.log("LOGIN STATUS =", response.status);
-
-const rawText = await response.text();
+      const rawText = await response.text();
 
       let data = {};
       try {
@@ -91,31 +88,38 @@ const rawText = await response.text();
         return;
       }
 
-      dispatch(
-        login({
-          token: data.token || null,
-          _id: data.user?.id || data.user?._id || null,
-          prenom: data.user?.prenom || null,
-          nom: data.user?.nom || null,
-          email: data.user?.email || email.trim().toLowerCase(),
-          telephone: data.user?.telephone || null,
-          profilePhoto: data.user?.profilePhoto || null,
-          car: data.user?.car || null,
-          photos: data.user?.photos || [],
-          driverProfile: data.user?.driverProfile || null,
-          stripeCustomerId: data.user?.stripeCustomerId || null,
-          defaultPaymentMethodId: data.user?.defaultPaymentMethodId || null,
-        })
-      );
+      const userData = {
+        token: data.token || null,
+        _id: data.user?.id || data.user?._id || null,
+        prenom: data.user?.prenom || null,
+        nom: data.user?.nom || null,
+        email: data.user?.email || email.trim().toLowerCase(),
+        telephone: data.user?.telephone || null,
+        profilePhoto: data.user?.profilePhoto || null,
+        car: data.user?.car || null,
+        photos: data.user?.photos || [],
+        driverProfile: data.user?.driverProfile || null,
+        stripeCustomerId: data.user?.stripeCustomerId || null,
+        defaultPaymentMethodId: data.user?.defaultPaymentMethodId || null,
+      };
+
+      console.log("LOGIN SUCCESS TOKEN =", data.token);
+console.log("LOGIN SUCCESS USER ID =", data.user?.id || data.user?._id);
+console.log("LOGIN SUCCESS EMAIL =", data.user?.email);
+console.log("LOGIN SUCCESS USER =", data.user);
+
+      dispatch(login(userData));
+      console.log("USER DATA SAVED IN REDUX =", userData);
+      await AsyncStorage.setItem("user", JSON.stringify(userData));
 
       navigation.replace("MainTabs", { screen: "PassengerHome" });
     } catch (error) {
-  console.log("LOGIN ERROR =", error);
-  Alert.alert(
-    "Erreur",
-    error.message || "Erreur serveur ou problème réseau."
-  );
-} finally {
+      console.log("LOGIN ERROR =", error);
+      Alert.alert(
+        "Erreur",
+        error.message || "Erreur serveur ou problème réseau."
+      );
+    } finally {
       setLoading(false);
     }
   };
@@ -174,21 +178,21 @@ const rawText = await response.text();
   };
 
   return (
-  <View style={styles.screen}>
-    <TouchableOpacity
-      onPress={() => navigation.navigate("Home")}
-      style={styles.backButton}
-    >
-      <Ionicons name="arrow-back" size={26} color="#111" />
-    </TouchableOpacity>
+    <View style={styles.screen}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Home")}
+        style={styles.backButton}
+      >
+        <Ionicons name="arrow-back" size={26} color="#111" />
+      </TouchableOpacity>
 
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <View style={styles.card}>
-        <Text style={styles.logo}>BUZZ</Text>
-        <Text style={styles.title}>Se connecter</Text>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <View style={styles.card}>
+          <Text style={styles.logo}>BUZZ</Text>
+          <Text style={styles.title}>Se connecter</Text>
 
           <TextInput
             placeholder="Email"

@@ -13,8 +13,10 @@ import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesome } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { logout, updateProfilePhoto } from "../redux/reducers/user";
+import { resetRidesState } from "../redux/reducers/rides";
 
 import styles from "../styles/DriverProfileStyles";
 import BackButton from "../components/BackButton";
@@ -132,53 +134,56 @@ export default function DriverProfileScreen() {
     setDeleteModalVisible(true);
   };
 
-  const confirmLogout = () => {
+const confirmLogout = async () => {
+  try {
     setLogoutModalVisible(false);
+
+    await AsyncStorage.removeItem("user");
+    dispatch(resetRidesState());
     dispatch(logout());
-    navigation.replace("Auth", { screen: "Home" });
-  };
+  } catch (error) {
+    Alert.alert("Erreur", "Impossible de se déconnecter correctement.");
+  }
+};
 
-  const confirmDeleteAccount = async () => {
-    setDeleteModalVisible(false);
+const confirmDeleteAccount = async () => {
+  setDeleteModalVisible(false);
 
-    if (!EXPO_PUBLIC_API_URL) {
+  if (!EXPO_PUBLIC_API_URL) {
+    Alert.alert(
+      "Erreur",
+      "EXPO_PUBLIC_API_URL est manquant dans le fichier .env."
+    );
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `${EXPO_PUBLIC_API_URL}/users/delete/${user.token}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    const data = await response.json();
+
+    if (!data.result) {
       Alert.alert(
         "Erreur",
-        "EXPO_PUBLIC_API_URL est manquant dans le fichier .env."
+        data.error || "Impossible de supprimer le compte."
       );
       return;
     }
 
-    try {
-      const response = await fetch(
-        `${EXPO_PUBLIC_API_URL}/users/delete/${user.token}`,
-        {
-          method: "DELETE",
-        }
-      );
+    await AsyncStorage.removeItem("user");
+    dispatch(resetRidesState());
+    dispatch(logout());
 
-      const data = await response.json();
-
-      if (!data.result) {
-        Alert.alert(
-          "Erreur",
-          data.error || "Impossible de supprimer le compte."
-        );
-        return;
-      }
-
-      dispatch(logout());
-
-      Alert.alert("Succès", "Compte supprimé avec succès.", [
-        {
-          text: "OK",
-          onPress: () => navigation.replace("Auth", { screen: "Home" }),
-        },
-      ]);
-    } catch (error) {
-      Alert.alert("Erreur", "Erreur serveur ou problème réseau.");
-    }
-  };
+    Alert.alert("Succès", "Compte supprimé avec succès.");
+  } catch (error) {
+    Alert.alert("Erreur", "Erreur serveur ou problème réseau.");
+  }
+};
 
   return (
     <SafeAreaView style={styles.screen}>

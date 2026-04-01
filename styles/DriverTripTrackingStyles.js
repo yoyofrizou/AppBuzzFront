@@ -139,21 +139,6 @@ export default StyleSheet.create({
     textAlign: "center",
   },
 
-  securityButton: {
-    backgroundColor: "#9AD14B",
-    borderRadius: 14,
-    paddingVertical: 14,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 12,
-  },
-
-  securityButtonText: {
-    color: "#FFFFFF",
-    fontSize: 15,
-    fontWeight: "800",
-  },
-
   primaryButton: {
     backgroundColor: "#8B2332",
     borderRadius: 14,

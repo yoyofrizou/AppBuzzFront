@@ -122,7 +122,7 @@ export default function DriverTabs() {
         options={{ tabBarLabel: "Trajets" }}
       />
       <Tab.Screen
-        name="MessagesScreen"
+        name="Messages"
         component={MessagesScreen}
         options={{
           tabBarLabel: "Messages",

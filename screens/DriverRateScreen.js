@@ -17,14 +17,37 @@ import styles from "../styles/DriverRateStyles";
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 const BORDEAUX = "#8B2332";
 
+function formatPassengerPaidAmount(booking, ride) {
+  if (
+    typeof booking?.finalAmount === "number" &&
+    booking.finalAmount >= 0
+  ) {
+    return `${(booking.finalAmount / 100).toFixed(2)} €`;
+  }
+
+  if (
+    typeof booking?.maxAmount === "number" &&
+    booking.maxAmount >= 0
+  ) {
+    return `${(booking.maxAmount / 100).toFixed(2)} €`;
+  }
+
+  if (typeof ride?.price === "number") {
+    return `${ride.price.toFixed(2)} €`;
+  }
+
+  return "0,00 €";
+}
+
 export default function DriverRateScreen({ navigation, route }) {
-  const { passengers = [], rideId } = route.params;
+  const { passengers = [], rideId, ride } = route.params || {};
   const user = useSelector((state) => state.user?.value);
 
   const normalizedPassengers = useMemo(() => {
     return passengers
       .map((item) => ({
         bookingId: item._id,
+        booking: item,
         passenger: item.passenger || item.user || null,
       }))
       .filter((item) => item.passenger?._id);
@@ -44,6 +67,10 @@ export default function DriverRateScreen({ navigation, route }) {
   const currentPassenger = normalizedPassengers[currentIndex];
   const currentRating = ratings[currentIndex]?.rating || 0;
   const currentComment = ratings[currentIndex]?.comment || "";
+
+  const passengerPaidAmount = useMemo(() => {
+    return formatPassengerPaidAmount(currentPassenger?.booking, ride);
+  }, [currentPassenger, ride]);
 
   const updateCurrentRating = (value) => {
     const next = [...ratings];
@@ -66,6 +93,19 @@ export default function DriverRateScreen({ navigation, route }) {
   const handleNext = async () => {
     if (currentRating === 0) {
       Alert.alert("Note requise", "Merci de sélectionner une note.");
+      return;
+    }
+
+    if (!EXPO_PUBLIC_API_URL) {
+      Alert.alert(
+        "Erreur",
+        "EXPO_PUBLIC_API_URL est manquant dans le fichier .env."
+      );
+      return;
+    }
+
+    if (!user?.token || !rideId) {
+      Alert.alert("Erreur", "Informations de trajet incomplètes.");
       return;
     }
 
@@ -108,8 +148,7 @@ export default function DriverRateScreen({ navigation, route }) {
         },
       ]);
     } catch (error) {
-   
-      Alert.alert("Erreur", error.message);
+      Alert.alert("Erreur", error.message || "Impossible d'envoyer les évaluations.");
     } finally {
       setLoading(false);
     }
@@ -142,10 +181,30 @@ export default function DriverRateScreen({ navigation, route }) {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.backButton}
+          activeOpacity={0.7}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="arrow-back" size={28} color="#111111" />
+        </TouchableOpacity>
+
         <Text style={styles.headerTitle}>Évaluation des passagers</Text>
-        <Text style={styles.stepText}>
-          Passager {currentIndex + 1} sur {normalizedPassengers.length}
+
+        <View style={styles.headerSpacer} />
+      </View>
+
+      <Text style={styles.stepText}>
+        Passager {currentIndex + 1} sur {normalizedPassengers.length}
+      </Text>
+
+      <View style={styles.summaryCard}>
+        <Text style={styles.summaryTitle}>Merci d’avoir utilisé Buzz</Text>
+        <Text style={styles.summarySubtitle}>
+          Voici le montant payé par ce passager.
         </Text>
+        <Text style={styles.paidAmountLabel}>Montant payé par ce passager</Text>
+        <Text style={styles.paidAmountValue}>{passengerPaidAmount}</Text>
       </View>
 
       <View style={styles.passengerCard}>
@@ -202,4 +261,3 @@ export default function DriverRateScreen({ navigation, route }) {
     </KeyboardAvoidingView>
   );
 }
-

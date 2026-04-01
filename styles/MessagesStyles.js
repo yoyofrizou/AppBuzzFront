@@ -38,6 +38,7 @@ export default StyleSheet.create({
     marginVertical: 8,
     padding: 14,
     borderRadius: 18,
+     position: "relative",
   },
 
 avatarImage: {
@@ -74,21 +75,16 @@ previewUnread: {
   fontWeight: "600",
 },
 
-unreadBadge: {
-  minWidth: 22,
-  height: 22,
-  borderRadius: 11,
-  backgroundColor: "#8B2332",
-  alignItems: "center",
-  justifyContent: "center",
-  paddingHorizontal: 6,
-  marginLeft: 10,
-},
+unreadDot: {
+  position: "absolute",
+  right: 30,
+  top: 32,
 
-unreadBadgeText: {
-  color: "#FFFFFF",
-  fontSize: 12,
-  fontWeight: "700",
+  width: 14,
+  height: 14,
+  borderRadius: 7,
+
+  backgroundColor: "#E53935",
 },
 
 nameUnread: {

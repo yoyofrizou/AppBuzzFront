@@ -33,17 +33,17 @@ export default function MessagesScreen({ navigation }) {
       console.time("front-load-conversations");
 
       const response = await fetch(`${API_URL}/conversations/${token}`);
-     console.log(
+  
+      const json = await response.json();
+
+       console.log(
   "UNREAD COUNTS FRONT =",
   json?.conversations?.map((c) => ({
     id: c._id,
     unreadCount: c.unreadCount,
   }))
 );
-      const json = await response.json();
-
-      console.timeEnd("front-load-conversations");
-      console.log("CONVERSATIONS JSON =", json);
+      console.log("CONVERSATIONS FULL =", JSON.stringify(json, null, 2));
 
       if (response.ok && json.result) {
         setConversations(json.conversations || []);
@@ -78,9 +78,9 @@ export default function MessagesScreen({ navigation }) {
       ? item.lastMessagePreviewDriver
       : item.lastMessagePreviewPassenger;
 
-    /*const unreadCount = item.unreadCount || 0;*/
+   const hasUnread = (item.unreadCount || 0) > 0;
 
-    const unreadCount = 3;
+   console.log("HAS UNREAD UI =", item._id, hasUnread);
 
     return (
       <TouchableOpacity
@@ -106,23 +106,19 @@ export default function MessagesScreen({ navigation }) {
 </View>
 
         <View style={styles.textContainer}>
-          <Text style={[styles.name, unreadCount > 0 && styles.nameUnread]}>
+          <Text style={[styles.name, hasUnread && styles.nameUnread]}>
             {otherUserName}
           </Text>
 
           <Text
-            style={[styles.preview, unreadCount > 0 && styles.previewUnread]}
+  style={[styles.preview, hasUnread && styles.previewUnread]}
             numberOfLines={1}
           >
             {previewText || "Aucun message"}
           </Text>
         </View>
 
-        {item.unreadCount > 0 && (
-  <View style={styles.unreadBadge}>
-    <Text style={styles.unreadBadgeText}>{item.unreadCount}</Text>
-  </View>
-)}
+        {hasUnread && <View style={styles.unreadDot} />}
 
       </TouchableOpacity>
     );

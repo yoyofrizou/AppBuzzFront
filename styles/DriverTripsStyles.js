@@ -353,4 +353,39 @@ passengerCardSecondaryButtonText: {
   fontWeight: "800",
   textAlign: "center",
 },
+lockedRideText: {
+  marginTop: 10,
+  color: "#8A8A8A",
+  fontSize: 13,
+  fontWeight: "600",
+},
+rideDateTimeText: {
+  fontSize: 15,
+  color: "#222222",
+  fontWeight: "700",
+  marginBottom: 6,
+},
+cancelRideButton: {
+  marginTop: 10,
+  backgroundColor: "#FFFFFF",
+  borderWidth: 1,
+  borderColor: "#8B2332",
+  borderRadius: 14,
+  paddingVertical: 12,
+  alignItems: "center",
+},
+
+cancelRideButtonDisabled: {
+  opacity: 0.6,
+},
+
+cancelRideButtonText: {
+  color: "#8B2332",
+  fontWeight: "700",
+  fontSize: 15,
+},
+
+cancelRideButtonTextDisabled: {
+  color: "#A7A7A7",
+},
 });

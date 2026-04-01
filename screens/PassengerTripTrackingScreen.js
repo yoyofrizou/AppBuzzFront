@@ -399,9 +399,11 @@ export default function PassengerTripTrackingScreen({ navigation, route }) {
           activeOpacity={0.8}
           onPress={() =>
             navigation.navigate("PassengerRate", {
-              driver: ride.user,
-              rideId: ride._id,
-            })
+  driver: ride?.driver || ride?.user,
+  rideId: ride?._id,
+  booking,
+  ride,
+})
           }
         >
           <Text style={styles.arrivedButtonText}>

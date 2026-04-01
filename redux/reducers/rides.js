@@ -85,7 +85,14 @@ export const ridesSlice = createSlice({
       state.unreadMessagesCount = 0;
     },
 
-    resetRidesState: () => initialState,
+    resetRidesState: (state) => {
+      state.searchedRides = [];
+      state.searchParams = null;
+      state.selectedRide = null;
+      state.driverRides = [];
+      state.passengerBookings = [];
+      state.unreadMessagesCount = 0;
+    },
   },
 });
 

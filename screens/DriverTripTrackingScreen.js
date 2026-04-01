@@ -5,7 +5,6 @@ import {
   Animated,
   TouchableOpacity,
   Image,
-  Alert,
 } from "react-native";
 import MapView, { Marker, Polyline, AnimatedRegion } from "react-native-maps";
 import * as Location from "expo-location";
@@ -123,7 +122,6 @@ export default function DriverTripTrackingScreen({ navigation, route }) {
       const foundRide = (data.rides || []).find((item) => item._id === rideId);
       setRide(foundRide || null);
     } catch (error) {
-     
       setRide(null);
     } finally {
       setLoading(false);
@@ -147,7 +145,6 @@ export default function DriverTripTrackingScreen({ navigation, route }) {
           }),
         });
       } catch (error) {
-       
       }
     },
     [rideId, user?.token]
@@ -158,10 +155,6 @@ export default function DriverTripTrackingScreen({ navigation, route }) {
       const permission = await Location.requestForegroundPermissionsAsync();
 
       if (permission.status !== "granted") {
-        Alert.alert(
-          "Permission refusée",
-          "La position est nécessaire pour suivre le trajet en temps réel."
-        );
         return;
       }
 
@@ -218,7 +211,6 @@ export default function DriverTripTrackingScreen({ navigation, route }) {
         }
       );
     } catch (error) {
-      
     }
   }, [animatedDriverLocation, sendLocationToBackend]);
 
@@ -322,49 +314,52 @@ export default function DriverTripTrackingScreen({ navigation, route }) {
   }, [driverLocation, destination]);
 
   const handleCompleteRide = async () => {
-    try {
-      setEndingRide(true);
+  try {
+    setEndingRide(true);
 
-      const response = await fetch(
-        `${EXPO_PUBLIC_API_URL}/rides/${rideId}/complete`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok || !data.result) {
-        Alert.alert("Erreur", data?.error || "Impossible de terminer le trajet.");
-        return;
+    const response = await fetch(
+      `${EXPO_PUBLIC_API_URL}/rides/${rideId}/complete`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
+    );
 
-      const presentPassengers = (ride.passengers || []).filter(
-        (booking) => booking.passenger || booking.user
-      );
+    const data = await response.json();
 
-      if (presentPassengers.length === 0) {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: "DriverTrips", params: { initialTab: "past" } }],
-        });
-        return;
-      }
-
-      navigation.replace("DriverRate", {
-        rideId: ride._id,
-        passengers: presentPassengers,
-      });
-    } catch (error) {
-      console.log("Erreur fin de trajet :", error);
-      Alert.alert("Erreur", "Impossible de terminer le trajet.");
-    } finally {
-      setEndingRide(false);
+    if (!response.ok || !data.result) {
+      Alert.alert("Erreur", data?.error || "Impossible de terminer le trajet.");
+      return;
     }
-  };
+
+    const presentPassengers = (ride?.passengers || []).filter((booking) => {
+      const hasPassenger = booking?.passenger || booking?.user;
+      const isPresent =
+        booking?.passengerPresenceStatus === "scanned" ||
+        booking?.passengerPresenceStatus === "manual";
+
+      return hasPassenger && isPresent;
+    });
+
+   if (presentPassengers.length === 0) {
+  navigation.navigate("DriverTrips", { initialTab: "past" });
+  return;
+}
+
+    navigation.replace("DriverRate", {
+      rideId: ride?._id,
+      passengers: presentPassengers,
+      ride,
+    });
+  } catch (error) {
+    console.log("Erreur fin de trajet :", error);
+    Alert.alert("Erreur", "Impossible de terminer le trajet.");
+  } finally {
+    setEndingRide(false);
+  }
+};
 
   if (loading) {
     return (
@@ -508,14 +503,6 @@ export default function DriverTripTrackingScreen({ navigation, route }) {
             );
           })}
         </View>
-
-        <TouchableOpacity
-          style={styles.securityButton}
-          activeOpacity={0.8}
-          onPress={() => Alert.alert("Sécurité", "Fonction à brancher.")}
-        >
-          <Text style={styles.securityButtonText}>Centre de sécurité</Text>
-        </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.primaryButton}

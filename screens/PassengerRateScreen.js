@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   Platform,
   ActivityIndicator,
   Alert,
+  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
@@ -16,17 +17,56 @@ import styles from "../styles/PassengerRateStyles";
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 const BORDEAUX = "#8B2332";
 
+function formatPaidAmount(booking, ride) {
+  if (
+    typeof booking?.finalAmount === "number" &&
+    booking.finalAmount >= 0
+  ) {
+    return `${(booking.finalAmount / 100).toFixed(2)} €`;
+  }
+
+  if (
+    typeof booking?.maxAmount === "number" &&
+    booking.maxAmount >= 0
+  ) {
+    return `${(booking.maxAmount / 100).toFixed(2)} €`;
+  }
+
+  if (typeof ride?.price === "number") {
+    return `${ride.price.toFixed(2)} €`;
+  }
+
+  return "0,00 €";
+}
+
 export default function PassengerRateScreen({ navigation, route }) {
-  const { driver, rideId } = route.params;
+  const { driver, rideId, booking, ride } = route.params || {};
   const user = useSelector((state) => state.user?.value);
 
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const paidAmount = useMemo(() => {
+    return formatPaidAmount(booking, ride);
+  }, [booking, ride]);
+
   const handleSubmit = async () => {
     if (rating === 0) {
       Alert.alert("Note requise", "Merci de sélectionner une note.");
+      return;
+    }
+
+    if (!EXPO_PUBLIC_API_URL) {
+      Alert.alert(
+        "Erreur",
+        "EXPO_PUBLIC_API_URL est manquant dans le fichier .env."
+      );
+      return;
+    }
+
+    if (!user?.token || !driver?._id || !rideId) {
+      Alert.alert("Erreur", "Informations de trajet incomplètes.");
       return;
     }
 
@@ -50,8 +90,15 @@ export default function PassengerRateScreen({ navigation, route }) {
       const data = await response.json();
 
       if (data.error === "ALREADY_RATED") {
-        Alert.alert("Information", "Vous avez déjà évalué ce trajet.");
-        navigation.goBack();
+        Alert.alert("Information", "Vous avez déjà évalué ce trajet.", [
+          {
+            text: "OK",
+            onPress: () =>
+              navigation.navigate("MainTabs", {
+                screen: "PassengerHome",
+              }),
+          },
+        ]);
         return;
       }
 
@@ -69,8 +116,7 @@ export default function PassengerRateScreen({ navigation, route }) {
         },
       ]);
     } catch (error) {
-     
-      Alert.alert("Erreur", error.message);
+      Alert.alert("Erreur", error.message || "Impossible d'envoyer l'évaluation.");
     } finally {
       setLoading(false);
     }
@@ -95,13 +141,34 @@ export default function PassengerRateScreen({ navigation, route }) {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.backButton}
+          activeOpacity={0.7}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="arrow-back" size={28} color="#111111" />
+        </TouchableOpacity>
+
         <Text style={styles.headerTitle}>Évaluation</Text>
+
+        <View style={styles.headerSpacer} />
+      </View>
+
+      <View style={styles.summaryCard}>
+        <Text style={styles.summaryTitle}>Merci d’avoir utilisé Buzz</Text>
+        <Text style={styles.summarySubtitle}>Votre trajet est terminé.</Text>
+        <Text style={styles.paidAmountLabel}>Montant final payé</Text>
+        <Text style={styles.paidAmountValue}>{paidAmount}</Text>
       </View>
 
       <View style={styles.driverCard}>
-        <View style={styles.avatarPlaceholder}>
-          <Ionicons name="person" size={42} color="#FFFFFF" />
-        </View>
+        {driver?.profilePhoto ? (
+          <Image source={{ uri: driver.profilePhoto }} style={styles.avatar} />
+        ) : (
+          <View style={styles.avatarPlaceholder}>
+            <Ionicons name="person" size={42} color="#FFFFFF" />
+          </View>
+        )}
 
         <Text style={styles.driverName}>
           {driver?.prenom || ""} {driver?.nom || ""}

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -16,17 +16,25 @@ import styles from "../styles/DriverTripsStyles";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 
-function formatHour(dateString) {
-  if (!dateString) return "--:--";
+function formatDateTime(dateString) {
+  if (!dateString) return "--/--/---- à --:--";
 
   const date = new Date(dateString);
 
-  if (Number.isNaN(date.getTime())) return "--:--";
+  if (Number.isNaN(date.getTime())) return "--/--/---- à --:--";
 
-  return date.toLocaleTimeString("fr-FR", {
+  const formattedDate = date.toLocaleDateString("fr-FR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+
+  const formattedTime = date.toLocaleTimeString("fr-FR", {
     hour: "2-digit",
     minute: "2-digit",
   });
+
+  return `${formattedDate} à ${formattedTime}`;
 }
 
 function getTripCategory(ride) {
@@ -58,12 +66,14 @@ export default function DriverTripsScreen({ navigation, route }) {
   );
   const [bookingActionLoadingId, setBookingActionLoadingId] = useState(null);
   const [startRideLoadingId, setStartRideLoadingId] = useState(null);
+  const [cancelRideLoadingId, setCancelRideLoadingId] = useState(null);
 
   const canPublishRide = Boolean(user?.driverProfile?.isProfileComplete);
 
   const fetchDriverRides = useCallback(async () => {
     try {
       if (!user?.token) {
+        console.log("DRIVER FETCH: NO TOKEN");
         dispatch(setDriverRides([]));
         setLoading(false);
         return;
@@ -77,13 +87,13 @@ export default function DriverTripsScreen({ navigation, route }) {
 
       const data = await response.json();
 
+
       if (data.result) {
         dispatch(setDriverRides(data.rides || []));
       } else {
         dispatch(setDriverRides([]));
       }
     } catch (error) {
-      
       dispatch(setDriverRides([]));
     } finally {
       setLoading(false);
@@ -107,6 +117,14 @@ export default function DriverTripsScreen({ navigation, route }) {
       fetchDriverRides();
     }, [fetchDriverRides])
   );
+
+  useEffect(() => {
+    if (user?.token) {
+      fetchDriverRides();
+    } else {
+      dispatch(setDriverRides([]));
+    }
+  }, [user?.token, fetchDriverRides, dispatch]);
 
   const categorized = useMemo(() => {
     const current = [];
@@ -187,7 +205,6 @@ export default function DriverTripsScreen({ navigation, route }) {
 
       await fetchDriverRides();
     } catch (error) {
-      
       Alert.alert("Erreur", "Impossible de valider manuellement le passager.");
     } finally {
       setBookingActionLoadingId(null);
@@ -220,7 +237,6 @@ export default function DriverTripsScreen({ navigation, route }) {
 
       await fetchDriverRides();
     } catch (error) {
-  
       Alert.alert("Erreur", "Impossible de marquer le passager absent.");
     } finally {
       setBookingActionLoadingId(null);
@@ -267,6 +283,121 @@ export default function DriverTripsScreen({ navigation, route }) {
     if (status === "absent") return "Absent";
     return "En attente";
   };
+  
+  /*const handleCancelRide = (rideId) => {
+  Alert.alert(
+    "Annuler le trajet",
+    "Voulez-vous vraiment annuler ce trajet ? Toutes les réservations passagers seront annulées.",
+    [
+      { text: "Non", style: "cancel" },
+      {
+        text: "Oui",
+        style: "destructive",
+        onPress: async () => {
+          try {
+            if (!EXPO_PUBLIC_API_URL) {
+              Alert.alert("Erreur", "API URL manquante.");
+              return;
+            }
+
+            setCancelRideLoadingId(rideId);
+
+            const response = await fetch(
+              `${EXPO_PUBLIC_API_URL}/rides/${rideId}/cancel`,
+              {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  token: user.token,
+                }),
+              }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok || !data.result) {
+              Alert.alert(
+                "Erreur",
+                data?.error || "Impossible d’annuler le trajet."
+              );
+              return;
+            }
+
+            Alert.alert("Trajet annulé");
+            await fetchDriverRides();
+            setActiveTab("past");
+          } catch (error) {
+            console.log("Erreur annulation trajet :", error);
+            Alert.alert("Erreur", "Impossible d’annuler le trajet.");
+          } finally {
+            setCancelRideLoadingId(null);
+          }
+        },
+      },
+    ]
+  );
+};*/
+
+const handleCancelRide = (rideId) => {
+  Alert.alert(
+    "Annuler le trajet",
+    "Voulez-vous vraiment annuler ce trajet ? Toutes les réservations passagers seront annulées.",
+    [
+      { text: "Non", style: "cancel" },
+      {
+        text: "Oui",
+        style: "destructive",
+        onPress: async () => {
+          try {
+            if (!EXPO_PUBLIC_API_URL) {
+              Alert.alert("Erreur", "API URL manquante.");
+              return;
+            }
+
+            const url = `${EXPO_PUBLIC_API_URL}/rides/${rideId}/cancel`;
+            console.log("CANCEL URL =", url);
+
+            setCancelRideLoadingId(rideId);
+
+            const response = await fetch(url, {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                token: user.token,
+              }),
+            });
+
+            console.log("CANCEL STATUS =", response.status);
+
+            const data = await response.json();
+            console.log("CANCEL RESPONSE =", data);
+
+            if (!response.ok || !data.result) {
+              Alert.alert(
+                "Erreur",
+                data?.error || "Impossible d’annuler le trajet."
+              );
+              return;
+            }
+
+            Alert.alert("Trajet annulé");
+            await fetchDriverRides();
+            setActiveTab("past");
+          } catch (error) {
+            console.log("Erreur annulation trajet =", error);
+            Alert.alert("Erreur", "Impossible d’annuler le trajet.");
+          } finally {
+            setCancelRideLoadingId(null);
+          }
+        },
+      },
+    ]
+  );
+};
 
   const handleContactPassenger = async (ride, booking) => {
     try {
@@ -302,7 +433,7 @@ export default function DriverTripsScreen({ navigation, route }) {
         return;
       }
 
-      navigation.navigate("Chat", {
+      navigation.navigate("ChatScreen", {
         conversationId: data.conversation._id,
         conversation: data.conversation,
       });
@@ -312,26 +443,37 @@ export default function DriverTripsScreen({ navigation, route }) {
     }
   };
 
-   const handleOpenPassengerProfile = (booking, ride) => {
-  const passenger = booking.passenger || booking.user;
+  const handleOpenPassengerProfile = (booking, ride) => {
+    const passenger = booking.passenger || booking.user;
 
-  if (!passenger?._id || !ride?._id) {
-    Alert.alert("Erreur", "Impossible d'ouvrir le profil du passager.");
-    return;
-  }
+    if (!passenger?._id || !ride?._id) {
+      Alert.alert("Erreur", "Impossible d'ouvrir le profil du passager.");
+      return;
+    }
 
-  navigation.navigate("PassengerPublicProfile", {
-    passengerId: passenger._id,
-    rideId: ride._id,
-  });
-};
+    navigation.navigate("PassengerPublicProfile", {
+      passengerId: passenger._id,
+      rideId: ride._id,
+    });
+  };
 
+  const canOpenUpcomingRide = (ride) => {
+    const passengers = ride?.passengers || [];
 
-    const renderPassengerCard = (booking, ride, showContactOnly = false) => {
+    if (passengers.length === 0) return false;
+
+    return passengers.every((booking) => {
+      const status = booking?.passengerPresenceStatus || "pending";
+      return status !== "pending";
+    });
+  };
+
+  const renderPassengerCard = (booking, ride, showContactOnly = false) => {
     const passenger = booking.passenger || booking.user;
     const status = booking.passengerPresenceStatus || "pending";
     const isPending = status === "pending";
     const isLoading = bookingActionLoadingId === booking._id;
+    
 
     return (
       <View key={booking._id} style={styles.passengerCard}>
@@ -421,7 +563,6 @@ export default function DriverTripsScreen({ navigation, route }) {
     );
   };
 
-
   const renderRide = ({ item }) => {
     const passengers = item.passengers || [];
     const canStartRide = Boolean(item.canStartRide);
@@ -429,29 +570,56 @@ export default function DriverTripsScreen({ navigation, route }) {
     const isPast = activeTab === "past";
     const isStartLoading = startRideLoadingId === item._id;
 
+    const canOpenRide = isUpcoming ? canOpenUpcomingRide(item) : true;
+    const isCancelLoading = cancelRideLoadingId === item._id;
+     const canCancelRide = isUpcoming && ["published", "open"].includes(item?.status);
+
+    const handlePressRide = () => {
+      if (!canOpenRide) {
+        Alert.alert(
+          "Trajet verrouillé",
+          passengers.length === 0
+            ? "Vous ne pouvez pas ouvrir ce trajet tant qu’il n’y a pas de réservation."
+            : "Vous devez d’abord valider la présence ou l’absence de tous les passagers."
+        );
+        return;
+      }
+
+      navigation.navigate("DriverTripTracking", {
+        rideId: item._id,
+      });
+    };
+
     return (
       <View style={styles.rideCard}>
         <TouchableOpacity
-          activeOpacity={0.85}
-          onPress={() =>
-            navigation.navigate("DriverTripTracking", {
-              rideId: item._id,
-            })
-          }
+          activeOpacity={canOpenRide ? 0.85 : 1}
+          onPress={handlePressRide}
         >
           <View style={styles.rideHeader}>
             <View style={styles.rideHeaderLeft}>
-              <Text style={styles.rideRouteText}>
-                {item.departureAddress || item.departureCity || "Départ"} -{" "}
-                {formatHour(item.departureDateTime)}
+              <Text style={styles.rideDateTimeText}>
+                {formatDateTime(item.departureDateTime)}
               </Text>
 
               <Text style={styles.rideRouteText}>
-                {item.destinationAddress || item.destinationCity || "Destination"}
+                <Text style={styles.labelBold}>Départ : </Text>
+                {item.departureAddress || item.departureCity || "Non renseigné"}
+              </Text>
+
+              <Text style={styles.rideRouteText}>
+                <Text style={styles.labelBold}>Arrivée : </Text>
+                {item.destinationAddress ||
+                  item.destinationCity ||
+                  "Non renseigné"}
               </Text>
             </View>
 
-            <Ionicons name="chevron-forward" size={22} color="#8B2332" />
+            <Ionicons
+              name="chevron-forward"
+              size={22}
+              color={canOpenRide ? "#8B2332" : "#BDBDBD"}
+            />
           </View>
 
           <View style={styles.rideDivider} />
@@ -472,6 +640,14 @@ export default function DriverTripsScreen({ navigation, route }) {
           {item.description ? (
             <Text style={styles.rideDescription}>{item.description}</Text>
           ) : null}
+
+          {isUpcoming && !canOpenRide ? (
+            <Text style={styles.lockedRideText}>
+              {passengers.length === 0
+                ? "En attente d’une réservation"
+                : "Validez d’abord la présence ou l’absence de tous les passagers"}
+            </Text>
+          ) : null}
         </TouchableOpacity>
 
         {isUpcoming && (
@@ -484,7 +660,9 @@ export default function DriverTripsScreen({ navigation, route }) {
               </Text>
             ) : (
               <View style={styles.passengersGrid}>
-                {passengers.map((booking) => renderPassengerCard(booking, item, false))}
+                {passengers.map((booking) =>
+                  renderPassengerCard(booking, item, false)
+                )}
               </View>
             )}
 
@@ -515,6 +693,27 @@ export default function DriverTripsScreen({ navigation, route }) {
           </View>
         )}
 
+        {canCancelRide && (
+  <TouchableOpacity
+    disabled={isCancelLoading}
+    style={[
+      styles.cancelRideButton,
+      isCancelLoading && styles.cancelRideButtonDisabled,
+    ]}
+    activeOpacity={isCancelLoading ? 1 : 0.8}
+    onPress={() => handleCancelRide(item._id)}
+  >
+    <Text
+      style={[
+        styles.cancelRideButtonText,
+        isCancelLoading && styles.cancelRideButtonTextDisabled,
+      ]}
+    >
+      {isCancelLoading ? "Annulation..." : "Annuler le trajet"}
+    </Text>
+  </TouchableOpacity>
+)}
+
         {isPast && (
           <View style={styles.passengersSection}>
             <Text style={styles.passengersSectionTitle}>Passagers</Text>
@@ -524,9 +723,11 @@ export default function DriverTripsScreen({ navigation, route }) {
                 Aucun passager sur ce trajet.
               </Text>
             ) : (
-             <View style={styles.passengersGrid}>
-             {passengers.map((booking) => renderPassengerCard(booking, item, true))}
-             </View>
+              <View style={styles.passengersGrid}>
+                {passengers.map((booking) =>
+                  renderPassengerCard(booking, item, true)
+                )}
+              </View>
             )}
           </View>
         )}

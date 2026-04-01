@@ -13,8 +13,10 @@ import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { logout, updateProfilePhoto } from "../redux/reducers/user";
+import { resetRidesState } from "../redux/reducers/rides";
 
 import styles from "../styles/ProfileStyles";
 import BackButton from "../components/BackButton";
@@ -108,12 +110,16 @@ export default function ProfileScreen() {
     setDeleteModalVisible(true);
   };
 
-  const confirmLogout = () => {
-  setLogoutModalVisible(false);
+const confirmLogout = async () => {
+  try {
+    setLogoutModalVisible(false);
 
-  dispatch(logout());
-
-  navigation.replace("Auth", { screen: "Home" });
+    await AsyncStorage.removeItem("user");
+    dispatch(resetRidesState());
+    dispatch(logout());
+  } catch (error) {
+    Alert.alert("Erreur", "Impossible de se déconnecter correctement.");
+  }
 };
 
   const confirmDeleteAccount = async () => {
@@ -139,18 +145,16 @@ export default function ProfileScreen() {
       return;
     }
 
+    await AsyncStorage.removeItem("user");
+    dispatch(resetRidesState());
     dispatch(logout());
 
-   Alert.alert("Succès", "Compte supprimé avec succès.", [
-  {
-    text: "OK",
-    onPress: () => navigation.replace("Auth", { screen: "Home" }),
-  },
-]);
+    Alert.alert("Succès", "Compte supprimé avec succès.");
   } catch (error) {
     Alert.alert("Erreur", "Erreur serveur ou problème réseau.");
   }
 };
+
 
   return (
     <SafeAreaView style={styles.screen}>

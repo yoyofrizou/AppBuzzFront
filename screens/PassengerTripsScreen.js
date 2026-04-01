@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -19,17 +19,25 @@ import styles from "../styles/PassengerTripsStyles";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 
-function formatHour(dateString) {
-  if (!dateString) return "--:--";
+function formatDateTime(dateString) {
+  if (!dateString) return "--/--/---- à --:--";
 
   const date = new Date(dateString);
 
-  if (Number.isNaN(date.getTime())) return "--:--";
+  if (Number.isNaN(date.getTime())) return "--/--/---- à --:--";
 
-  return date.toLocaleTimeString("fr-FR", {
+  const formattedDate = date.toLocaleDateString("fr-FR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+
+  const formattedTime = date.toLocaleTimeString("fr-FR", {
     hour: "2-digit",
     minute: "2-digit",
   });
+
+  return `${formattedDate} à ${formattedTime}`;
 }
 
 function getTripCategory(ride) {
@@ -49,7 +57,18 @@ function getTripCategory(ride) {
   return "past";
 }
 
+function getBookingCategory(booking) {
+  if (booking?.status === "cancelled") return "past";
+
+  const ride = booking?.ride;
+  return booking?.tripCategory || ride?.tripCategory || getTripCategory(ride);
+}
+
 function formatDisplayedPrice(booking, ride, activeTab) {
+  if (booking?.status === "cancelled") {
+    return "0,00 €";
+  }
+
   const hasBookingFinalAmount =
     typeof booking?.finalAmount === "number" && booking.finalAmount >= 0;
 
@@ -72,6 +91,23 @@ function formatDisplayedPrice(booking, ride, activeTab) {
   }
 
   return "0,00 €";
+}
+
+function getDisplayedStatusLabel(booking, activeTab) {
+  if (booking?.status === "cancelled") {
+    if (
+      booking?.cancelledBy === "driver" ||
+      booking?.cancellationReason === "driver_cancelled"
+    ) {
+      return "ANNULÉ PAR LE CONDUCTEUR";
+    }
+
+    return "ANNULÉ";
+  }
+
+  if (activeTab === "current") return "EN COURS";
+  if (activeTab === "upcoming") return "À VENIR";
+  return "TERMINÉ";
 }
 
 export default function PassengerTripsScreen({ navigation, route }) {
@@ -97,13 +133,17 @@ export default function PassengerTripsScreen({ navigation, route }) {
     }
 
     if (!user?.token) {
+      console.log("PASSENGER FETCH: NO TOKEN");
+      dispatch(setPassengerBookings([]));
       setLoading(false);
       return;
     }
 
     try {
       setLoading(true);
-      console.time("front-passenger-bookings");
+
+      console.log("PASSENGER FETCH TOKEN =", user?.token);
+      console.log("PASSENGER FETCH USER =", user);
 
       const response = await fetch(
         `${EXPO_PUBLIC_API_URL}/rides/passenger-bookings/${user.token}`
@@ -111,17 +151,18 @@ export default function PassengerTripsScreen({ navigation, route }) {
 
       const data = await response.json();
 
-      console.timeEnd("front-passenger-bookings");
+      console.log("PASSENGER BOOKINGS STATUS =", response.status);
       console.log("PASSENGER BOOKINGS RESPONSE =", data);
 
       if (!response.ok || !data.result) {
-        console.log("Erreur backend bookings =", data.error);
+        dispatch(setPassengerBookings([]));
         return;
       }
 
       dispatch(setPassengerBookings(data.bookings || []));
     } catch (error) {
       console.log("Erreur fetch bookings =", error);
+      dispatch(setPassengerBookings([]));
     } finally {
       setLoading(false);
     }
@@ -141,17 +182,21 @@ export default function PassengerTripsScreen({ navigation, route }) {
     }, [fetchPassengerBookings, route?.params?.initialTab, navigation])
   );
 
+  useEffect(() => {
+    if (user?.token) {
+      fetchPassengerBookings();
+    } else {
+      dispatch(setPassengerBookings([]));
+    }
+  }, [user?.token, fetchPassengerBookings, dispatch]);
+
   const categorized = useMemo(() => {
     const current = [];
     const upcoming = [];
     const past = [];
 
     bookings.forEach((booking) => {
-      if (booking?.status === "cancelled") return;
-
-      const ride = booking.ride;
-      const category =
-        booking.tripCategory || ride?.tripCategory || getTripCategory(ride);
+      const category = getBookingCategory(booking);
 
       if (category === "current") current.push(booking);
       else if (category === "past") past.push(booking);
@@ -299,29 +344,37 @@ export default function PassengerTripsScreen({ navigation, route }) {
     const isCurrent = activeTab === "current";
     const isUpcoming = activeTab === "upcoming";
     const isPast = activeTab === "past";
+    const isCancelled = item?.status === "cancelled";
 
     const canTrackRide = ride?.status === "started";
     const isQrValidated = item?.passengerPresenceStatus === "scanned";
     const isBookingActionLoading = bookingActionLoadingId === item._id;
 
     const displayedPrice = formatDisplayedPrice(item, ride, activeTab);
+    const displayedStatus = getDisplayedStatusLabel(item, activeTab);
 
     return (
       <View style={styles.tripCard}>
         <View style={styles.tripMainRow}>
           <View style={styles.tripLeft}>
-            <Text style={styles.tripRouteText}>
-              {ride.departureAddress || "Départ"} -{" "}
-              {formatHour(ride.departureDateTime)}
+            <Text style={styles.tripDateTimeText}>
+              {formatDateTime(ride.departureDateTime)}
             </Text>
 
             <Text style={styles.tripRouteText}>
-              {ride.destinationAddress || "Arrivée"}
+              <Text style={styles.labelBold}>Départ : </Text>
+              {ride.departureAddress || "Non renseigné"}
+            </Text>
+
+            <Text style={styles.tripRouteText}>
+              <Text style={styles.labelBold}>Arrivée : </Text>
+              {ride.destinationAddress || "Non renseigné"}
             </Text>
 
             <View style={styles.tripDivider} />
 
             <Text style={styles.tripPrice}>{displayedPrice}</Text>
+            <Text style={styles.tripStatus}>{displayedStatus}</Text>
           </View>
 
           <View style={styles.tripMiddle}>
@@ -421,7 +474,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
               </>
             )}
 
-            {isPast && (
+            {isPast && !isCancelled && (
               <>
                 <TouchableOpacity
                   style={styles.actionButton}
@@ -477,7 +530,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
       subtitle = "Vos trajets réservés apparaîtront ici avec leur QR code.";
     } else if (activeTab === "past") {
       title = "Aucun trajet passé";
-      subtitle = "Vos trajets terminés apparaîtront ici.";
+      subtitle = "Vos trajets terminés ou annulés apparaîtront ici.";
     }
 
     return (
@@ -500,9 +553,9 @@ export default function PassengerTripsScreen({ navigation, route }) {
             if (navigation.canGoBack()) {
               navigation.goBack();
             } else {
-                navigation.navigate("MainTabs", {
-    screen: "PassengerHome",
-  });
+              navigation.navigate("MainTabs", {
+                screen: "PassengerHome",
+              });
             }
           }}
         >

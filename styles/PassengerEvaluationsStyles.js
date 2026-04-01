@@ -3,13 +3,37 @@ import { StyleSheet } from "react-native";
 const BORDEAUX = "#8B2332";
 
 export default StyleSheet.create({
-  screen: {
+  safeArea: {
     flex: 1,
     backgroundColor: "#F4F4F6",
   },
 
+  screen: {
+    flex: 1,
+    backgroundColor: "#F4F4F6",
+    paddingTop: 35,
+  },
+
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+
+  backButton: {
+    marginBottom: 50,
+  },
+
+  headerSpacer: {
+    width: 36,
+  },
+
   content: {
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 40,
     paddingBottom: 40,
   },
 
@@ -21,12 +45,11 @@ export default StyleSheet.create({
   },
 
   pageTitle: {
-    fontSize: 34,
-    fontWeight: "700",
-    color: "#111111",
+    fontSize: 22,
+    marginTop: 40,
+    fontWeight: "800",
+    color: "#800020",
     textAlign: "center",
-    marginTop: 20,
-    marginBottom: 24,
   },
 
   summaryCard: {

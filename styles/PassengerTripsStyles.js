@@ -107,11 +107,10 @@ export default StyleSheet.create({
 },
 
   tripRouteText: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: "700",
     color: "#222222",
-    lineHeight: 22,
-    marginBottom: 6,
+    fontWeight: "500",
   },
 
   tripDivider: {
@@ -297,5 +296,17 @@ validationInfoText: {
 },
 tripMainRow: {
   width: "100%",
+},
+tripDateTimeText: {
+  fontSize: 15,
+  color: "#333333",
+  fontWeight: "700",
+  marginBottom: 6,
+},
+tripStatus: {
+  marginTop: 6,
+  fontSize: 13,
+  fontWeight: "700",
+  color: "#800020",
 },
 });
