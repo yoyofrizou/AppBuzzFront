@@ -25,7 +25,6 @@ function AppContent() {
           dispatch(login(parsedUser));
         }
       } catch (error) {
-        console.log("ASYNC STORAGE LOAD ERROR =", error);
       } finally {
         setIsReady(true);
       }

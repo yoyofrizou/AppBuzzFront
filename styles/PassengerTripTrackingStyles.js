@@ -33,7 +33,7 @@ export default StyleSheet.create({
 
   map: {
     width: "100%",
-    height: 360,
+    height: 300,
   },
 
   startDot: {
@@ -56,30 +56,30 @@ export default StyleSheet.create({
   },
 
   carMarkerContainer: {
-  backgroundColor: "#FFFFFF",
-  padding: 6,
-  borderRadius: 20,
-  alignItems: "center",
-  justifyContent: "center",
-  shadowColor: "#000",
-  shadowOpacity: 0.2,
-  shadowRadius: 4,
-  elevation: 3,
-},
+    backgroundColor: "#FFFFFF",
+    padding: 6,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
+  },
 
   bottomSheet: {
-    flex: 1,
     backgroundColor: "#FFFFFF",
     marginTop: -16,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     paddingHorizontal: 18,
     paddingTop: 22,
-    paddingBottom: 18,
+    paddingBottom: 28,
+    minHeight: 280,
   },
 
   etaTitle: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: "800",
     color: "#111111",
     marginBottom: 4,
@@ -88,7 +88,7 @@ export default StyleSheet.create({
   etaSubtitle: {
     fontSize: 16,
     color: "#8A8A8A",
-    marginBottom: 22,
+    marginBottom: 18,
   },
 
   sectionTitle: {
@@ -139,21 +139,6 @@ export default StyleSheet.create({
     textAlign: "center",
   },
 
-  securityButton: {
-    backgroundColor: "#9AD14B",
-    borderRadius: 14,
-    paddingVertical: 14,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 12,
-  },
-
-  securityButtonText: {
-    color: "#FFFFFF",
-    fontSize: 15,
-    fontWeight: "800",
-  },
-
   primaryButton: {
     backgroundColor: "#8B2332",
     borderRadius: 14,
@@ -187,17 +172,45 @@ export default StyleSheet.create({
     color: "#111111",
     marginBottom: 16,
   },
-  arrivedButton: {
-  backgroundColor: "#6CC04A",
-  paddingVertical: 14,
-  borderRadius: 28,
-  alignItems: "center",
-  marginTop: 16,
-},
 
-arrivedButtonText: {
-  color: "#FFFFFF",
-  fontSize: 17,
-  fontWeight: "700",
-},
+  infoCard: {
+    backgroundColor: "#F8F8F8",
+    borderRadius: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 14,
+    marginBottom: 12,
+  },
+
+  infoTitle: {
+    fontSize: 14,
+    fontWeight: "700",
+    color: "#8B2332",
+    marginBottom: 4,
+  },
+
+  infoText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#111111",
+    marginBottom: 2,
+  },
+
+  infoSubtext: {
+    fontSize: 14,
+    color: "#6E6E6E",
+  },
+
+  arrivedButton: {
+    backgroundColor: "#6CC04A",
+    paddingVertical: 14,
+    borderRadius: 28,
+    alignItems: "center",
+    marginTop: 10,
+  },
+
+  arrivedButtonText: {
+    color: "#FFFFFF",
+    fontSize: 17,
+    fontWeight: "700",
+  },
 });

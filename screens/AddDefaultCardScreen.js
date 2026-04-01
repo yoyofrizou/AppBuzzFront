@@ -13,7 +13,7 @@ import { updateStripePaymentMethod } from "../redux/reducers/user";
 import styles from "../styles/AddDefaultCardStyles";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
-console.log("API URL =", process.env.EXPO_PUBLIC_API_URL);
+
 
 export default function AddDefaultCardScreen({ navigation, route }) {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();

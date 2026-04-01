@@ -34,7 +34,7 @@ export default function DriverTabs() {
         setUnreadCount(0);
       }
     } catch (error) {
-      console.log("Erreur unread count driver :", error);
+      
       setUnreadCount(0);
     }
   }, [user?.token]);

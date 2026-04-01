@@ -167,7 +167,7 @@ export default function DriverDocumentsScreen({ navigation }) {
         },
       ]);
     } catch (error) {
-      console.log("Erreur sauvegarde documents :", error);
+     
       Alert.alert("Erreur", "Erreur serveur ou problème réseau.");
     } finally {
       setSaving(false);

@@ -73,7 +73,7 @@ export default function DriverTripsScreen({ navigation, route }) {
   const fetchDriverRides = useCallback(async () => {
     try {
       if (!user?.token) {
-        console.log("DRIVER FETCH: NO TOKEN");
+      
         dispatch(setDriverRides([]));
         setLoading(false);
         return;
@@ -270,7 +270,7 @@ export default function DriverTripsScreen({ navigation, route }) {
         rideId,
       });
     } catch (error) {
-      console.log("Erreur démarrage trajet :", error);
+     
       Alert.alert("Erreur", "Impossible de démarrer le trajet.");
     } finally {
       setStartRideLoadingId(null);
@@ -357,7 +357,7 @@ const handleCancelRide = (rideId) => {
             }
 
             const url = `${EXPO_PUBLIC_API_URL}/rides/${rideId}/cancel`;
-            console.log("CANCEL URL =", url);
+           
 
             setCancelRideLoadingId(rideId);
 
@@ -371,10 +371,10 @@ const handleCancelRide = (rideId) => {
               }),
             });
 
-            console.log("CANCEL STATUS =", response.status);
+          
 
             const data = await response.json();
-            console.log("CANCEL RESPONSE =", data);
+           
 
             if (!response.ok || !data.result) {
               Alert.alert(
@@ -388,7 +388,7 @@ const handleCancelRide = (rideId) => {
             await fetchDriverRides();
             setActiveTab("past");
           } catch (error) {
-            console.log("Erreur annulation trajet =", error);
+          
             Alert.alert("Erreur", "Impossible d’annuler le trajet.");
           } finally {
             setCancelRideLoadingId(null);
@@ -438,7 +438,7 @@ const handleCancelRide = (rideId) => {
         conversation: data.conversation,
       });
     } catch (error) {
-      console.log("Erreur ouverture conversation conducteur :", error);
+      
       Alert.alert("Erreur", "Impossible d'ouvrir la conversation.");
     }
   };

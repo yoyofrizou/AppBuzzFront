@@ -354,7 +354,7 @@ export default function DriverTripTrackingScreen({ navigation, route }) {
       ride,
     });
   } catch (error) {
-    console.log("Erreur fin de trajet :", error);
+  
     Alert.alert("Erreur", "Impossible de terminer le trajet.");
   } finally {
     setEndingRide(false);

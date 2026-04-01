@@ -43,15 +43,15 @@ export default function MessagesScreen({ navigation }) {
     unreadCount: c.unreadCount,
   }))
 );
-      console.log("CONVERSATIONS FULL =", JSON.stringify(json, null, 2));
+    
 
       if (response.ok && json.result) {
         setConversations(json.conversations || []);
       } else {
-        console.log("Erreur backend conversations =", json.error);
+      
       }
     } catch (error) {
-      console.log("Erreur loadConversations :", error);
+     
     } finally {
       setIsLoading(false);
     }
@@ -80,7 +80,7 @@ export default function MessagesScreen({ navigation }) {
 
    const hasUnread = (item.unreadCount || 0) > 0;
 
-   console.log("HAS UNREAD UI =", item._id, hasUnread);
+ 
 
     return (
       <TouchableOpacity

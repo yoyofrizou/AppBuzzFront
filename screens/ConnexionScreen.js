@@ -103,18 +103,13 @@ export default function ConnexionScreen({ navigation }) {
         defaultPaymentMethodId: data.user?.defaultPaymentMethodId || null,
       };
 
-      console.log("LOGIN SUCCESS TOKEN =", data.token);
-console.log("LOGIN SUCCESS USER ID =", data.user?.id || data.user?._id);
-console.log("LOGIN SUCCESS EMAIL =", data.user?.email);
-console.log("LOGIN SUCCESS USER =", data.user);
-
       dispatch(login(userData));
-      console.log("USER DATA SAVED IN REDUX =", userData);
+ 
       await AsyncStorage.setItem("user", JSON.stringify(userData));
 
       navigation.replace("MainTabs", { screen: "PassengerHome" });
     } catch (error) {
-      console.log("LOGIN ERROR =", error);
+    
       Alert.alert(
         "Erreur",
         error.message || "Erreur serveur ou problème réseau."

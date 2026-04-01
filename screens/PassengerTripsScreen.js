@@ -140,7 +140,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
     }
 
     if (!user?.token) {
-      console.log("PASSENGER FETCH: NO TOKEN");
+     
       dispatch(setPassengerBookings([]));
       setLoading(false);
       return;
@@ -149,17 +149,14 @@ export default function PassengerTripsScreen({ navigation, route }) {
     try {
       setLoading(true);
 
-      console.log("PASSENGER FETCH TOKEN =", user?.token);
-      console.log("PASSENGER FETCH USER =", user);
-
+    
       const response = await fetch(
         `${EXPO_PUBLIC_API_URL}/rides/passenger-bookings/${user.token}`
       );
 
       const data = await response.json();
 
-      console.log("PASSENGER BOOKINGS STATUS =", response.status);
-      console.log("PASSENGER BOOKINGS RESPONSE =", data);
+    
 
       if (!response.ok || !data.result) {
         dispatch(setPassengerBookings([]));
@@ -168,7 +165,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
 
       dispatch(setPassengerBookings(data.bookings || []));
     } catch (error) {
-      console.log("Erreur fetch bookings =", error);
+     
       dispatch(setPassengerBookings([]));
     } finally {
       setLoading(false);
@@ -287,7 +284,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
         conversation: data.conversation,
       });
     } catch (error) {
-      console.log("Erreur ouverture conversation passager =", error);
+     
       Alert.alert("Erreur", "Impossible d'ouvrir la conversation.");
     }
   };
@@ -331,7 +328,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
               Alert.alert("Réservation annulée");
               await fetchPassengerBookings();
             } catch (error) {
-              console.log("Erreur annulation réservation =", error);
+             
               Alert.alert("Erreur", "Impossible d’annuler la réservation.");
             } finally {
               setBookingActionLoadingId(null);
