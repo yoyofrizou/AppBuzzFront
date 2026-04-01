@@ -309,4 +309,7 @@ tripStatus: {
   fontWeight: "700",
   color: "#800020",
 },
+tripStatusCancelled: {
+  color: "#8B2332",
+},
 });

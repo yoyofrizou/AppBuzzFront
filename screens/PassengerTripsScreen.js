@@ -102,6 +102,13 @@ function getDisplayedStatusLabel(booking, activeTab) {
       return "ANNULÉ PAR LE CONDUCTEUR";
     }
 
+    if (
+      booking?.cancelledBy === "passenger" ||
+      booking?.cancellationReason === "passenger_cancelled"
+    ) {
+      return "ANNULÉ PAR VOUS";
+    }
+
     return "ANNULÉ";
   }
 
@@ -373,8 +380,16 @@ export default function PassengerTripsScreen({ navigation, route }) {
 
             <View style={styles.tripDivider} />
 
-            <Text style={styles.tripPrice}>{displayedPrice}</Text>
-            <Text style={styles.tripStatus}>{displayedStatus}</Text>
+<Text style={styles.tripPrice}>{displayedPrice}</Text>
+
+<Text
+  style={[
+    styles.tripStatus,
+    isCancelled && styles.tripStatusCancelled,
+  ]}
+>
+  {displayedStatus}
+</Text>
           </View>
 
           <View style={styles.tripMiddle}>
