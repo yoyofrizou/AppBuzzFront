@@ -201,12 +201,12 @@ export default StyleSheet.create({
   },
 
   arrivedButton: {
-    backgroundColor: "#6CC04A",
-    paddingVertical: 14,
-    borderRadius: 28,
-    alignItems: "center",
-    marginTop: 10,
-  },
+  backgroundColor: "#8B2332",
+  paddingVertical: 13,
+  borderRadius: 28,
+  alignItems: "center",
+  marginTop: 8,
+},
 
   arrivedButtonText: {
     color: "#FFFFFF",

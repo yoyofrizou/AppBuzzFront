@@ -102,54 +102,60 @@ export default function PassengerTripTrackingScreen({ navigation, route }) {
   const [booking, setBooking] = useState(null);
   const [carRotation, setCarRotation] = useState(0);
 
-  const fetchBooking = useCallback(async () => {
-    if (!user?.token || !bookingId) {
-      setLoading(false);
+ 
+ 
+ const fetchBooking = useCallback(async (showLoader = false) => {
+  if (!user?.token || !bookingId) {
+    setLoading(false);
+    return;
+  }
+
+  try {
+    if (showLoader) {
+      setLoading(true);
+    }
+
+    const response = await fetch(
+      `${EXPO_PUBLIC_API_URL}/rides/passenger-bookings/${user.token}`
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || !data.result) {
+      setBooking(null);
       return;
     }
 
-    try {
-      setLoading(true);
+    const foundBooking = (data.bookings || []).find(
+      (item) => item._id === bookingId
+    );
 
-      const response = await fetch(
-        `${EXPO_PUBLIC_API_URL}/rides/passenger-bookings/${user.token}`
-      );
-
-      const data = await response.json();
-
-      if (!response.ok || !data.result) {
-        setBooking(null);
-        return;
-      }
-
-      const foundBooking = (data.bookings || []).find(
-        (item) => item._id === bookingId
-      );
-
-      setBooking(foundBooking || null);
-    } catch (error) {
-      
-      setBooking(null);
-    } finally {
+    setBooking(foundBooking || null);
+  } catch (error) {
+    setBooking(null);
+  } finally {
+    if (showLoader) {
       setLoading(false);
     }
-  }, [bookingId, user?.token]);
+  }
+}, [bookingId, user?.token]);
 
-  useFocusEffect(
-    useCallback(() => {
-      fetchBooking();
-    }, [fetchBooking])
-  );
+useFocusEffect(
+  useCallback(() => {
+    fetchBooking(true);
+  }, [fetchBooking])
+);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      fetchBooking();
+      fetchBooking(false);
     }, 4000);
 
     return () => clearInterval(interval);
   }, [fetchBooking]);
 
   const ride = booking?.ride || null;
+  const driver = ride?.driver || ride?.user || null;
 
   const driverLocation = useMemo(() => {
     if (!ride) return null;
@@ -371,17 +377,17 @@ export default function PassengerTripTrackingScreen({ navigation, route }) {
             ? `${kmRemaining.toFixed(1)} km restants`
             : "-- km restants"}
         </Text>
-
-        <View style={styles.infoCard}>
-          <Text style={styles.infoTitle}>Conducteur</Text>
-          <Text style={styles.infoText}>
-            {ride.user?.prenom || ""} {ride.user?.nom || ""}
-          </Text>
-          <Text style={styles.infoSubtext}>
-            {ride.user?.car?.brand || "Voiture"}{" "}
-            {ride.user?.car?.model || ""}
-          </Text>
-        </View>
+<View style={styles.infoCard}>
+  <Text style={styles.infoTitle}>Conducteur</Text>
+  <Text style={styles.infoText}>
+    {driver?.prenom || driver?.firstname || ""}{" "}
+    {driver?.nom || driver?.lastname || ""}
+  </Text>
+  <Text style={styles.infoSubtext}>
+    {driver?.car?.brand || "Voiture"}{" "}
+    {driver?.car?.model || ""}
+  </Text>
+</View>
 
         <View style={styles.infoCard}>
           <Text style={styles.infoTitle}>Statut</Text>
@@ -394,22 +400,22 @@ export default function PassengerTripTrackingScreen({ navigation, route }) {
           </Text>
         </View>
 
-        <TouchableOpacity
-          style={styles.arrivedButton}
-          activeOpacity={0.8}
-          onPress={() =>
-            navigation.navigate("PassengerRate", {
-  driver: ride?.driver || ride?.user,
-  rideId: ride?._id,
-  booking,
-  ride,
-})
-          }
-        >
-          <Text style={styles.arrivedButtonText}>
-            Bien arrivé à destination
-          </Text>
-        </TouchableOpacity>
+       <TouchableOpacity
+  style={styles.arrivedButton}
+  activeOpacity={0.8}
+  onPress={() =>
+    navigation.navigate("PassengerRate", {
+      driver,
+      rideId: ride?._id,
+      booking,
+      ride,
+    })
+  }
+>
+  <Text style={styles.arrivedButtonText}>
+    Bien arrivé à destination
+  </Text>
+</TouchableOpacity>
       </View>
     </View>
   );

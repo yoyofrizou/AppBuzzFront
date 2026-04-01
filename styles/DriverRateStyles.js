@@ -7,7 +7,6 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: "#F4F4F6",
     paddingHorizontal: 20,
-    paddingTop: 35,
   },
 
   emptyContainer: {
@@ -190,4 +189,8 @@ export default StyleSheet.create({
     fontWeight: "700",
     textAlign: "center",
   },
+  scrollContent: {
+  flexGrow: 1,
+  paddingBottom: 40,
+},
 });

@@ -3,12 +3,13 @@ import { StyleSheet } from "react-native";
 const BORDEAUX = "#8B2332";
 
 export default StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: "#F4F4F6",
-    paddingHorizontal: 20,
-    paddingTop: 35,
-  },
+ screen: {
+  flex: 1,
+  backgroundColor: "#FFFFFF",
+  paddingHorizontal: 20,
+  paddingTop: 20,
+  paddingBottom: 30,
+},
 
   header: {
     flexDirection: "row",
@@ -143,12 +144,13 @@ export default StyleSheet.create({
   input: {
     minHeight: 120,
     backgroundColor: "#FFFFFF",
-    borderWidth: 1.5,
+    borderWidth: 1,
     borderColor: BORDEAUX,
-    borderRadius: 16,
-    paddingHorizontal: 16,
+    borderRadius: 14,
+    paddingHorizontal: 14,
     paddingVertical: 14,
-    fontSize: 16,
+    paddingbottom: 14,
+    fontSize: 15,
     color: "#1F1F1F",
     textAlignVertical: "top",
     marginBottom: 24,
@@ -172,4 +174,8 @@ export default StyleSheet.create({
     fontSize: 17,
     fontWeight: "700",
   },
+  scrollContent: {
+  flexGrow: 1,
+  paddingBottom: 30,
+},
 });

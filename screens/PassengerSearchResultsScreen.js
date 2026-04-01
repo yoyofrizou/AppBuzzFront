@@ -77,13 +77,13 @@ function formatWalkingMinutes(distanceMeters) {
     return null;
   }
 
-  // base simple : 80 mètres par minute à pied
   const minutes = Math.max(1, Math.round(parsed / 80));
 
   return `${minutes} min à pied`;
 }
 
 export default function PassengerSearchResultsScreen({ navigation }) {
+  const user = useSelector((state) => state.user?.value);
   const rides = useSelector((state) => state.rides.searchedRides) || [];
   const searchParams = useSelector((state) => state.rides.searchParams);
 
@@ -98,11 +98,22 @@ export default function PassengerSearchResultsScreen({ navigation }) {
     }, [])
   );
 
+  const filteredRides = useMemo(() => {
+    if (!user?._id) return rides;
+
+    return rides.filter((ride) => {
+      const driverId =
+        ride?.user?._id || ride?.driver?._id || ride?.user || ride?.driver;
+
+      return String(driverId) !== String(user._id);
+    });
+  }, [rides, user?._id]);
+
   const initialRegion = useMemo(() => {
-    if (rides.length > 0) {
+    if (filteredRides.length > 0) {
       return {
-        latitude: Number(rides[0].departureLatitude) || 48.8566,
-        longitude: Number(rides[0].departureLongitude) || 2.3522,
+        latitude: Number(filteredRides[0].departureLatitude) || 48.8566,
+        longitude: Number(filteredRides[0].departureLongitude) || 2.3522,
         latitudeDelta: 0.08,
         longitudeDelta: 0.08,
       };
@@ -123,7 +134,7 @@ export default function PassengerSearchResultsScreen({ navigation }) {
       latitudeDelta: 0.08,
       longitudeDelta: 0.08,
     };
-  }, [rides, searchParams]);
+  }, [filteredRides, searchParams]);
 
   const handleMarkerPress = (ride) => {
     setSelectedRide(ride);
@@ -165,12 +176,12 @@ export default function PassengerSearchResultsScreen({ navigation }) {
   };
 
   const pickupWalkTime = formatWalkingMinutes(
-  selectedRide?.departureDistanceMeters
-);
+    selectedRide?.departureDistanceMeters
+  );
 
-const dropoffWalkTime = formatWalkingMinutes(
-  selectedRide?.destinationDistanceMeters
-);
+  const dropoffWalkTime = formatWalkingMinutes(
+    selectedRide?.destinationDistanceMeters
+  );
 
   return (
     <View style={styles.container}>
@@ -219,7 +230,7 @@ const dropoffWalkTime = formatWalkingMinutes(
           setSelectedRide(null);
         }}
       >
-        {rides.map((ride) => {
+        {filteredRides.map((ride) => {
           const latitude = Number(ride.departureLatitude);
           const longitude = Number(ride.departureLongitude);
 
@@ -254,15 +265,15 @@ const dropoffWalkTime = formatWalkingMinutes(
         })}
       </MapView>
 
-      {rides.length > 0 && !selectedRide && (
+      {filteredRides.length > 0 && !selectedRide && (
         <View style={styles.resultsBadge}>
           <Text style={styles.resultsBadgeText}>
-            {rides.length} trajet(s) trouvé(s)
+            {filteredRides.length} trajet(s) trouvé(s)
           </Text>
         </View>
       )}
 
-      {rides.length === 0 && (
+      {filteredRides.length === 0 && (
         <View style={styles.emptyOverlay}>
           <Text style={styles.emptyTitle}>Aucun trajet trouvé</Text>
           <Text style={styles.emptyText}>
@@ -345,32 +356,36 @@ const dropoffWalkTime = formatWalkingMinutes(
                 </Text>
 
                 <View style={styles.modalAddressBlock}>
-                <View style={styles.addressRow}>
-               <Text style={styles.modalAddressLabel}>Départ</Text>
-                {pickupWalkTime && (
-                 <Text style={styles.walkingTimeText}>{pickupWalkTime}</Text>
-                 )}
-                 </View>
+                  <View style={styles.addressRow}>
+                    <Text style={styles.modalAddressLabel}>Départ</Text>
+                    {pickupWalkTime && (
+                      <Text style={styles.walkingTimeText}>
+                        {pickupWalkTime}
+                      </Text>
+                    )}
+                  </View>
 
-                <Text style={styles.modalAddressText}>
+                  <Text style={styles.modalAddressText}>
                     {selectedRide.departureAddress ||
-                  "Adresse de départ non renseignée"}
-                </Text>
-                 </View>
-
-                <View style={styles.modalAddressBlock}>
-                 <View style={styles.addressRow}>
-                 <Text style={styles.modalAddressLabel}>Arrivée</Text>
-                 {dropoffWalkTime && (
-                 <Text style={styles.walkingTimeText}>{dropoffWalkTime}</Text>
-                 )}
+                      "Adresse de départ non renseignée"}
+                  </Text>
                 </View>
 
-                <Text style={styles.modalAddressText}>
-                {selectedRide.destinationAddress ||
-                "Adresse d’arrivée non renseignée"}
-                 </Text>
-                 </View>
+                <View style={styles.modalAddressBlock}>
+                  <View style={styles.addressRow}>
+                    <Text style={styles.modalAddressLabel}>Arrivée</Text>
+                    {dropoffWalkTime && (
+                      <Text style={styles.walkingTimeText}>
+                        {dropoffWalkTime}
+                      </Text>
+                    )}
+                  </View>
+
+                  <Text style={styles.modalAddressText}>
+                    {selectedRide.destinationAddress ||
+                      "Adresse d’arrivée non renseignée"}
+                  </Text>
+                </View>
 
                 <View style={styles.modalPriceRow}>
                   <Text style={styles.modalPrice}>

@@ -38,7 +38,9 @@ export default function PassengerPaymentsScreen({ navigation }) {
 
   const formatDate = useCallback((dateString) => {
     if (!dateString) return "";
+
     const date = new Date(dateString);
+    if (Number.isNaN(date.getTime())) return "";
 
     return new Intl.DateTimeFormat("fr-FR", {
       day: "2-digit",
@@ -56,7 +58,9 @@ export default function PassengerPaymentsScreen({ navigation }) {
         throw new Error("Utilisateur non connecté");
       }
 
-      const response = await fetch(`${API_URL}/payments/payment-methods/${token}`);
+      const response = await fetch(
+        `${API_URL}/payments/payment-methods/${token}`
+      );
       const data = await response.json();
 
       if (!response.ok || !data.result) {
@@ -153,10 +157,12 @@ export default function PassengerPaymentsScreen({ navigation }) {
               <View style={styles.cardTopRow}>
                 <View>
                   <Text style={styles.cardBrand}>
-                    {String(defaultCard.brand || "Carte").toUpperCase()} •••• {defaultCard.last4}
+                    {String(defaultCard.brand || "Carte").toUpperCase()} ••••{" "}
+                    {defaultCard.last4 || "0000"}
                   </Text>
                   <Text style={styles.cardMeta}>
-                    Exp. {defaultCard.expMonth}/{defaultCard.expYear}
+                    Exp. {defaultCard.expMonth || "--"}/
+                    {defaultCard.expYear || "--"}
                   </Text>
                 </View>
 
@@ -180,7 +186,8 @@ export default function PassengerPaymentsScreen({ navigation }) {
               <Ionicons name="card-outline" size={30} color="#7A2335" />
               <Text style={styles.emptyCardTitle}>Aucune carte enregistrée</Text>
               <Text style={styles.emptyCardText}>
-                Ajoute une carte par défaut pour payer plus rapidement tes prochains trajets.
+                Ajoute une carte par défaut pour payer plus rapidement tes
+                prochains trajets.
               </Text>
 
               <TouchableOpacity
@@ -212,18 +219,22 @@ export default function PassengerPaymentsScreen({ navigation }) {
           ) : paymentHistory.length === 0 ? (
             <View style={styles.emptyHistoryBox}>
               <Ionicons name="receipt-outline" size={30} color="#7A2335" />
-              <Text style={styles.emptyHistoryTitle}>Aucun paiement enregistré</Text>
+              <Text style={styles.emptyHistoryTitle}>
+                Aucun paiement enregistré
+              </Text>
               <Text style={styles.emptyHistoryText}>
                 Tes paiements confirmés apparaîtront ici après tes trajets.
               </Text>
             </View>
           ) : (
             paymentHistory.map((payment) => (
-              <View key={payment.id} style={styles.historyCard}>
+              <View key={payment._id} style={styles.historyCard}>
                 <View style={styles.historyTopRow}>
-                  <Text style={styles.historyTitle}>{payment.title}</Text>
+                  <Text style={styles.historyTitle}>
+                    {payment.title || "Trajet"}
+                  </Text>
                   <Text style={styles.historyAmount}>
-                    {formatAmount(payment.amount)}
+                    {formatAmount(payment.amount || 0)}
                   </Text>
                 </View>
 
@@ -234,360 +245,11 @@ export default function PassengerPaymentsScreen({ navigation }) {
             ))
           )}
 
-          {!!errorHistory && <Text style={styles.errorText}>{errorHistory}</Text>}
+          {!!errorHistory && (
+            <Text style={styles.errorText}>{errorHistory}</Text>
+          )}
         </ScrollView>
       </View>
     </SafeAreaView>
   );
 }
-
-/*import React, { useCallback, useState } from "react";
-import {
-  SafeAreaView,
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  ActivityIndicator,
-} from "react-native";
-import { useSelector } from "react-redux";
-import { useFocusEffect } from "@react-navigation/native";
-import Arrow from "../components/Arrow";
-
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
-
-export default function ProfilePaymentScreen({ navigation }) {
-  const user = useSelector((state) => state.user.value);
-  const token = user?.token;
-
-  const [loading, setLoading] = useState(true);
-  const [cards, setCards] = useState([]);
-  const [defaultPaymentMethodId, setDefaultPaymentMethodId] = useState(null);
-  const [history, setHistory] = useState([]);
-  const [error, setError] = useState("");
-
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      setError("");
-
-      const [cardsResponse, historyResponse] = await Promise.all([
-        fetch(`${API_URL}/payments/payment-methods/${token}`),
-        fetch(`${API_URL}/payments/history/${token}`),
-      ]);
-
-      const cardsData = await cardsResponse.json();
-      const historyData = await historyResponse.json();
-
-      if (!cardsResponse.ok || !cardsData.result) {
-        throw new Error(cardsData.error || "Erreur cartes");
-      }
-
-      if (!historyResponse.ok || !historyData.result) {
-        throw new Error(historyData.error || "Erreur historique");
-      }
-
-      setCards(cardsData.cards || []);
-      setDefaultPaymentMethodId(cardsData.defaultPaymentMethodId || null);
-      setHistory(historyData.history || []);
-    } catch (err) {
-      setError(err.message || "Erreur chargement paiement");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useFocusEffect(
-    useCallback(() => {
-      if (token) {
-        fetchData();
-      }
-    }, [token])
-  );
-
-  const defaultCard =
-    cards.find((card) => card.id === defaultPaymentMethodId) || cards[0] || null;
-
-  const formatAmount = (valueInCents) => {
-    return new Intl.NumberFormat("fr-FR", {
-      style: "currency",
-      currency: "EUR",
-    }).format((valueInCents || 0) / 100);
-  };
-
-  const formatDate = (dateValue) => {
-    if (!dateValue) return "";
-    return new Date(dateValue).toLocaleDateString("fr-FR");
-  };
-
-  return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        <Arrow />
-
-        <Text style={styles.title}>Paiement</Text>
-
-        {loading ? (
-          <View style={styles.loaderBox}>
-            <ActivityIndicator />
-            <Text style={styles.loaderText}>Chargement...</Text>
-          </View>
-        ) : (
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.cardSection}>
-              <Text style={styles.sectionTitle}>Mon moyen de paiement</Text>
-
-              {defaultCard ? (
-                <View style={styles.defaultCardBox}>
-                  <View style={styles.badge}>
-                    <Text style={styles.badgeText}>Par défaut</Text>
-                  </View>
-
-                  <Text style={styles.cardBrand}>
-                    {defaultCard.brand?.toUpperCase()} •••• {defaultCard.last4}
-                  </Text>
-                  <Text style={styles.cardMeta}>
-                    Exp. {defaultCard.expMonth}/{defaultCard.expYear}
-                  </Text>
-                </View>
-              ) : (
-                <View style={styles.emptyCardBox}>
-                  <Text style={styles.emptyCardText}>
-                    Aucun moyen de paiement enregistré
-                  </Text>
-                </View>
-              )}
-
-              <TouchableOpacity
-                style={styles.addPaymentButton}
-                onPress={() =>
-                  navigation.navigate("AddPaymentMethod", {
-                    source: "profile",
-                  })
-                }
-              >
-                <Text style={styles.addPaymentButtonText}>
-                  Ajouter un moyen de paiement
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.historySection}>
-              <Text style={styles.sectionTitle}>Mes versements</Text>
-
-              {history.length === 0 ? (
-                <View style={styles.emptyHistoryBox}>
-                  <Text style={styles.emptyHistoryText}>
-                    Aucun versement pour le moment
-                  </Text>
-                </View>
-              ) : (
-                history.map((item) => (
-                  <View key={item.id} style={styles.historyRow}>
-                    <View style={styles.historyLeft}>
-                      <View style={styles.iconCircle}>
-                        <Text style={styles.iconText}>€</Text>
-                      </View>
-
-                      <View>
-                        <Text style={styles.historyTitle}>{item.title}</Text>
-                        <Text style={styles.historyDate}>
-                          {formatDate(item.date)}
-                        </Text>
-                      </View>
-                    </View>
-
-                    <Text style={styles.historyAmount}>
-                      {formatAmount(item.amount)}
-                    </Text>
-                  </View>
-                ))
-              )}
-            </View>
-
-            {!!error && <Text style={styles.errorText}>{error}</Text>}
-          </ScrollView>
-        )}
-      </View>
-    </SafeAreaView>
-  );
-}
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-  },
-
-  container: {
-    flex: 1,
-    backgroundColor: "#F7F7F7",
-    padding: 20,
-  },
-
-  title: {
-    fontSize: 28,
-    fontWeight: "800",
-    color: "#111111",
-    textAlign: "center",
-    marginBottom: 20,
-  },
-
-  loaderBox: {
-    marginTop: 40,
-    alignItems: "center",
-  },
-
-  loaderText: {
-    marginTop: 10,
-    color: "#666666",
-  },
-
-  cardSection: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 18,
-    padding: 16,
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: "#EAEAEA",
-  },
-
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: "700",
-    marginBottom: 14,
-    color: "#111111",
-  },
-
-  defaultCardBox: {
-    backgroundColor: "#F8F5FF",
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 16,
-  },
-
-  badge: {
-    alignSelf: "flex-start",
-    backgroundColor: "#E9D5FF",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 999,
-    marginBottom: 10,
-  },
-
-  badgeText: {
-    color: "#6B21A8",
-    fontSize: 12,
-    fontWeight: "700",
-  },
-
-  cardBrand: {
-    fontSize: 16,
-    fontWeight: "700",
-    color: "#111111",
-  },
-
-  cardMeta: {
-    fontSize: 14,
-    color: "#666666",
-    marginTop: 4,
-  },
-
-  emptyCardBox: {
-    backgroundColor: "#FAFAFA",
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 16,
-  },
-
-  emptyCardText: {
-    color: "#666666",
-    fontSize: 14,
-  },
-
-  addPaymentButton: {
-    backgroundColor: "#8B5CF6",
-    paddingVertical: 14,
-    borderRadius: 14,
-    alignItems: "center",
-  },
-
-  addPaymentButtonText: {
-    color: "#FFFFFF",
-    fontWeight: "800",
-    fontSize: 15,
-  },
-
-  historySection: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 18,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: "#EAEAEA",
-  },
-
-  emptyHistoryBox: {
-    paddingVertical: 12,
-  },
-
-  emptyHistoryText: {
-    color: "#666666",
-    fontSize: 14,
-  },
-
-  historyRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 14,
-    borderBottomWidth: 1,
-    borderBottomColor: "#F1F1F1",
-  },
-
-  historyLeft: {
-    flexDirection: "row",
-    alignItems: "center",
-    flex: 1,
-  },
-
-  iconCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#F3E8FF",
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 12,
-  },
-
-  iconText: {
-    color: "#7C3AED",
-    fontWeight: "800",
-  },
-
-  historyTitle: {
-    fontSize: 15,
-    color: "#111111",
-    fontWeight: "600",
-  },
-
-  historyDate: {
-    fontSize: 13,
-    color: "#777777",
-    marginTop: 2,
-  },
-
-  historyAmount: {
-    fontSize: 16,
-    fontWeight: "700",
-    color: "#111111",
-    marginLeft: 12,
-  },
-
-  errorText: {
-    color: "#B42318",
-    marginTop: 20,
-    textAlign: "center",
-  },
-});*/

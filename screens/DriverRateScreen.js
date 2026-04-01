@@ -9,6 +9,9 @@ import {
   ActivityIndicator,
   Alert,
   Image,
+  ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
@@ -18,17 +21,11 @@ const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 const BORDEAUX = "#8B2332";
 
 function formatPassengerPaidAmount(booking, ride) {
-  if (
-    typeof booking?.finalAmount === "number" &&
-    booking.finalAmount >= 0
-  ) {
+  if (typeof booking?.finalAmount === "number" && booking.finalAmount >= 0) {
     return `${(booking.finalAmount / 100).toFixed(2)} €`;
   }
 
-  if (
-    typeof booking?.maxAmount === "number" &&
-    booking.maxAmount >= 0
-  ) {
+  if (typeof booking?.maxAmount === "number" && booking.maxAmount >= 0) {
     return `${(booking.maxAmount / 100).toFixed(2)} €`;
   }
 
@@ -148,7 +145,10 @@ export default function DriverRateScreen({ navigation, route }) {
         },
       ]);
     } catch (error) {
-      Alert.alert("Erreur", error.message || "Impossible d'envoyer les évaluations.");
+      Alert.alert(
+        "Erreur",
+        error.message || "Impossible d'envoyer les évaluations."
+      );
     } finally {
       setLoading(false);
     }
@@ -178,86 +178,97 @@ export default function DriverRateScreen({ navigation, route }) {
   return (
     <KeyboardAvoidingView
       style={styles.screen}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 20 : 0}
     >
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          activeOpacity={0.7}
-          onPress={() => navigation.goBack()}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
         >
-          <Ionicons name="arrow-back" size={28} color="#111111" />
-        </TouchableOpacity>
+          <View style={styles.header}>
+            <TouchableOpacity
+              style={styles.backButton}
+              activeOpacity={0.7}
+              onPress={() => navigation.goBack()}
+            >
+              <Ionicons name="arrow-back" size={28} color="#111111" />
+            </TouchableOpacity>
 
-        <Text style={styles.headerTitle}>Évaluation des passagers</Text>
+            <Text style={styles.headerTitle}>Évaluation des passagers</Text>
 
-        <View style={styles.headerSpacer} />
-      </View>
-
-      <Text style={styles.stepText}>
-        Passager {currentIndex + 1} sur {normalizedPassengers.length}
-      </Text>
-
-      <View style={styles.summaryCard}>
-        <Text style={styles.summaryTitle}>Merci d’avoir utilisé Buzz</Text>
-        <Text style={styles.summarySubtitle}>
-          Voici le montant payé par ce passager.
-        </Text>
-        <Text style={styles.paidAmountLabel}>Montant payé par ce passager</Text>
-        <Text style={styles.paidAmountValue}>{passengerPaidAmount}</Text>
-      </View>
-
-      <View style={styles.passengerCard}>
-        {currentPassenger.passenger?.profilePhoto ? (
-          <Image
-            source={{ uri: currentPassenger.passenger.profilePhoto }}
-            style={styles.avatar}
-          />
-        ) : (
-          <View style={styles.avatarFallback}>
-            <Ionicons name="person" size={42} color="#FFFFFF" />
+            <View style={styles.headerSpacer} />
           </View>
-        )}
 
-        <Text style={styles.passengerName}>
-          {currentPassenger.passenger?.prenom || ""}{" "}
-          {currentPassenger.passenger?.nom || ""}
-        </Text>
-      </View>
-
-      <Text style={styles.question}>Comment s'est passé ce trajet ?</Text>
-
-      <View style={styles.starsContainer}>{renderStars()}</View>
-
-      <Text style={styles.commentLabel}>Laissez un commentaire (optionnel)</Text>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Écrivez votre commentaire ici..."
-        placeholderTextColor="#A0A0A0"
-        multiline
-        value={currentComment}
-        onChangeText={updateCurrentComment}
-      />
-
-      <TouchableOpacity
-        style={[
-          styles.submitButton,
-          { opacity: currentRating === 0 || loading ? 0.6 : 1 },
-        ]}
-        disabled={currentRating === 0 || loading}
-        onPress={handleNext}
-      >
-        {loading ? (
-          <ActivityIndicator color="#FFFFFF" />
-        ) : (
-          <Text style={styles.submitButtonText}>
-            {currentIndex < normalizedPassengers.length - 1
-              ? "SUIVANT"
-              : "ENVOYER LES ÉVALUATIONS"}
+          <Text style={styles.stepText}>
+            Passager {currentIndex + 1} sur {normalizedPassengers.length}
           </Text>
-        )}
-      </TouchableOpacity>
+
+          <View style={styles.summaryCard}>
+            <Text style={styles.summaryTitle}>Merci d’avoir utilisé Buzz</Text>
+            <Text style={styles.summarySubtitle}>
+              Voici le montant payé par ce passager.
+            </Text>
+            <Text style={styles.paidAmountLabel}>Montant payé par ce passager</Text>
+            <Text style={styles.paidAmountValue}>{passengerPaidAmount}</Text>
+          </View>
+
+          <View style={styles.passengerCard}>
+            {currentPassenger.passenger?.profilePhoto ? (
+              <Image
+                source={{ uri: currentPassenger.passenger.profilePhoto }}
+                style={styles.avatar}
+              />
+            ) : (
+              <View style={styles.avatarFallback}>
+                <Ionicons name="person" size={42} color="#FFFFFF" />
+              </View>
+            )}
+
+            <Text style={styles.passengerName}>
+              {currentPassenger.passenger?.prenom || ""}{" "}
+              {currentPassenger.passenger?.nom || ""}
+            </Text>
+          </View>
+
+          <Text style={styles.question}>Comment s'est passé ce trajet ?</Text>
+
+          <View style={styles.starsContainer}>{renderStars()}</View>
+
+          <Text style={styles.commentLabel}>Laissez un commentaire (optionnel)</Text>
+
+          <TextInput
+            style={styles.input}
+            placeholder="Écrivez votre commentaire ici..."
+            placeholderTextColor="#A0A0A0"
+            multiline
+            textAlignVertical="top"
+            value={currentComment}
+            onChangeText={updateCurrentComment}
+            returnKeyType="done"
+          />
+
+          <TouchableOpacity
+            style={[
+              styles.submitButton,
+              { opacity: currentRating === 0 || loading ? 0.6 : 1 },
+            ]}
+            disabled={currentRating === 0 || loading}
+            onPress={handleNext}
+          >
+            {loading ? (
+              <ActivityIndicator color="#FFFFFF" />
+            ) : (
+              <Text style={styles.submitButtonText}>
+                {currentIndex < normalizedPassengers.length - 1
+                  ? "SUIVANT"
+                  : "ENVOYER LES ÉVALUATIONS"}
+              </Text>
+            )}
+          </TouchableOpacity>
+        </ScrollView>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 }
