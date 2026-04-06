@@ -1,35 +1,35 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  searchedRides: [],
-  searchParams: null,
-  selectedRide: null,
-  driverRides: [],
-  passengerBookings: [],
-  unreadMessagesCount: 0,
+  searchedRides: [],   //resultats de recherche
+  searchParams: null,  //parametres utilises pour la recherche
+  selectedRide: null,  //trajet que l'utilisateur a choisi
+  driverRides: [],    //trajets du conducteur
+  passengerBookings: [],   //resa du passager
+  unreadMessagesCount: 0,   //compteur de messages non lus
 };
 
 export const ridesSlice = createSlice({
   name: "rides",
   initialState,
   reducers: {
-    setSearchedRides: (state, action) => {
+    setSearchedRides: (state, action) => {   //enregistre les trajets trouves
       state.searchedRides = action.payload || [];
     },
 
-    clearSearchedRides: (state) => {
+    clearSearchedRides: (state) => {    //vider les resultats
       state.searchedRides = [];
     },
 
-    setSearchParams: (state, action) => {
+    setSearchParams: (state, action) => {  //Garder ou vider les paramètres de recherche, revenir sur un ecran avec les criteres connus
       state.searchParams = action.payload || null;
     },
 
-    clearSearchParams: (state) => {
+    clearSearchParams: (state) => {  
       state.searchParams = null;
     },
 
-    setSelectedRide: (state, action) => {
+    setSelectedRide: (state, action) => {  //Conserver le trajet choisi pour plusieurs écrans
       state.selectedRide = action.payload || null;
     },
 
@@ -37,7 +37,7 @@ export const ridesSlice = createSlice({
       state.selectedRide = null;
     },
 
-    setDriverRides: (state, action) => {
+    setDriverRides: (state, action) => {   //Stocker les trajets du conducteur
       state.driverRides = action.payload || [];
     },
 
@@ -45,7 +45,7 @@ export const ridesSlice = createSlice({
       state.driverRides = [];
     },
 
-    setPassengerBookings: (state, action) => {
+    setPassengerBookings: (state, action) => {    //Stocker les réservations du passager
       state.passengerBookings = action.payload || [];
     },
 
@@ -53,13 +53,13 @@ export const ridesSlice = createSlice({
       state.passengerBookings = [];
     },
 
-    addPassengerBooking: (state, action) => {
+    addPassengerBooking: (state, action) => {  //Ajouter une nouvelle réservation au début de la liste
       if (action.payload) {
         state.passengerBookings.unshift(action.payload);
       }
     },
 
-    updatePassengerBooking: (state, action) => {
+    updatePassengerBooking: (state, action) => {  //Mettre à jour une réservation précise
       const updatedBooking = action.payload;
 
       if (!updatedBooking?._id) return;
@@ -69,7 +69,7 @@ export const ridesSlice = createSlice({
       );
     },
 
-    removePassengerBooking: (state, action) => {
+    removePassengerBooking: (state, action) => {  //retirer une resa de la liste
       const bookingId = action.payload;
 
       state.passengerBookings = state.passengerBookings.filter(
@@ -77,7 +77,7 @@ export const ridesSlice = createSlice({
       );
     },
 
-    setUnreadMessagesCount: (state, action) => {
+    setUnreadMessagesCount: (state, action) => {  //Gérer le badge global des messages
       state.unreadMessagesCount = action.payload || 0;
     },
 
@@ -85,7 +85,7 @@ export const ridesSlice = createSlice({
       state.unreadMessagesCount = 0;
     },
 
-    resetRidesState: (state) => {
+    resetRidesState: (state) => { //Tout remettre à zéro pour la partie trajets par ex quand tu te deco
       state.searchedRides = [];
       state.searchParams = null;
       state.selectedRide = null;
@@ -116,3 +116,5 @@ export const {
 } = ridesSlice.actions;
 
 export default ridesSlice.reducer;
+
+//stocker les données de navigation et de trajet qui sont utiles dans plusieurs écrans.

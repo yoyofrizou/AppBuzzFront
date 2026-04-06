@@ -63,7 +63,7 @@ export default function DriverTabs() {
           alignItems: "center",
         },
         tabBarButton: (props) => (
-          <TouchableOpacity
+          <TouchableOpacity   //comportement visuel plus maitrise
             {...props}
             style={[
               props.style,
@@ -139,3 +139,5 @@ export default function DriverTabs() {
     </Tab.Navigator>
   );
 }
+
+//espace principal du conducteur, accueil trajets et messages

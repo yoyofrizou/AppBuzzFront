@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit"; //createSlice, facon de creer un etat, des actions, un reducer
 
-const initialState = {
+const initialState = { //l’état de départ du user, quand l'app demarre l'utilisateur est vide mais j'ai la structure de ce que j'attends de Redux
   value: {
     token: null,
     _id: null,
@@ -26,12 +26,13 @@ const initialState = {
   },
 };
 
-export const userSlice = createSlice({
+export const userSlice = createSlice({  //crée la slice Redux appelée user, tranche de mon store global
   name: "user",
   initialState,
-  reducers: {
+  reducers: {  
+    //reducer login
     login: (state, action) => {
-      state.value.token = action.payload.token || null;
+      state.value.token = action.payload.token || null; //Si une donnée n’existe pas, je mets null au lieu de laisser une valeur bizarre
       state.value._id = action.payload._id || null;
       state.value.prenom = action.payload.prenom || null;
       state.value.nom = action.payload.nom || null;
@@ -53,8 +54,9 @@ export const userSlice = createSlice({
       state.value.stripeCustomerId = action.payload.stripeCustomerId || null;
       state.value.defaultPaymentMethodId =
         action.payload.defaultPaymentMethodId || null;
-    },
+    },    //Quand l’utilisateur se connecte, je remplis Redux avec toutes ses données
 
+    //reducer logout, remet tout a zero, reinitialise l'etat
     logout: (state) => {
       state.value.token = null;
       state.value._id = null;
@@ -79,7 +81,8 @@ export const userSlice = createSlice({
       state.value.defaultPaymentMethodId = null;
     },
 
-    updateProfilePhoto: (state, action) => {
+    //reducer updateProfilePhoto
+    updateProfilePhoto: (state, action) => {   //Mets à jour uniquement la photo de profil dans Redux
       state.value.profilePhoto = action.payload;
     },
 
@@ -102,17 +105,17 @@ export const userSlice = createSlice({
         action.payload.defaultPaymentMethodId;
     },
 
-    updateUserInfos: (state, action) => {
+    updateUserInfos: (state, action) => {   //Mettre à jour certaines infos utilisateur sans écraser celles qui ne changent pas
       state.value.prenom = action.payload.prenom ?? state.value.prenom;
       state.value.nom = action.payload.nom ?? state.value.nom;
       state.value.email = action.payload.email ?? state.value.email;
       state.value.telephone =
         action.payload.telephone ?? state.value.telephone;
-    },
+    },    //prends la nouvelle valeur si y en a une sinon garder l'ancienne
   },
 });
 
-export const {
+export const {   //export de toutes les actions pour pouvoir les utiliser dans les ecrans avec par ex : dispatch(login(userData))
   login,
   logout,
   updateProfilePhoto,
@@ -123,4 +126,4 @@ export const {
   updateUserInfos,
 } = userSlice.actions;
 
-export default userSlice.reducer;
+export default userSlice.reducer;   //exporte le reducer pour le brancher dans store.js

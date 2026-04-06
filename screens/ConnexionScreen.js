@@ -104,12 +104,10 @@ export default function ConnexionScreen({ navigation }) {
       };
 
       dispatch(login(userData));
- 
       await AsyncStorage.setItem("user", JSON.stringify(userData));
 
       navigation.replace("MainTabs", { screen: "PassengerHome" });
     } catch (error) {
-    
       Alert.alert(
         "Erreur",
         error.message || "Erreur serveur ou problème réseau."
@@ -185,6 +183,7 @@ export default function ConnexionScreen({ navigation }) {
         style={styles.container}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
+        {/* Conteneur visuel du formulaire */}
         <View style={styles.card}>
           <Text style={styles.logo}>BUZZ</Text>
           <Text style={styles.title}>Se connecter</Text>
@@ -200,6 +199,7 @@ export default function ConnexionScreen({ navigation }) {
             autoComplete="email"
           />
 
+          {/* Si emailError vaut true, le message apparaît */}
           {emailError && (
             <Text style={styles.error}>Adresse email invalide</Text>
           )}
@@ -235,6 +235,7 @@ export default function ConnexionScreen({ navigation }) {
         </View>
       </KeyboardAvoidingView>
 
+      {/* Modal de réinitialisation */}
       <Modal visible={forgotModalVisible} transparent animationType="fade">
         <View style={styles.modalOverlay}>
           <View style={styles.modalBox}>
@@ -253,6 +254,7 @@ export default function ConnexionScreen({ navigation }) {
               keyboardType="email-address"
             />
 
+            {/* Conteneur des boutons */}
             <View style={styles.modalButtons}>
               <TouchableOpacity
                 style={styles.modalButton}

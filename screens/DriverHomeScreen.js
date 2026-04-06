@@ -93,23 +93,7 @@ export default function DriverHomeScreen({ navigation }) {
     }
   };
 
-  /*const checkLocationPermissionAgain = async () => {
-    try {
-      const { status } = await Location.getForegroundPermissionsAsync();
 
-      if (status === "granted") {
-        const currentPosition = await Location.getCurrentPositionAsync({});
-        setLocation(currentPosition);
-        setLocationDenied(false);
-        centerMapOnUser(currentPosition.coords);
-        reverseGeocodeAddress(currentPosition.coords);
-      } else {
-        setLocationDenied(true);
-      }
-    } catch (error) {
-      console.log("Erreur vérification localisation :", error);
-    }
-  };*/
   const checkLocationPermissionAgain = useCallback(async () => {
   try {
     const { status } = await Location.getForegroundPermissionsAsync();

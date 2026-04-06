@@ -7,12 +7,15 @@ import {
   Modal,
   Pressable,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 import styles from "../styles/PassengerSearchResultsStyles";
+
+const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 function formatHour(dateString) {
   if (!dateString) return "--:--";
@@ -89,6 +92,7 @@ export default function PassengerSearchResultsScreen({ navigation }) {
 
   const mapRef = useRef(null);
   const [selectedRide, setSelectedRide] = useState(null);
+  const [checkingRideAccess, setCheckingRideAccess] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -140,21 +144,72 @@ export default function PassengerSearchResultsScreen({ navigation }) {
     setSelectedRide(ride);
   };
 
-  const handleValidateRide = () => {
+  const passengerHasCurrentRide = async () => {
+    if (!EXPO_PUBLIC_API_URL) {
+      throw new Error("EXPO_PUBLIC_API_URL est manquant dans le fichier .env.");
+    }
+
+    if (!user?.token) {
+      throw new Error("Utilisateur non connecté.");
+    }
+
+    const response = await fetch(
+      `${EXPO_PUBLIC_API_URL}/rides/passenger-bookings/${user.token}`
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || !data.result) {
+      throw new Error(data.error || "Impossible de vérifier vos trajets.");
+    }
+
+    const bookings = data.bookings || [];
+
+    return bookings.some(
+      (booking) =>
+        booking?.status !== "cancelled" &&
+        booking?.ride &&
+        booking.ride.status === "started"
+    );
+  };
+
+  const handleValidateRide = async () => {
     if (!selectedRide?._id) {
       Alert.alert("Erreur", "Trajet introuvable.");
       return;
     }
 
-    setSelectedRide(null);
+    try {
+      setCheckingRideAccess(true);
 
-    navigation.navigate("Payment", {
-      rideId: selectedRide._id,
-      amount: selectedRide.price ?? 0,
-      currency: "eur",
-      seatsBooked: 1,
-      message: "",
-    });
+      const hasCurrentRide = await passengerHasCurrentRide();
+
+      if (hasCurrentRide) {
+        Alert.alert(
+          "Trajet déjà en cours",
+          "Vous avez déjà un trajet en cours. Vous ne pouvez pas réserver un autre trajet pour le moment."
+        );
+        return;
+      }
+
+      const rideToOpen = selectedRide;
+      setSelectedRide(null);
+
+      navigation.navigate("Payment", {
+        rideId: rideToOpen._id,
+        amount: rideToOpen.price ?? 0,
+        currency: "eur",
+        seatsBooked: 1,
+        message: "",
+      });
+    } catch (error) {
+      Alert.alert(
+        "Erreur",
+        error.message || "Impossible de continuer vers le paiement."
+      );
+    } finally {
+      setCheckingRideAccess(false);
+    }
   };
 
   const handleOpenDriverPublicProfile = () => {
@@ -398,13 +453,21 @@ export default function PassengerSearchResultsScreen({ navigation }) {
                 </View>
 
                 <TouchableOpacity
-                  style={styles.validateButton}
-                  activeOpacity={0.8}
+                  style={[
+                    styles.validateButton,
+                    checkingRideAccess && { opacity: 0.6 },
+                  ]}
+                  activeOpacity={checkingRideAccess ? 1 : 0.8}
+                  disabled={checkingRideAccess}
                   onPress={handleValidateRide}
                 >
-                  <Text style={styles.validateButtonText}>
-                    Valider le trajet
-                  </Text>
+                  {checkingRideAccess ? (
+                    <ActivityIndicator color="#FFFFFF" />
+                  ) : (
+                    <Text style={styles.validateButtonText}>
+                      Valider le trajet
+                    </Text>
+                  )}
                 </TouchableOpacity>
               </>
             )}

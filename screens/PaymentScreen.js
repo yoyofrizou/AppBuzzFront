@@ -38,48 +38,57 @@ export default function PaymentScreen({ navigation, route }) {
       currency: currency.toUpperCase(),
     }).format(value);
 
-    const fetchPaymentMethods = async () => {
-  try {
-    setLoading(true);
-    setPaymentError("");
+  const fetchPaymentMethods = async () => {
+    try {
+      setLoading(true);
+      setPaymentError("");
 
-    if (!API_URL) {
-      throw new Error("API_URL manquante");
+      if (!API_URL) {
+        throw new Error("API_URL manquante");
+      }
+
+      if (!token) {
+        throw new Error("Token utilisateur manquant");
+      }
+
+      const response = await fetch(
+        `${API_URL}/payments/payment-methods/${token}`
+      );
+
+      const data = await response.json();
+
+      if (!response.ok || !data.result) {
+        throw new Error(data.error || "Impossible de charger les cartes");
+      }
+
+      const cards = data.cards || [];
+      setSavedCards(cards);
+
+      const defaultCard =
+        cards.find((card) => card.id === data.defaultPaymentMethodId) ||
+        cards[0] ||
+        null;
+
+      setSelectedCard(defaultCard);
+    } catch (error) {
+      setPaymentError(error.message || "Impossible de charger les cartes.");
+    } finally {
+      setLoading(false);
     }
-
-    if (!token) {
-      throw new Error("Token utilisateur manquant");
-    }
-
-    const response = await fetch(
-      `${API_URL}/payments/payment-methods/${token}`
-    );
-
-    const data = await response.json();
-
-    if (!response.ok || !data.result) {
-      throw new Error(data.error || "Impossible de charger les cartes");
-    }
-
-    const cards = data.cards || [];
-    setSavedCards(cards);
-   
-    const defaultCard =
-  cards.find((card) => card.id === data.defaultPaymentMethodId) || cards[0] || null;
-   setSelectedCard(defaultCard); 
-
-  } catch (error) {
-    setPaymentError(error.message || "Impossible de charger les cartes.");
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   useFocusEffect(
     useCallback(() => {
       fetchPaymentMethods();
     }, [token])
   );
+
+  const goToPassengerTripsCurrent = () => {
+    navigation.navigate("MainTabs", {
+      screen: "PassengerTrips",
+      params: { initialTab: "current" },
+    });
+  };
 
   const createBooking = async (paymentIntentId) => {
     const response = await fetch(`${API_URL}/bookings/add`, {
@@ -100,7 +109,18 @@ export default function PaymentScreen({ navigation, route }) {
     const data = await response.json();
 
     if (!response.ok || !data.result) {
-      throw new Error(data.error || "Impossible de créer la réservation");
+      const backendError =
+        data.error || "Impossible de créer la réservation";
+
+      if (
+        backendError.includes("Vous avez déjà un trajet en cours")
+      ) {
+        const conflictError = new Error(backendError);
+        conflictError.code = "CURRENT_RIDE_CONFLICT";
+        throw conflictError;
+      }
+
+      throw new Error(backendError);
     }
 
     return data;
@@ -144,6 +164,21 @@ export default function PaymentScreen({ navigation, route }) {
         conversationId: bookingData.conversationId,
       });
     } catch (error) {
+      if (error.code === "CURRENT_RIDE_CONFLICT") {
+        Alert.alert(
+          "Trajet déjà en cours",
+          "Vous avez déjà un trajet en cours. Impossible de réserver un autre trajet pour le moment.",
+          [
+            { text: "Fermer", style: "cancel" },
+            {
+              text: "Voir mes trajets",
+              onPress: goToPassengerTripsCurrent,
+            },
+          ]
+        );
+        return;
+      }
+
       Alert.alert("Erreur paiement", error.message);
     } finally {
       setIsSubmitting(false);
@@ -151,7 +186,15 @@ export default function PaymentScreen({ navigation, route }) {
   };
 
   const goToAddDefaultCard = () => {
-    navigation.navigate("AddDefaultCard");
+    navigation.navigate("AddDefaultCard", {
+      source: "payment",
+      mode: selectedCard ? "replace-default" : "create-default",
+      rideId,
+      amount,
+      currency,
+      seatsBooked,
+      message,
+    });
   };
 
   const goToNewCardPayment = () => {

@@ -51,103 +51,44 @@ export default function RootNavigator() {
       {!isAuthenticated ? (
         <Stack.Screen name="Auth" component={AuthNavigator} />
       ) : (
-        <>
+        <Stack.Group>
+          {/* Flow principal connecté */}
           <Stack.Screen name="MainTabs" component={MainTabs} />
           <Stack.Screen name="DriverTabs" component={DriverTabs} />
 
+          {/* Écrans secondaires */}
           <Stack.Screen name="DriverProfile" component={DriverProfileScreen} />
-
-          <Stack.Screen
-            name="DriverInformations"
-            component={DriverInformationsScreen}
-            options={{ headerShown: false }}
-          />
-
-          <Stack.Screen
-            name="UpdateDriverInfo"
-            component={UpdateDriverInfoScreen}
-          />
-
-          <Stack.Screen
-            name="DriverVehicule"
-            component={DriverVehiculeScreen}
-            options={{ headerShown: false }}
-          />
-
-          <Stack.Screen
-            name="DriverDocuments"
-            component={DriverDocumentsScreen}
-            options={{ headerShown: false }}
-          />
-
-          <Stack.Screen
-            name="DriverEvaluations"
-            component={DriverEvaluationsScreen}
-            options={{ headerShown: false }}
-          />
-
-          <Stack.Screen
-            name="DriverPayouts"
-            component={DriverPayoutsScreen}
-            options={{ headerShown: false }}
-          />
-
+          <Stack.Screen name="DriverInformations" component={DriverInformationsScreen} />
+          <Stack.Screen name="UpdateDriverInfo" component={UpdateDriverInfoScreen} />
+          <Stack.Screen name="DriverVehicule" component={DriverVehiculeScreen} />
+          <Stack.Screen name="DriverDocuments" component={DriverDocumentsScreen} />
+          <Stack.Screen name="DriverEvaluations" component={DriverEvaluationsScreen} />
+          <Stack.Screen name="DriverPayouts" component={DriverPayoutsScreen} />
           <Stack.Screen name="CreateRide" component={CreateRideScreen} />
-
-          <Stack.Screen
-            name="PassengerPublicProfile"
-            component={PassengerPublicProfileScreen}
-          />
-
-          <Stack.Screen
-            name="DriverQrScanner"
-            component={DriverQrScannerScreen}
-          />
-
-          <Stack.Screen
-            name="DriverTripTracking"
-            component={DriverTripTrackingScreen}
-          />
-
+          <Stack.Screen name="PassengerPublicProfile" component={PassengerPublicProfileScreen} />
+          <Stack.Screen name="DriverQrScanner" component={DriverQrScannerScreen} />
+          <Stack.Screen name="DriverTripTracking" component={DriverTripTrackingScreen} />
           <Stack.Screen name="DriverRate" component={DriverRateScreen} />
-
           <Stack.Screen name="Profile" component={ProfileScreen} />
-
-          <Stack.Screen
-            name="PassengerInformations"
-            component={PassengerInformationsScreen}
-          />
-
-          <Stack.Screen
-            name="UpdatePassengerInfo"
-            component={UpdatePassengerInfoScreen}
-          />
-
-          <Stack.Screen
-            name="PassengerSearch"
-            component={PassengerSearchScreen}
-          />
-
+          <Stack.Screen name="PassengerInformations" component={PassengerInformationsScreen} />
+          <Stack.Screen name="UpdatePassengerInfo" component={UpdatePassengerInfoScreen} />
+          <Stack.Screen name="PassengerSearch" component={PassengerSearchScreen} />
           <Stack.Screen
             name="PassengerSearchResults"
             component={PassengerSearchResultsScreen}
           />
-
           <Stack.Screen
             name="DriverPublicProfile"
             component={DriverPublicProfileScreen}
           />
-
           <Stack.Screen
             name="PassengerEvaluations"
             component={PassengerEvaluationsScreen}
           />
-
           <Stack.Screen
             name="PassengerPayments"
             component={PassengerPaymentsScreen}
           />
-
           <Stack.Screen name="Payment" component={PaymentScreen} />
           <Stack.Screen name="AddDefaultCard" component={AddDefaultCardScreen} />
           <Stack.Screen name="PayWithNewCard" component={PayWithNewCardScreen} />
@@ -157,11 +98,14 @@ export default function RootNavigator() {
             component={PassengerTripTrackingScreen}
           />
           <Stack.Screen name="PassengerRate" component={PassengerRateScreen} />
-
           <Stack.Screen name="Messages" component={MessagesScreen} />
           <Stack.Screen name="ChatScreen" component={ChatScreen} />
-        </>
+        </Stack.Group>
       )}
     </Stack.Navigator>
   );
 }
+
+{/*chef d orchestre qui decide quel flow afficher
+crée le stack principal et tu lis Redux
+pas connecte ? alors AuthNavigator / connecte ? alors mainTabs + acces a tous les autres ecrans du stack*/}

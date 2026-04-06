@@ -41,27 +41,30 @@ function formatDateTime(dateString) {
 }
 
 function getTripCategory(ride) {
+  if (!ride) return "upcoming";
+
+  if (ride.status === "started") return "current";
+  if (ride.status === "completed" || ride.status === "cancelled") return "past";
+  if (ride.status === "open" || ride.status === "published") return "upcoming";
+
   if (!ride?.departureDateTime) return "upcoming";
 
-  const now = new Date();
   const departure = new Date(ride.departureDateTime);
-
   if (Number.isNaN(departure.getTime())) return "upcoming";
 
-  const twoHoursAfterDeparture = new Date(
-    departure.getTime() + 2 * 60 * 60 * 1000
-  );
-
-  if (now < departure) return "upcoming";
-  if (now >= departure && now <= twoHoursAfterDeparture) return "current";
-  return "past";
+  return "upcoming";
 }
 
 function getBookingCategory(booking) {
   if (booking?.status === "cancelled") return "past";
 
   const ride = booking?.ride;
-  return booking?.tripCategory || ride?.tripCategory || getTripCategory(ride);
+
+  if (!ride) return "upcoming";
+  if (booking?.tripCategory) return booking.tripCategory;
+  if (ride?.tripCategory) return ride.tripCategory;
+
+  return getTripCategory(ride);
 }
 
 function formatDisplayedPrice(booking, ride, activeTab) {
@@ -308,7 +311,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
               setBookingActionLoadingId(bookingId);
 
               const response = await fetch(
-                `${EXPO_PUBLIC_API_URL}/bookings/delete/${bookingId}`,
+                `${EXPO_PUBLIC_API_URL}/bookings/delete/${bookingId}/${user.token}`,
                 {
                   method: "DELETE",
                 }

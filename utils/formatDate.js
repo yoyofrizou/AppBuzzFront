@@ -6,3 +6,5 @@ export const formatDate = (dateString) => {
     date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
   );
 };
+
+//formate une date en français dans un format lisible.

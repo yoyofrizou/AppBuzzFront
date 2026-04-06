@@ -36,15 +36,6 @@ export default function MessagesScreen({ navigation }) {
   
       const json = await response.json();
 
-       console.log(
-  "UNREAD COUNTS FRONT =",
-  json?.conversations?.map((c) => ({
-    id: c._id,
-    unreadCount: c.unreadCount,
-  }))
-);
-    
-
       if (response.ok && json.result) {
         setConversations(json.conversations || []);
       } else {
