@@ -43,13 +43,15 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
       : conversation.driverName) ||
     "Utilisateur"; //3eme fallback, sinon utilisateur
 
-  const loadMessages = async () => {  //Fonction asynchrone qui va chercher les messages au backend
+  /*const loadMessages = async () => {  //Fonction asynchrone qui va chercher les messages au backend
     try {
+
       setIsLoading(true); //Avant de lancer le fetch, je mets l’écran en mode chargement
 
       const response = await fetch(   //appelle mon backend pour récup les messages de cette conversation pour cet utilisateur
         `${API_URL}/messages/${conversationId}/${token}` //quelle conv et quel utilisateur la lit
       );
+
       const data = await response.json();  //convertit la reponse backend en objet JS
 
       if (data.result) {   //si le backend rep bien je mets les messages dans l'etat sinon je vide la liste
@@ -62,7 +64,35 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
     } finally {
       setIsLoading(false);
     }
-  };
+  }; */
+
+  const loadMessages = async () => {
+  try {
+    console.log("LOAD MESSAGES CALLED");
+
+    setIsLoading(true);
+
+    const url = `${API_URL}/messages/${conversationId}/${token}`;
+    console.log("FETCH URL =", url);
+
+    const response = await fetch(url);
+    console.log("RESPONSE STATUS =", response.status);
+
+    const data = await response.json();
+    console.log("MESSAGES DATA =", data);
+
+    if (data.result) {
+      setMessages(data.messages || []);
+    } else {
+      setMessages([]);
+    }
+  } catch (error) {
+    console.log("LOAD MESSAGES ERROR =", error);
+    setMessages([]);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   useFocusEffect(    //cette logique se lance quand l’écran prend le focus c est a dire quand on arrive sur le chat et quand on y revient, quand l ecran redevient actif en fait
     useCallback(() => {    //memorise la fonction selon ces dependances
@@ -138,43 +168,58 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
     );
   };
 
+    {/*behavior :si on est sur IOS padding sinon rien de spe    
+       headername : nom de l'autre utilisateur dans le header
+       isloading : si ca charge j'affiche le bloc chargement
+       flatlist : sinon j'affiche la liste des messages
+       keyExtractor : cle unique pour chaque message, pour gerer la liste proprement
+       data.messages : liste a afficher
+       renderItem : affiche une ligne de message
+       contentContainerStyle : style global appliqué au contenu de la liste
+       inputBar : champ de saisie et bouton
+       placeholder : texte gris affiché tant que l’utilisateur n’a rien tapé
+       onChangeText : à chaque frappe, tu mets à jour l’état
+       multiline False : une seule ligne
+       le total est un champ contrôlé par React, l etat decide du texte affiche et la saisie met a jour l etat*/}
+
   return (
+
     <SafeAreaView style={styles.container}>  
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === "ios" ? "padding" : undefined} //si on est sur IOS padding sinon rien de spe
+        behavior={Platform.OS === "ios" ? "padding" : undefined} 
       >
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Text style={styles.backArrow}>←</Text>
           </TouchableOpacity>
 
-          <Text style={styles.headerTitle}>{headerName}</Text> {/*nom de l'autre utilisateur dans le header*/}
+          <Text style={styles.headerTitle}>{headerName}</Text>
         </View>
 
-        {isLoading ? ( //si ca charge j'affiche le bloc chargement
+        {isLoading ? ( 
           <View style={styles.centerContent}>
             <Text style={styles.loadingText}>Chargement...</Text>
           </View>
         ) : (
-          <FlatList    //sinon j'affiche la liste des messages
-            data={messages} //liste a afficher
-            keyExtractor={(item) => String(item._id)}  //cle unique pour chaque message, pour gerer la liste proprement
-            renderItem={renderMessage}  //affiche une ligne de message
-            contentContainerStyle={styles.messagesList} //style global appliqué au contenu de la liste
+          <FlatList    
+            data={messages}
+            keyExtractor={(item) => String(item._id)}  
+            renderItem={renderMessage}  
+            contentContainerStyle={styles.messagesList} 
           />
         )}
 
-        <View style={styles.inputBar}> {/*Conteneur du champ de saisie + bouton envoyer.*/}
+        <View style={styles.inputBar}> 
           <TextInput
             style={styles.input}
-            placeholder="Envoyer un message..."  //texte gris affiché tant que l’utilisateur n’a rien tapé
-            value={text}   //le champ est lié à l’état text
-            onChangeText={setText}   //à chaque frappe, tu mets à jour l’état
-            multiline={false}  //une seule ligne
-          /> {/*champ contrôlé par React, l etat decide du texte affiche et la saisie met a jour l etat*/}
+            placeholder="Envoyer un message..."  
+            value={text}   
+            onChangeText={setText}   
+            multiline={false}  
+          /> 
 
-          <TouchableOpacity style={styles.sendButton} onPress={sendMessage}> {/* quand on clique ca appelle sendMessage */}
+          <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
             <Text style={styles.sendButtonText}>Envoyer</Text>
           </TouchableOpacity>
         </View>
@@ -182,3 +227,4 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
     </SafeAreaView>
   );
 }
+

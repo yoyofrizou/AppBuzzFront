@@ -30,11 +30,18 @@ export default function MessagesScreen({ navigation }) {
 
     try {
       setIsLoading(true);
-      console.time("front-load-conversations");
+        console.log("LOAD CONVERSATIONS CALLED");
 
       const response = await fetch(`${API_URL}/conversations/${token}`);
-  
       const json = await response.json();
+
+       console.log(
+      "CONVERSATIONS FROM SERVER",
+      (json.conversations || []).map((c) => ({
+        id: c._id,
+        hasUnread: c.hasUnread,
+      }))
+    );
 
       if (response.ok && json.result) {
         setConversations(json.conversations || []);
@@ -42,7 +49,7 @@ export default function MessagesScreen({ navigation }) {
       
       }
     } catch (error) {
-     
+      console.log("LOAD CONVERSATIONS ERROR", error);
     } finally {
       setIsLoading(false);
     }
@@ -65,13 +72,32 @@ export default function MessagesScreen({ navigation }) {
       (isCurrentUserDriver ? item.passengerName : item.driverName) ||
       "Utilisateur";
 
-    const previewText = isCurrentUserDriver
-      ? item.lastMessagePreviewDriver
-      : item.lastMessagePreviewPassenger;
 
-   const hasUnread = (item.unreadCount || 0) > 0;
+      const formatPreview = (text) => {
+  if (!text) return "Aucun message";
 
- 
+  if (text.startsWith("Bonjour, Un passager")) {
+    return "Nouvelle réservation";
+  }
+
+  if (text.startsWith("Merci d’avoir réservé")) {
+    return "Réservation confirmée";
+  }
+
+  if (text.startsWith("Le conducteur")) {
+    return "Trajet annulé";
+  }
+
+  return text;
+};
+
+  const previewTextRaw = isCurrentUserDriver
+    ? item.lastMessagePreviewDriver
+    : item.lastMessagePreviewPassenger;
+
+  const previewText = formatPreview(previewTextRaw);
+
+const hasUnread = (item.unreadCount || 0) > 0;
 
     return (
       <TouchableOpacity
@@ -104,6 +130,7 @@ export default function MessagesScreen({ navigation }) {
           <Text
   style={[styles.preview, hasUnread && styles.previewUnread]}
             numberOfLines={1}
+            ellipsizeMode="tail"
           >
             {previewText || "Aucun message"}
           </Text>

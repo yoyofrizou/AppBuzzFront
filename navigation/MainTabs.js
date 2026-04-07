@@ -66,7 +66,7 @@ export default function MainTabs() {
           fontSize: 12,
           textAlign: "center",
         },
-        tabBarIcon: ({ color, size }) => {   //associes une icône à chaque onglet selon son nom
+        tabBarIcon: ({ color, size }) => {   
           if (route.name === "PassengerHome") {
             return <Ionicons name="home" size={size} color={color} />;
           }
@@ -110,13 +110,15 @@ export default function MainTabs() {
         component={MessagesScreen}
         options={{
           tabBarLabel: "Messages",
-          tabBarBadge: unreadCount > 0 ? unreadCount : undefined,  //undefined pour ne pas afficher de badge quand il n y a rien de non lu
+          tabBarBadge: unreadCount > 0 ? unreadCount : undefined,  
         }}
       />
     </Tab.Navigator>
   );
 }
 
+//tabaricon associe une icône à chaque onglet selon son nom
+//undefined pour ne pas afficher de badge quand il n y a rien de non lu
 //espace principal du passager, accueil trajets et messages
 //navigateur mais aussi petit composant intelligent (gere message non lus)
 //des tabs ici car un onglet c est parfait pour les zones principales d une app

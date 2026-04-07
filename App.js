@@ -49,10 +49,13 @@ function AppContent() {
     );
   }
 
+  {/*active la gestion safe area
+     monte la navigation, entoure la navigation
+     affiche le navigateur racine, la navigation entour les ecrans*/}
   return (   //Rendu principal d’AppContent
-    <SafeAreaProvider>  {/*active la gestion safe area*/}
-      <NavigationContainer>  {/*monte la navigation, entoure la navigation*/}
-        <RootNavigator /> {/*affiche le navigateur racine, la navigation entour les ecrans*/}
+    <SafeAreaProvider>  
+      <NavigationContainer>  
+        <RootNavigator /> 
       </NavigationContainer>
     </SafeAreaProvider>
   );

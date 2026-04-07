@@ -64,7 +64,9 @@ avatarImage: {
   preview: {
     fontSize: 14,
     color: "#555",
+    marginTop: 4,
   },
+
   nameUnread: {
   fontWeight: "800",
   color: "#111111",
@@ -76,25 +78,12 @@ previewUnread: {
 },
 
 unreadDot: {
-  position: "absolute",
-  right: 30,
-  top: 32,
-
-  width: 14,
-  height: 14,
-  borderRadius: 7,
-
-  backgroundColor: "#E53935",
-},
-
-nameUnread: {
-  fontWeight: "700",
-  color: "#111",
-},
-
-previewUnread: {
-  fontWeight: "600",
-  color: "#111",
-},
-
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: "#E53935",
+    marginLeft: 8,
+    flexShrink: 0,
+    alignSelf: "center",
+  },
 });

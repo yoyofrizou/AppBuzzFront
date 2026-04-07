@@ -8,9 +8,11 @@ import InscriptionScreen from "../screens/InscriptionScreen";
 const Stack = createNativeStackNavigator();  //cree le navigateur stack
 
 export default function AuthNavigator() {   //cree le composant qui gere le flow Auth
+  {/*masque le header natif par défaut
+  déclares les écrans accessibles dans ce flow*/}
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>  {/*masque le header natif par défaut*/}
-      <Stack.Screen name="Home" component={HomeScreen} />   {/*déclares les écrans accessibles dans ce flow*/}
+    <Stack.Navigator screenOptions={{ headerShown: false }}>  
+      <Stack.Screen name="Home" component={HomeScreen} />   
       <Stack.Screen name="Connexion" component={ConnexionScreen} />
       <Stack.Screen name="Inscription" component={InscriptionScreen} />
     </Stack.Navigator>

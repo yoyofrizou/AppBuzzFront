@@ -52,11 +52,11 @@ export default function RootNavigator() {
         <Stack.Screen name="Auth" component={AuthNavigator} />
       ) : (
         <Stack.Group>
-          {/* Flow principal connecté */}
+        
           <Stack.Screen name="MainTabs" component={MainTabs} />
           <Stack.Screen name="DriverTabs" component={DriverTabs} />
 
-          {/* Écrans secondaires */}
+      
           <Stack.Screen name="DriverProfile" component={DriverProfileScreen} />
           <Stack.Screen name="DriverInformations" component={DriverInformationsScreen} />
           <Stack.Screen name="UpdateDriverInfo" component={UpdateDriverInfoScreen} />
