@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";  //useState memoire locale pour messages/text/isLoading et UseCallback pour memoriser une fonction qu on utilise avec UseFocusEffect
+import React, { useCallback, useState, useRef } from "react";  //useState memoire locale pour messages/text/isLoading et UseCallback pour memoriser une fonction qu on utilise avec UseFocusEffect
 import {
   View,
   Text,
@@ -106,6 +106,9 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
     if (!text.trim()) return;   //Si le texte est vide ou seulement des espaces : on n’envoie rien
 
     try {
+      console.log("SEND MESSAGE CALLED");
+    console.log("TEXT TO SEND =", text);
+
       const response = await fetch(`${API_URL}/messages/add`, { 
         method: "POST",  //Tu envoies une requête POST au backend avec token, conversationId et content
         headers: {
@@ -118,13 +121,17 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
         }),
       });
 
+      console.log("SEND MESSAGE STATUS =", response.status); 
       const data = await response.json(); //lis la rep backend
+ console.log("SEND MESSAGE DATA =", data); 
 
       if (data.result) {
         setText("");
         loadMessages();
       }    //apres je vide le champ texte et recharges les messages
-    } catch (error) {}  //en cas d'erreur je fais rien
+    } catch (error) {
+      console.log("SEND MESSAGE ERROR =", error);
+    }  //en cas d'erreur je fais rien
   };
 
   const renderMessage = ({ item }) => {    //Fonction appelée par FlatList pour afficher chaque message, item c est le message actuel
