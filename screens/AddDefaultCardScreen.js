@@ -140,19 +140,19 @@ export default function AddDefaultCardScreen({ navigation, route }) {  //c’est
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>  {/*commence l'affichage, protege l'ecran des zones dangereuses et applique les styles*/}
-      <View style={styles.container}> {/*grande boite*/}
+    <SafeAreaView style={styles.safeArea}>  
+      <View style={styles.container}> 
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>  {/* \evenement clic */}
+          <TouchableOpacity onPress={() => navigation.goBack()}> 
             <Text style={styles.backText}> </Text>
           </TouchableOpacity>
 
-          <Text style={styles.title}>{title}</Text> {/* Affiche le titre dynamique calculé plus haut */}
+          <Text style={styles.title}>{title}</Text> 
 
-          <View style={styles.placeholder} /> {/*petite boite vide, ca aide a centrer */}
+          <View style={styles.placeholder} /> 
         </View>
 
-        <View style={styles.card}> {/*boite principale visuelle de l'ecran*/}
+        <View style={styles.card}> 
           <Text style={styles.description}>{description}</Text> 
 
           <TouchableOpacity
@@ -162,7 +162,7 @@ export default function AddDefaultCardScreen({ navigation, route }) {  //c’est
             activeOpacity={0.85}
           >
 
-            {loading ? ( /*si loading === true → spinner sinon texte bouton */
+            {loading ? ( 
               <ActivityIndicator color="#FFFFFF" />
             ) : (
               <Text style={styles.addButtonText}>{buttonLabel}</Text>
@@ -170,7 +170,7 @@ export default function AddDefaultCardScreen({ navigation, route }) {  //c’est
           </TouchableOpacity>
 
           <Text style={styles.testCard}>
-            Carte test Stripe : 4242 4242 4242 4242 — 12/34 — 123 {/* affiche une carte de test Stripe pour faciliter les démonstrations et les tests du parcours de paiement*/}
+            Carte test Stripe : 4242 4242 4242 4242 — 12/34 — 123 
           </Text>
         </View>
       </View>

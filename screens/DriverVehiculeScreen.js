@@ -8,6 +8,11 @@ import {
   Modal,
   FlatList,
   Pressable,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -277,96 +282,111 @@ export default function DriverVehiculeScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.screen}>
-      <View style={styles.container}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
+  <SafeAreaView style={styles.screen}>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: 30 }}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
         >
-          <Ionicons name="arrow-back" size={28} color="#111111" />
-        </TouchableOpacity>
+          <View style={styles.container}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.goBack()}
+            >
+              <Ionicons name="arrow-back" size={28} color="#111111" />
+            </TouchableOpacity>
 
-        <Text style={styles.title}>Mon véhicule</Text>
+            <Text style={styles.title}>Mon véhicule</Text>
 
-        <View style={styles.card}>
-          <CustomDropdown
-            label="Marque"
-            value={brand}
-            placeholder="Sélectionner une marque"
-            onPress={() => setBrandModalVisible(true)}
-          />
+            <View style={styles.card}>
+              <CustomDropdown
+                label="Marque"
+                value={brand}
+                placeholder="Sélectionner une marque"
+                onPress={() => setBrandModalVisible(true)}
+              />
 
-          <CustomDropdown
-            label="Modèle"
-            value={model}
-            placeholder={
-              brand
-                ? "Sélectionner un modèle"
-                : "Choisissez d'abord une marque"
-            }
-            onPress={() => setModelModalVisible(true)}
-            disabled={!brand}
-          />
+              <CustomDropdown
+                label="Modèle"
+                value={model}
+                placeholder={
+                  brand
+                    ? "Sélectionner un modèle"
+                    : "Choisissez d'abord une marque"
+                }
+                onPress={() => setModelModalVisible(true)}
+                disabled={!brand}
+              />
 
-          <CustomDropdown
-            label="Couleur"
-            value={color}
-            placeholder="Sélectionner une couleur"
-            onPress={() => setColorModalVisible(true)}
-          />
+              <CustomDropdown
+                label="Couleur"
+                value={color}
+                placeholder="Sélectionner une couleur"
+                onPress={() => setColorModalVisible(true)}
+              />
 
-          <Text style={styles.inputLabel}>Nombre de places</Text>
-          <TextInput
-            placeholder="Ex : 4"
-            value={nbSeats}
-            onChangeText={setNbSeats}
-            keyboardType="numeric"
-            style={styles.input}
-            maxLength={1}
-          />
+              <Text style={styles.inputLabel}>Nombre de places</Text>
+              <TextInput
+                placeholder="Ex : 4"
+                value={nbSeats}
+                onChangeText={setNbSeats}
+                keyboardType="numeric"
+                style={styles.input}
+                maxLength={1}
+                returnKeyType="done"
+              />
 
-          <Text style={styles.inputLabel}>Plaque d'immatriculation</Text>
-          <TextInput
-            placeholder="AB-123-CD"
-            value={licencePlate}
-            onChangeText={handlePlateChange}
-            autoCapitalize="characters"
-            style={styles.input}
-            maxLength={9}
-          />
-        </View>
+              <Text style={styles.inputLabel}>Plaque d'immatriculation</Text>
+              <TextInput
+                placeholder="AB-123-CD"
+                value={licencePlate}
+                onChangeText={handlePlateChange}
+                autoCapitalize="characters"
+                style={styles.input}
+                maxLength={9}
+                returnKeyType="done"
+              />
+            </View>
 
-        <TouchableOpacity style={styles.saveButton} onPress={saveVehicle}>
-          <Text style={styles.saveText}>Enregistrer</Text>
-        </TouchableOpacity>
-      </View>
+            <TouchableOpacity style={styles.saveButton} onPress={saveVehicle}>
+              <Text style={styles.saveText}>Enregistrer</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
 
-      <SelectionModal
-        visible={brandModalVisible}
-        title="Choisir une marque"
-        data={Object.keys(CAR_DATA)}
-        onClose={() => setBrandModalVisible(false)}
-        onSelect={(selectedBrand) => {
-          setBrand(selectedBrand);
-          setModel("");
-        }}
-      />
+    <SelectionModal
+      visible={brandModalVisible}
+      title="Choisir une marque"
+      data={Object.keys(CAR_DATA)}
+      onClose={() => setBrandModalVisible(false)}
+      onSelect={(selectedBrand) => {
+        setBrand(selectedBrand);
+        setModel("");
+      }}
+    />
 
-      <SelectionModal
-        visible={modelModalVisible}
-        title="Choisir un modèle"
-        data={availableModels}
-        onClose={() => setModelModalVisible(false)}
-        onSelect={(selectedModel) => setModel(selectedModel)}
-      />
+    <SelectionModal
+      visible={modelModalVisible}
+      title="Choisir un modèle"
+      data={availableModels}
+      onClose={() => setModelModalVisible(false)}
+      onSelect={(selectedModel) => setModel(selectedModel)}
+    />
 
-      <SelectionModal
-        visible={colorModalVisible}
-        title="Choisir une couleur"
-        data={CAR_COLORS}
-        onClose={() => setColorModalVisible(false)}
-        onSelect={(selectedColor) => setColor(selectedColor)}
-      />
-    </SafeAreaView>
-  );
+    <SelectionModal
+      visible={colorModalVisible}
+      title="Choisir une couleur"
+      data={CAR_COLORS}
+      onClose={() => setColorModalVisible(false)}
+      onSelect={(selectedColor) => setColor(selectedColor)}
+    />
+  </SafeAreaView>
+);
 }
