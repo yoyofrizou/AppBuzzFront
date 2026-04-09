@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from "react";  //useState memoire locale pour messages/text/isLoading et UseCallback pour memoriser une fonction qu on utilise avec UseFocusEffect
+import React, { useCallback, useEffect, useRef, useState } from "react";  //useState memoire locale pour messages/text/isLoading et UseCallback pour memoriser une fonction qu on utilise avec UseFocusEffect
 import {
   View,
   Text,
@@ -26,6 +26,8 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
   const [text, setText] = useState(""); //ce que l'utilisateur ecrit, au depart chaine vide
   const [isLoading, setIsLoading] = useState(true); //Déclencher une action quand l’écran reprend le focus, qd l'ecran s'ouvre on considere qu il est en telechargement
 
+   const flatListRef = useRef(null);
+
   const isCurrentUserDriver = //compare IdDriver et currentUserId savoir si c est le conducteur qui ecrit ou non
     String(conversation.driver?._id || conversation.driver) === //conversation.driver?._id parce que parfois deja un objet peuple avec id
     String(currentUserId);  //string car l'id en Mongo peut etre une chaine, un objet ou un objectId donc on met tout en texte pour comparer
@@ -42,29 +44,6 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
       ? conversation.passengerName
       : conversation.driverName) ||
     "Utilisateur"; //3eme fallback, sinon utilisateur
-
-  /*const loadMessages = async () => {  //Fonction asynchrone qui va chercher les messages au backend
-    try {
-
-      setIsLoading(true); //Avant de lancer le fetch, je mets l’écran en mode chargement
-
-      const response = await fetch(   //appelle mon backend pour récup les messages de cette conversation pour cet utilisateur
-        `${API_URL}/messages/${conversationId}/${token}` //quelle conv et quel utilisateur la lit
-      );
-
-      const data = await response.json();  //convertit la reponse backend en objet JS
-
-      if (data.result) {   //si le backend rep bien je mets les messages dans l'etat sinon je vide la liste
-        setMessages(data.messages || []); //|| [] au cas ou data.messages serait absent
-      } else {
-        setMessages([]);
-      }
-    } catch (error) {  //si erreur je mets une liste vide et j arrete le loading comme ca je ne reste pas bloque 
-      setMessages([]);
-    } finally {
-      setIsLoading(false);
-    }
-  }; */
 
   const loadMessages = async () => {
   try {
@@ -101,6 +80,16 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
       }
     }, [token, conversationId])
   );
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      const timer = setTimeout(() => {
+        flatListRef.current?.scrollToEnd({ animated: true });
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+  }, [messages]);
 
   const sendMessage = async () => { //Fonction appelée quand on appuie sur “Envoyer”
     if (!text.trim()) return;   //Si le texte est vide ou seulement des espaces : on n’envoie rien
@@ -210,10 +199,14 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
           </View>
         ) : (
           <FlatList    
+           ref={flatListRef}
             data={messages}
             keyExtractor={(item) => String(item._id)}  
             renderItem={renderMessage}  
             contentContainerStyle={styles.messagesList} 
+            onContentSizeChange={() =>
+              flatListRef.current?.scrollToEnd({ animated: true })
+            }
           />
         )}
 

@@ -18,7 +18,8 @@ import styles from "../styles/DriverEvaluationsStyles";
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 const BORDEAUX = "#8B2332";
 
-export default function DriverEvaluationsScreen({ navigation }) {
+export default function DriverEvaluationsScreen({ navigation }) { //fonction spéciale : un composant React Native, ca cree un ecran, Je récupère directement navigation (objet fourni par React Navigation qui sert a naviguer entre les ecrans) depuis les props
+  //J’exporte ce composant (un seul element principal) pour qu’il puisse être utilisé ailleurs
   const user = useSelector((state) => state.user?.value);
 
   const [loading, setLoading] = useState(true);
