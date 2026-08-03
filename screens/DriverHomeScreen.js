@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector } from "react-redux";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import styles from "../styles/DriverHomeStyles";
+import { colors } from "../styles/theme";
 
 export default function DriverHomeScreen({ navigation }) {
   const user = useSelector((state) => state.user.value);
@@ -182,13 +183,15 @@ export default function DriverHomeScreen({ navigation }) {
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <View style={styles.header}>
-          <Text style={styles.logo}>BUZZ</Text>
+          <View style={styles.logoGroup}>
+            <Text style={styles.logo}>TOGO</Text>
+          </View>
 
           <TouchableOpacity
             onPress={() => navigation.navigate("DriverProfile")}
             style={styles.profileIcon}
           >
-            <Ionicons name="person-circle-outline" size={40} color="#111" />
+            <Ionicons name="person-circle-outline" size={32} color={colors.textPrimary} />
           </TouchableOpacity>
         </View>
 
@@ -198,7 +201,9 @@ export default function DriverHomeScreen({ navigation }) {
           onPress={handleGoToCreateRide}
         >
           <Text style={styles.searchPlaceholder}>Proposer un trajet</Text>
-          <Ionicons name="add-circle-outline" size={30} color="#7A7A7A" />
+          <View style={styles.searchBarIcon}>
+            <Ionicons name="add" size={22} color={colors.textPrimary} />
+          </View>
         </TouchableOpacity>
 
         {!!driverWarningText && (
@@ -207,9 +212,9 @@ export default function DriverHomeScreen({ navigation }) {
             activeOpacity={0.8}
             onPress={() => navigation.navigate("DriverProfile")}
           >
-            <Ionicons name="alert-circle-outline" size={20} color="#8B2332" />
+            <View style={styles.warningDot} />
             <Text style={styles.driverWarningText}>{driverWarningText}</Text>
-            <Ionicons name="chevron-forward" size={20} color="#8B2332" />
+            <Ionicons name="chevron-forward" size={20} color={colors.textPrimary} />
           </TouchableOpacity>
         )}
 
@@ -219,12 +224,12 @@ export default function DriverHomeScreen({ navigation }) {
             activeOpacity={0.8}
             onPress={handleOpenSettings}
           >
-            <Ionicons name="warning-outline" size={20} color="#8B2332" />
+            <View style={styles.warningDot} />
             <Text style={styles.locationWarningText}>
               Vous devez activer la géolocalisation pour afficher votre
               position. Appuyez ici.
             </Text>
-            <Ionicons name="chevron-forward" size={20} color="#8B2332" />
+            <Ionicons name="chevron-forward" size={20} color={colors.textPrimary} />
           </TouchableOpacity>
         )}
       </View>
@@ -249,7 +254,7 @@ export default function DriverHomeScreen({ navigation }) {
                 <MaterialCommunityIcons
                   name="steering"
                   size={22}
-                  color="#fff"
+                  color={colors.white}
                 />
               </View>
 
@@ -265,15 +270,23 @@ export default function DriverHomeScreen({ navigation }) {
           )}
         </MapView>
 
-        <TouchableOpacity
-          style={styles.switchModeButton}
-          activeOpacity={0.8}
-          onPress={() => navigation.navigate("MainTabs")}
-        >
-          <Text style={styles.switchModeButtonText}>
-            Passer en mode passager
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.switchModeToggle}>
+          <View style={[styles.switchModeSegment, styles.switchModeSegmentActive]}>
+            <Text
+              style={[styles.switchModeSegmentText, styles.switchModeSegmentTextActive]}
+            >
+              Conducteur
+            </Text>
+          </View>
+
+          <TouchableOpacity
+            style={styles.switchModeSegment}
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate("MainTabs")}
+          >
+            <Text style={styles.switchModeSegmentText}>Passager</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <Modal

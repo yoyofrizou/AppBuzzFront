@@ -1,11 +1,10 @@
 import { StyleSheet } from "react-native";
-
-const BORDEAUX = "#8B2332";
+import { colors, shadow } from "./theme";
 
 export default StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#F4F4F6",
+    backgroundColor: colors.backgroundAlt,
     paddingHorizontal: 20,
   },
 
@@ -13,13 +12,13 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F4F4F6",
+    backgroundColor: colors.backgroundAlt,
     paddingHorizontal: 24,
   },
 
   emptyText: {
     fontSize: 18,
-    color: "#333333",
+    color: colors.textPrimary,
     fontWeight: "600",
   },
 
@@ -42,7 +41,7 @@ export default StyleSheet.create({
   headerTitle: {
     fontSize: 22,
     fontWeight: "800",
-    color: BORDEAUX,
+    color: colors.textPrimary,
     textAlign: "center",
     flex: 1,
     marginHorizontal: 8,
@@ -50,65 +49,57 @@ export default StyleSheet.create({
 
   stepText: {
     fontSize: 15,
-    color: "#777777",
+    color: colors.textSecondary,
     fontWeight: "500",
     textAlign: "center",
     marginBottom: 16,
   },
 
   summaryCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 18,
     paddingVertical: 20,
     paddingHorizontal: 18,
     alignItems: "center",
     marginBottom: 18,
-    shadowColor: "#000000",
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 2,
+    ...shadow.card,
   },
 
   summaryTitle: {
     fontSize: 18,
     fontWeight: "800",
-    color: "#111111",
+    color: colors.textPrimary,
     marginBottom: 6,
     textAlign: "center",
   },
 
   summarySubtitle: {
     fontSize: 14,
-    color: "#666666",
+    color: colors.textSecondary,
     marginBottom: 12,
     textAlign: "center",
   },
 
   paidAmountLabel: {
     fontSize: 14,
-    color: "#777777",
+    color: colors.textSecondary,
     marginBottom: 4,
   },
 
   paidAmountValue: {
     fontSize: 26,
     fontWeight: "800",
-    color: BORDEAUX,
+    color: colors.success,
   },
 
   passengerCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 18,
     paddingVertical: 22,
     paddingHorizontal: 18,
     alignItems: "center",
     marginBottom: 22,
-    shadowColor: "#000000",
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 2,
+    ...shadow.card,
   },
 
   avatar: {
@@ -122,7 +113,7 @@ export default StyleSheet.create({
     width: 96,
     height: 96,
     borderRadius: 48,
-    backgroundColor: BORDEAUX,
+    backgroundColor: colors.textPrimary,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 16,
@@ -131,14 +122,14 @@ export default StyleSheet.create({
   passengerName: {
     fontSize: 19,
     fontWeight: "700",
-    color: "#1F1F1F",
+    color: colors.textPrimary,
     textAlign: "center",
   },
 
   question: {
     fontSize: 21,
     fontWeight: "700",
-    color: "#1F1F1F",
+    color: colors.textPrimary,
     textAlign: "center",
     marginBottom: 18,
   },
@@ -152,45 +143,42 @@ export default StyleSheet.create({
   commentLabel: {
     fontSize: 16,
     fontWeight: "700",
-    color: "#1F1F1F",
+    color: colors.textPrimary,
     marginBottom: 10,
   },
 
   input: {
     minHeight: 120,
-    backgroundColor: "#FFFFFF",
-    borderWidth: 1.5,
-    borderColor: BORDEAUX,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
     borderRadius: 16,
     paddingHorizontal: 16,
     paddingVertical: 14,
     fontSize: 16,
-    color: "#1F1F1F",
+    color: colors.textPrimary,
     textAlignVertical: "top",
     marginBottom: 24,
   },
 
   submitButton: {
-    backgroundColor: BORDEAUX,
+    backgroundColor: colors.textPrimary,
     borderRadius: 16,
     paddingVertical: 18,
     alignItems: "center",
     marginBottom: 20,
-    shadowColor: BORDEAUX,
-    shadowOpacity: 0.18,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 3,
+    ...shadow.soft,
   },
 
   submitButtonText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 16,
     fontWeight: "700",
     textAlign: "center",
   },
+
   scrollContent: {
-  flexGrow: 1,
-  paddingBottom: 40,
-},
+    flexGrow: 1,
+    paddingBottom: 40,
+  },
 });

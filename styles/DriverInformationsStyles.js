@@ -1,15 +1,15 @@
 import { StyleSheet } from "react-native";
+import { colors, shadow } from "./theme";
 
 export default StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.background,
   },
 
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingTop: 10,
     paddingTop: 35,
   },
 
@@ -21,18 +21,19 @@ export default StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "800",
-    color: "#800020",
+    color: colors.textPrimary,
     marginBottom: 12,
     textAlign: "center",
   },
 
   card: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 14,
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderWidth: 1,
-    borderColor: "#E5E5E5",
+    borderColor: colors.border,
+    ...shadow.card,
   },
 
   row: {
@@ -53,24 +54,24 @@ export default StyleSheet.create({
 
   rowValue: {
     fontSize: 16,
-    color: "#111111",
+    color: colors.textPrimary,
   },
 
   separator: {
     height: 1,
-    backgroundColor: "#EEEEEE",
+    backgroundColor: colors.border,
   },
 
   editButton: {
     marginTop: 35,
-    backgroundColor: "#800020",
+    backgroundColor: colors.textPrimary,
     paddingVertical: 14,
     borderRadius: 10,
     alignItems: "center",
   },
 
   editButtonText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 16,
     fontWeight: "600",
   },

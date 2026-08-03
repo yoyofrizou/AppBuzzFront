@@ -19,6 +19,7 @@ import { logout, updateProfilePhoto } from "../redux/reducers/user";
 import { resetRidesState } from "../redux/reducers/rides";
 
 import styles from "../styles/DriverProfileStyles";
+import { colors } from "../styles/theme";
 import BackButton from "../components/BackButton";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
@@ -189,9 +190,9 @@ const confirmDeleteAccount = async () => {
     <SafeAreaView style={styles.screen}>
       <View style={styles.header}>
         <View style={styles.backButtonWrapper}>
-          <BackButton />
+          <BackButton color={colors.textPrimary} />
         </View>
-        <Text style={styles.headerTitle}>Mon compte Buzz</Text>
+        <Text style={styles.headerTitle}>Mon compte Togo</Text>
       </View>
 
       <ScrollView
@@ -223,7 +224,7 @@ const confirmDeleteAccount = async () => {
           onPress={() => navigation.navigate("DriverInformations")}
         >
           <Text style={styles.buttonText}>Mes informations</Text>
-          <FontAwesome name="angle-right" size={20} color="#000" />
+          <FontAwesome name="angle-right" size={20} color={colors.textPrimary} />
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -237,13 +238,13 @@ const confirmDeleteAccount = async () => {
               <FontAwesome
                 name="exclamation-circle"
                 size={16}
-                color="#800020"
+                color={colors.danger}
                 style={styles.warningIcon}
               />
             )}
           </View>
 
-          <FontAwesome name="angle-right" size={20} color="#000" />
+          <FontAwesome name="angle-right" size={20} color={colors.textPrimary} />
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -257,13 +258,13 @@ const confirmDeleteAccount = async () => {
               <FontAwesome
                 name="exclamation-circle"
                 size={16}
-                color="#800020"
+                color={colors.danger}
                 style={styles.warningIcon}
               />
             )}
           </View>
 
-          <FontAwesome name="angle-right" size={20} color="#000" />
+          <FontAwesome name="angle-right" size={20} color={colors.textPrimary} />
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -271,7 +272,7 @@ const confirmDeleteAccount = async () => {
           onPress={() => navigation.navigate("DriverEvaluations")}
         >
           <Text style={styles.buttonText}>Mes évaluations</Text>
-          <FontAwesome name="angle-right" size={20} color="#000" />
+          <FontAwesome name="angle-right" size={20} color={colors.textPrimary} />
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -279,7 +280,7 @@ const confirmDeleteAccount = async () => {
           onPress={() => navigation.navigate("DriverPayouts")}
         >
           <Text style={styles.buttonText}>Mes versements</Text>
-          <FontAwesome name="angle-right" size={20} color="#000" />
+          <FontAwesome name="angle-right" size={20} color={colors.textPrimary} />
         </TouchableOpacity>
       </ScrollView>
 

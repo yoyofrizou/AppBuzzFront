@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setDriverRides } from "../redux/reducers/rides";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "../styles/DriverTripsStyles";
+import { colors } from "../styles/theme";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -488,7 +489,7 @@ const handleCancelRide = (rideId) => {
             />
           ) : (
             <View style={styles.passengerAvatarPlaceholder}>
-              <Ionicons name="person" size={24} color="#FFFFFF" />
+              <Ionicons name="person" size={24} color={colors.white} />
             </View>
           )}
         </TouchableOpacity>
@@ -618,7 +619,7 @@ const handleCancelRide = (rideId) => {
             <Ionicons
               name="chevron-forward"
               size={22}
-              color={canOpenRide ? "#8B2332" : "#BDBDBD"}
+              color={canOpenRide ? colors.textPrimary : colors.border}
             />
           </View>
 
@@ -754,7 +755,7 @@ const handleCancelRide = (rideId) => {
 
     return (
       <View style={styles.emptyContainer}>
-        <Ionicons name="car-outline" size={58} color="#8A8A8A" />
+        <Ionicons name="car-outline" size={58} color={colors.textSecondary} />
         <Text style={styles.emptyTitle}>{title}</Text>
         <Text style={styles.emptyText}>{subtitle}</Text>
 
@@ -848,7 +849,7 @@ const handleCancelRide = (rideId) => {
 
         {loading ? (
           <View style={styles.loaderContainer}>
-            <ActivityIndicator size="large" color="#7A2335" />
+            <ActivityIndicator size="large" color={colors.textPrimary} />
           </View>
         ) : (
           <FlatList

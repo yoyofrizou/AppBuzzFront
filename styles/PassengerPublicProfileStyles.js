@@ -1,11 +1,12 @@
 import { StyleSheet } from "react-native";
+import { colors } from "./theme";
 
-const BORDEAUX = "#8B2332";
+const BORDEAUX = colors.textPrimary;
 
 export default StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.background,
   },
 
   listContent: {
@@ -67,7 +68,7 @@ export default StyleSheet.create({
   name: {
     fontSize: 22,
     fontWeight: "700",
-    color: "#111111",
+    color: colors.textPrimary,
     textAlign: "center",
     marginBottom: 16,
   },
@@ -83,13 +84,13 @@ export default StyleSheet.create({
   },
 
   contactButtonText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 16,
     fontWeight: "700",
   },
 
   ratingCard: {
-    backgroundColor: "#F7F7F7",
+    backgroundColor: colors.fill,
     borderRadius: 20,
     padding: 18,
     marginBottom: 20,
@@ -98,7 +99,7 @@ export default StyleSheet.create({
   ratingCardTitle: {
     fontSize: 18,
     fontWeight: "700",
-    color: "#111111",
+    color: colors.textPrimary,
     marginBottom: 14,
   },
 
@@ -122,7 +123,7 @@ export default StyleSheet.create({
 
   averageCount: {
     fontSize: 14,
-    color: "#666666",
+    color: colors.textSecondary,
     fontWeight: "500",
   },
 
@@ -139,14 +140,14 @@ export default StyleSheet.create({
   },
 
   distributionRowActive: {
-    backgroundColor: "#F0E4E7",
+    backgroundColor: colors.mintSoft,
     paddingHorizontal: 8,
   },
 
   distributionLabel: {
     width: 72,
     fontSize: 14,
-    color: "#333333",
+    color: colors.textPrimary,
     fontWeight: "600",
   },
 
@@ -158,7 +159,7 @@ export default StyleSheet.create({
   distributionBarTrack: {
     flex: 1,
     height: 9,
-    backgroundColor: "#E4E4E4",
+    backgroundColor: colors.border,
     borderRadius: 999,
     overflow: "hidden",
     marginHorizontal: 10,
@@ -174,7 +175,7 @@ export default StyleSheet.create({
     width: 24,
     textAlign: "right",
     fontSize: 14,
-    color: "#555555",
+    color: colors.textSecondary,
     fontWeight: "600",
   },
 
@@ -199,11 +200,11 @@ export default StyleSheet.create({
   commentsTitle: {
     fontSize: 18,
     fontWeight: "700",
-    color: "#111111",
+    color: colors.textPrimary,
   },
 
   reviewCard: {
-    backgroundColor: "#F7F7F7",
+    backgroundColor: colors.fill,
     borderRadius: 18,
     padding: 16,
     marginBottom: 12,
@@ -220,13 +221,13 @@ export default StyleSheet.create({
     flex: 1,
     fontSize: 15,
     fontWeight: "700",
-    color: "#111111",
+    color: colors.textPrimary,
     marginRight: 10,
   },
 
   reviewDate: {
     fontSize: 13,
-    color: "#777777",
+    color: colors.textSecondary,
   },
 
   reviewStars: {
@@ -237,7 +238,7 @@ export default StyleSheet.create({
 
   reviewComment: {
     fontSize: 14,
-    color: "#333333",
+    color: colors.textPrimary,
     lineHeight: 21,
   },
 
@@ -249,7 +250,7 @@ export default StyleSheet.create({
 
   emptyText: {
     fontSize: 16,
-    color: "#666666",
+    color: colors.textSecondary,
   },
 
   emptyCommentsContainer: {
@@ -259,7 +260,7 @@ export default StyleSheet.create({
 
   emptyCommentsText: {
     fontSize: 14,
-    color: "#777777",
+    color: colors.textSecondary,
     textAlign: "center",
   },
 });

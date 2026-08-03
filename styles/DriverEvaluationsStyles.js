@@ -1,16 +1,15 @@
 import { StyleSheet } from "react-native";
-
-const BORDEAUX = "#8B2332";
+import { colors, shadow } from "./theme";
 
 export default StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#F4F4F6",
+    backgroundColor: colors.backgroundAlt,
   },
 
   screen: {
     flex: 1,
-    backgroundColor: "#F4F4F6",
+    backgroundColor: colors.backgroundAlt,
     paddingTop: 35,
   },
 
@@ -41,36 +40,31 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F4F4F6",
+    backgroundColor: colors.backgroundAlt,
   },
 
   pageTitle: {
     fontSize: 22,
     marginTop: 40,
     fontWeight: "800",
-    color: "#800020",
+    color: colors.textPrimary,
     textAlign: "center",
   },
 
   summaryCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 18,
     paddingVertical: 28,
     paddingHorizontal: 20,
     alignItems: "center",
-  
     marginBottom: 18,
-    shadowColor: "#000000",
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 3,
+    ...shadow.card,
   },
 
   averageText: {
     fontSize: 42,
     fontWeight: "800",
-    color: "#111111",
+    color: colors.textPrimary,
     marginBottom: 14,
   },
 
@@ -81,20 +75,16 @@ export default StyleSheet.create({
 
   totalText: {
     fontSize: 14,
-    color: "#666666",
+    color: colors.textSecondary,
   },
 
   histogramCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 18,
     paddingVertical: 18,
     paddingHorizontal: 16,
     marginBottom: 18,
-    shadowColor: "#000000",
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 2,
+    ...shadow.card,
   },
 
   histogramRow: {
@@ -107,13 +97,13 @@ export default StyleSheet.create({
     width: 28,
     fontSize: 14,
     fontWeight: "600",
-    color: "#333333",
+    color: colors.textPrimary,
   },
 
   histogramBarBackground: {
     flex: 1,
     height: 10,
-    backgroundColor: "#E8E8EC",
+    backgroundColor: colors.fill,
     borderRadius: 999,
     marginHorizontal: 12,
     overflow: "hidden",
@@ -121,7 +111,7 @@ export default StyleSheet.create({
 
   histogramBarFill: {
     height: "100%",
-    backgroundColor: BORDEAUX,
+    backgroundColor: colors.textPrimary,
     borderRadius: 999,
   },
 
@@ -129,20 +119,16 @@ export default StyleSheet.create({
     width: 20,
     textAlign: "right",
     fontSize: 14,
-    color: "#555555",
+    color: colors.textSecondary,
   },
 
   reviewCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 18,
     padding: 16,
     flexDirection: "row",
     marginBottom: 14,
-    shadowColor: "#000000",
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 2,
+    ...shadow.card,
   },
 
   avatarWrapper: {
@@ -159,7 +145,7 @@ export default StyleSheet.create({
     width: 54,
     height: 54,
     borderRadius: 27,
-    backgroundColor: BORDEAUX,
+    backgroundColor: colors.textPrimary,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -178,14 +164,14 @@ export default StyleSheet.create({
   reviewerName: {
     fontSize: 15,
     fontWeight: "700",
-    color: "#111111",
+    color: colors.textPrimary,
     flex: 1,
     marginRight: 8,
   },
 
   reviewDate: {
     fontSize: 12,
-    color: "#888888",
+    color: colors.textSecondary,
   },
 
   reviewStarsRow: {
@@ -197,13 +183,13 @@ export default StyleSheet.create({
   reviewRatingText: {
     marginLeft: 6,
     fontSize: 14,
-    color: "#777777",
+    color: colors.textSecondary,
     fontWeight: "600",
   },
 
   reviewComment: {
     fontSize: 16,
-    color: "#333333",
+    color: colors.textPrimary,
     lineHeight: 22,
   },
 });

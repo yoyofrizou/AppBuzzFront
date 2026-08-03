@@ -1,49 +1,59 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet } from "react-native";
+import { colors, radii, shadow } from "./theme";
 
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#f4f4f4",
+    backgroundColor: colors.backgroundAlt,
   },
 
   container: {
     flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 30,
+    paddingVertical: 40,
   },
 
   card: {
-    width: "84%",
+    width: "88%",
     alignItems: "center",
+    backgroundColor: colors.surface,
+    borderRadius: radii.card,
+    paddingTop: 44,
+    paddingBottom: 28,
+    paddingHorizontal: 24,
+    marginTop: -10,
+    position: "relative",
+    ...shadow.card,
   },
 
   logo: {
-    fontSize: 42,
+    fontSize: 32,
     fontWeight: "800",
-    color: "#A7333F",
-    marginBottom: 8,
+    letterSpacing: 1,
+    color: colors.mint,
+    marginBottom: 6,
   },
 
   title: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: "500",
-    color: "#444",
-    marginBottom: 18,
+    color: colors.textPrimary,
+    marginBottom: 20,
   },
 
   avatarWrapper: {
     position: "relative",
-    marginBottom: 18,
+    marginBottom: 20,
   },
 
   avatarPlaceholder: {
     width: 90,
     height: 90,
     borderRadius: 45,
-    backgroundColor: "#d8d8d8",
+    backgroundColor: colors.placeholder,
     borderWidth: 3,
-    borderColor: "#ececec",
+    borderColor: colors.border,
   },
 
   avatar: {
@@ -51,61 +61,68 @@ const styles = StyleSheet.create({
     height: 90,
     borderRadius: 45,
     borderWidth: 3,
-    borderColor: "#ececec",
+    borderColor: colors.border,
   },
 
   plusBadge: {
     position: "absolute",
     right: -2,
     bottom: 4,
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    backgroundColor: "#A7333F",
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: colors.mint,
     justifyContent: "center",
     alignItems: "center",
   },
 
   plusText: {
-    color: "#fff",
+    color: colors.textPrimary,
     fontSize: 16,
     fontWeight: "700",
   },
 
-  input: {
+  inputRow: {
     width: "100%",
-    height: 46,
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    paddingHorizontal: 14,
+    height: 50,
+    backgroundColor: colors.fill,
+    borderRadius: 14,
+    paddingHorizontal: 16,
     marginBottom: 12,
-    color: "#333",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+
+  inputField: {
+    flex: 1,
+    height: "100%",
+    color: colors.textPrimary,
+    fontSize: 15,
   },
 
   passwordContainer: {
     width: "100%",
-    height: 46,
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    paddingHorizontal: 14,
+    height: 50,
+    backgroundColor: colors.fill,
+    borderRadius: 14,
+    paddingHorizontal: 16,
     marginBottom: 8,
     flexDirection: "row",
     alignItems: "center",
+    gap: 10,
   },
 
   passwordInput: {
     flex: 1,
     height: "100%",
-    color: "#333",
+    color: colors.textPrimary,
+    fontSize: 15,
   },
 
   passwordInfo: {
     width: "100%",
-    color: "#000",
+    color: colors.textSecondary,
     fontSize: 12,
     lineHeight: 17,
     marginTop: -2,
@@ -113,23 +130,24 @@ const styles = StyleSheet.create({
   },
 
   passwordInfoError: {
-    color: "#b00020",
+    color: colors.danger,
   },
 
   error: {
     width: "100%",
-    color: "#b00020",
+    color: colors.danger,
     marginBottom: 10,
     marginTop: -4,
     fontSize: 13,
   },
+
   backButton: {
-  position: "absolute",
-  top: Platform.OS === "ios" ? 60 : 30,
-  left: 20,
-  zIndex: 20,
-  padding: 8,
-},
+    position: "absolute",
+    top: 14,
+    left: 14,
+    zIndex: 20,
+    padding: 6,
+  },
 });
 
 export default styles;

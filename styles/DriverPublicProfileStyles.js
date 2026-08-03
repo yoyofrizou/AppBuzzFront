@@ -1,16 +1,17 @@
 import { StyleSheet } from "react-native";
+import { colors } from "./theme";
 
-const BORDEAUX = "#8B2332";
+const BORDEAUX = colors.textPrimary;
 
 export default StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#F4F4F6",
+    backgroundColor: colors.backgroundAlt,
   },
 
   screen: {
     flex: 1,
-    backgroundColor: "#F4F4F6",
+    backgroundColor: colors.backgroundAlt,
   },
 
   loaderContainer: {
@@ -28,22 +29,22 @@ export default StyleSheet.create({
   },
 
   headerSpacer: {
-  width: 42,
-  height: 42,
-},
+    width: 42,
+    height: 42,
+  },
 
-closeButton: {
-  width: 42,
-  height: 42,
-  borderRadius: 21,
-  justifyContent: "center",
-  alignItems: "center",
-},
+  closeButton: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 
   pageTitle: {
     fontSize: 20,
     fontWeight: "800",
-    color: "#111111",
+    color: colors.textPrimary,
   },
 
   content: {
@@ -52,7 +53,7 @@ closeButton: {
   },
 
   profileCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 24,
     padding: 22,
     alignItems: "center",
@@ -79,7 +80,7 @@ closeButton: {
   driverName: {
     fontSize: 22,
     fontWeight: "800",
-    color: "#1F1F1F",
+    color: colors.textPrimary,
     textAlign: "center",
     marginBottom: 10,
   },
@@ -99,7 +100,7 @@ closeButton: {
 
   totalText: {
     fontSize: 14,
-    color: "#666666",
+    color: colors.textSecondary,
     fontWeight: "600",
     marginBottom: 14,
   },
@@ -107,7 +108,7 @@ closeButton: {
   carBox: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#F8F4F5",
+    backgroundColor: colors.fill,
     borderRadius: 16,
     paddingVertical: 10,
     paddingHorizontal: 12,
@@ -116,13 +117,13 @@ closeButton: {
   carText: {
     marginLeft: 8,
     fontSize: 13,
-    color: "#333333",
+    color: colors.textPrimary,
     fontWeight: "600",
     flexShrink: 1,
   },
 
   sectionCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 22,
     padding: 18,
     marginBottom: 16,
@@ -131,7 +132,7 @@ closeButton: {
   sectionTitle: {
     fontSize: 18,
     fontWeight: "800",
-    color: "#1F1F1F",
+    color: colors.textPrimary,
     marginBottom: 14,
   },
 
@@ -143,8 +144,8 @@ closeButton: {
     borderRadius: 12,
   },
 
-   histogramRowActive: {
-    backgroundColor: "#F0E4E7",
+  histogramRowActive: {
+    backgroundColor: colors.mintSoft,
     paddingHorizontal: 8,
   },
 
@@ -152,7 +153,7 @@ closeButton: {
     width: 72,
     fontSize: 14,
     fontWeight: "700",
-    color: "#333333",
+    color: colors.textPrimary,
   },
 
   histogramLabelActive: {
@@ -163,7 +164,7 @@ closeButton: {
   histogramBarBackground: {
     flex: 1,
     height: 10,
-    backgroundColor: "#ECECEC",
+    backgroundColor: colors.fill,
     borderRadius: 999,
     overflow: "hidden",
     marginHorizontal: 10,
@@ -179,11 +180,11 @@ closeButton: {
     width: 24,
     textAlign: "right",
     fontSize: 13,
-    color: "#666666",
+    color: colors.textSecondary,
     fontWeight: "700",
   },
 
-   histogramCountActive: {
+  histogramCountActive: {
     color: BORDEAUX,
     fontWeight: "800",
   },
@@ -196,9 +197,9 @@ closeButton: {
     textDecorationLine: "underline",
     alignSelf: "flex-start",
   },
-  
+
   reviewCard: {
-    backgroundColor: "#FAFAFA",
+    backgroundColor: colors.fill,
     borderRadius: 18,
     padding: 14,
     marginBottom: 12,
@@ -236,12 +237,12 @@ closeButton: {
   reviewerName: {
     fontSize: 14,
     fontWeight: "800",
-    color: "#1F1F1F",
+    color: colors.textPrimary,
   },
 
   reviewDate: {
     fontSize: 12,
-    color: "#777777",
+    color: colors.textSecondary,
     marginTop: 2,
   },
 
@@ -260,12 +261,12 @@ closeButton: {
 
   reviewComment: {
     fontSize: 14,
-    color: "#444444",
+    color: colors.textPrimary,
     lineHeight: 20,
   },
 
   rideCard: {
-    backgroundColor: "#FAFAFA",
+    backgroundColor: colors.fill,
     borderRadius: 18,
     padding: 14,
     marginBottom: 12,
@@ -288,7 +289,7 @@ closeButton: {
 
   rideRouteText: {
     fontSize: 14,
-    color: "#2E2E2E",
+    color: colors.textPrimary,
     lineHeight: 20,
   },
 
@@ -302,18 +303,18 @@ closeButton: {
   ridePrice: {
     fontSize: 22,
     fontWeight: "800",
-    color: "#1F1F1F",
+    color: colors.textPrimary,
   },
 
   rideSeats: {
     fontSize: 13,
-    color: "#666666",
+    color: colors.textSecondary,
     fontWeight: "700",
   },
 
   emptyText: {
     fontSize: 14,
-    color: "#666666",
+    color: colors.textSecondary,
     lineHeight: 20,
   },
 });

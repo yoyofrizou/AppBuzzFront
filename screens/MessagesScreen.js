@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import styles from "../styles/MessagesStyles";
+import { colors } from "../styles/theme";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -149,7 +150,7 @@ const hasUnread = (item.unreadCount || 0) > 0;
       <Text style={styles.title}>Messages</Text>
 
       {isLoading && conversations.length === 0 ? (
-        <ActivityIndicator size="large" color="#A34757" style={styles.loader} />
+        <ActivityIndicator size="large" color={colors.textPrimary} style={styles.loader} />
       ) : shouldShowEmpty ? (
         <Text style={styles.emptyText}>Aucune conversation</Text>
       ) : (

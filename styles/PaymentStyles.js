@@ -1,13 +1,14 @@
 import { StyleSheet } from "react-native";
+import { colors } from "./theme";
 
-const PRIMARY = "#8E2C47";
-const PRIMARY_LIGHT = "#B14A67";
-const BACKGROUND = "#F6F6F8";
-const WHITE = "#FFFFFF";
-const TEXT = "#111111";
-const MUTED = "#6E6E73";
-const BORDER = "#E5E5EA";
-const ERROR = "#C62828";
+const PRIMARY = colors.textPrimary;
+const PRIMARY_LIGHT = colors.textSecondary;
+const BACKGROUND = colors.backgroundAlt;
+const WHITE = colors.surface;
+const TEXT = colors.textPrimary;
+const MUTED = colors.textSecondary;
+const BORDER = colors.border;
+const ERROR = colors.danger;
 
 export default StyleSheet.create({
   safeArea: {
@@ -132,8 +133,8 @@ export default StyleSheet.create({
     borderRadius: 999,
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 1.5,
-    borderColor: PRIMARY,
+    borderWidth: 1,
+    borderColor: colors.border,
     paddingHorizontal: 16,
   },
 

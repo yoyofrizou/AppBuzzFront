@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native";
+import { colors, radii, shadow } from "./theme";
 
 export default StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#F9F7F7",
+    backgroundColor: colors.background,
   },
 
   header: {
@@ -26,7 +27,7 @@ export default StyleSheet.create({
   headerTitle: {
     fontSize: 24,
     fontWeight: "800",
-    color: "#800020",
+    color: colors.textPrimary,
     textAlign: "center",
   },
 
@@ -52,7 +53,7 @@ export default StyleSheet.create({
     width: 108,
     height: 108,
     borderRadius: 54,
-    backgroundColor: "#DDD8DC",
+    backgroundColor: colors.placeholder,
   },
 
   plusBadge: {
@@ -62,18 +63,14 @@ export default StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: "#800020",
+    backgroundColor: colors.mint,
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.12,
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 4,
-    elevation: 3,
+    ...shadow.soft,
   },
 
   plusText: {
-    color: "#fff",
+    color: colors.textPrimary,
     fontSize: 20,
     fontWeight: "bold",
     lineHeight: 20,
@@ -83,14 +80,14 @@ export default StyleSheet.create({
     fontSize: 21,
     fontWeight: "800",
     marginBottom: 28,
-    color: "#800020",
+    color: colors.textPrimary,
     textAlign: "center",
   },
 
   button: {
     width: "86%",
     height: 58,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 18,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -98,17 +95,13 @@ export default StyleSheet.create({
     paddingHorizontal: 18,
     marginBottom: 14,
     borderWidth: 1,
-    borderColor: "#EFE7EA",
-    shadowColor: "#000",
-    shadowOpacity: 0.06,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 8,
-    elevation: 2,
+    borderColor: colors.border,
+    ...shadow.card,
   },
 
   buttonText: {
     fontSize: 16,
-    color: "#4A4A4A",
+    color: colors.textPrimary,
     fontWeight: "500",
   },
 
@@ -123,14 +116,14 @@ export default StyleSheet.create({
   },
 
   logoutText: {
-    color: "#800020",
+    color: colors.textPrimary,
     textDecorationLine: "underline",
     fontSize: 15,
     fontWeight: "500",
   },
 
   deleteText: {
-    color: "#A11A2B",
+    color: colors.danger,
     textDecorationLine: "underline",
     fontSize: 15,
     fontWeight: "500",
@@ -138,7 +131,7 @@ export default StyleSheet.create({
 
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.45)",
+    backgroundColor: colors.overlay,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 24,
@@ -146,17 +139,18 @@ export default StyleSheet.create({
 
   modalBox: {
     width: "100%",
-    backgroundColor: "#fff",
-    borderRadius: 18,
+    backgroundColor: colors.surface,
+    borderRadius: radii.card,
     padding: 22,
     alignItems: "center",
+    ...shadow.card,
   },
 
   modalText: {
     fontSize: 17,
     textAlign: "center",
     marginBottom: 20,
-    color: "#222",
+    color: colors.textPrimary,
     lineHeight: 24,
   },
 
@@ -174,13 +168,15 @@ export default StyleSheet.create({
   modalButtonText: {
     fontSize: 16,
     fontWeight: "700",
-    color: "#800020",
+    color: colors.textPrimary,
   },
+
   buttonLeft: {
-  flexDirection: "row",
-  alignItems: "center",
-},
-warningIcon: {
-  marginLeft: 8,
-},
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  warningIcon: {
+    marginLeft: 8,
+  },
 });

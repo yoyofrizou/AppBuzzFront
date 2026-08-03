@@ -1,16 +1,17 @@
 import { StyleSheet } from "react-native";
+import { colors } from "./theme";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FAFAFA",
+    backgroundColor: colors.backgroundAlt,
   },
 
   header: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     paddingVertical: 18,
     borderBottomWidth: 1,
-    borderBottomColor: "#EAEAEA",
+    borderBottomColor: colors.border,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -18,7 +19,7 @@ export default StyleSheet.create({
   headerTitle: {
     fontSize: 22,
     fontWeight: "700",
-    color: "#111",
+    color: colors.textPrimary,
   },
 
   centerContent: {
@@ -29,7 +30,7 @@ export default StyleSheet.create({
 
   loadingText: {
     fontSize: 16,
-    color: "#666",
+    color: colors.textSecondary,
   },
 
   messagesList: {
@@ -43,7 +44,7 @@ export default StyleSheet.create({
   },
 
   systemMessageBubble: {
-    backgroundColor: "#EEEEEE",
+    backgroundColor: colors.fill,
     borderRadius: 14,
     paddingVertical: 10,
     paddingHorizontal: 14,
@@ -52,7 +53,7 @@ export default StyleSheet.create({
 
   systemMessageText: {
     fontSize: 13,
-    color: "#555",
+    color: colors.textSecondary,
     textAlign: "center",
   },
 
@@ -77,11 +78,11 @@ export default StyleSheet.create({
   },
 
   myMessageBubble: {
-    backgroundColor: "#A34757",
+    backgroundColor: colors.textPrimary,
   },
 
   otherMessageBubble: {
-    backgroundColor: "#F0F0F0",
+    backgroundColor: colors.fill,
   },
 
   messageText: {
@@ -89,48 +90,50 @@ export default StyleSheet.create({
   },
 
   myMessageText: {
-    color: "#FFFFFF",
+    color: colors.white,
   },
 
   otherMessageText: {
-    color: "#111111",
+    color: colors.textPrimary,
   },
 
   inputBar: {
     flexDirection: "row",
     alignItems: "center",
     padding: 12,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderTopWidth: 1,
-    borderTopColor: "#EAEAEA",
+    borderTopColor: colors.border,
   },
 
   input: {
     flex: 1,
-    backgroundColor: "#F2F2F2",
+    backgroundColor: colors.fill,
     borderRadius: 22,
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 15,
-    color: "#111",
+    color: colors.textPrimary,
   },
 
   sendButton: {
     marginLeft: 10,
-    backgroundColor: "#A34757",
+    backgroundColor: colors.textPrimary,
     borderRadius: 22,
     paddingHorizontal: 16,
     paddingVertical: 12,
   },
 
   sendButtonText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontWeight: "700",
     fontSize: 14,
   },
+
   backArrow: {
-  position: "absolute",
-  left: -170,
-  fontSize: 24,
-}
+    position: "absolute",
+    left: -170,
+    fontSize: 24,
+    color: colors.textPrimary,
+  },
 });

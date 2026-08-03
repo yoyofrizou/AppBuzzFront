@@ -21,7 +21,8 @@ import { useSelector, useDispatch } from "react-redux"; //hooks pour communiquer
 import * as ImagePicker from "expo-image-picker"; //ce module permet de demander l'autorisation d'acces a la galerie, ouvrir la galeire et selectionner une image
 
 import styles from "../styles/DriverDocumentsStyles"; //On importe l’objet styles depuis un fichier séparé
-           //Ensuite on l’utilise comme : style={styles.title}, pour separer le style de la logique 
+           //Ensuite on l’utilise comme : style={styles.title}, pour separer le style de la logique
+import { colors } from "../styles/theme";
 import { updateDriverProfile } from "../redux/reducers/user"; //importe une action Redux appelée updateDriverProfile, pour mettre a jour le profil conducteur dans le store apres la sauvegarde
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL; //permet ensuite de faire par ex : fetch(`${EXPO_PUBLIC_API_URL}/users/uploadDriverDocument`)
@@ -204,7 +205,7 @@ export default function DriverDocumentsScreen({ navigation }) { //exporte le com
           <FontAwesome
             name={isDone ? "check-circle" : "exclamation-circle"}
             size={18}
-            color={isDone ? "#2E7D32" : "#800020"}
+            color={isDone ? colors.success : colors.danger}
             style={styles.rowIcon}
           />
           <Text style={styles.rowTitle}>{title}</Text>
@@ -217,7 +218,7 @@ export default function DriverDocumentsScreen({ navigation }) { //exporte le com
           disabled={isUploading}
         >
           {isUploading ? (
-            <ActivityIndicator color="#fff" />
+            <ActivityIndicator color={colors.white} />
           ) : (
             <Text style={styles.actionButtonText}>
               {isDone ? "Remplacer" : "Ajouter"}
@@ -230,7 +231,7 @@ export default function DriverDocumentsScreen({ navigation }) { //exporte le com
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <StatusBar barStyle="dark-content" backgroundColor={colors.background} />
 
       <ScrollView
         contentContainerStyle={styles.container}
@@ -241,7 +242,7 @@ export default function DriverDocumentsScreen({ navigation }) { //exporte le com
           onPress={() => navigation.goBack()}
           activeOpacity={0.7}
         >
-          <Ionicons name="arrow-back" size={28} color="#111111" />
+          <Ionicons name="arrow-back" size={28} color={colors.textPrimary} />
         </TouchableOpacity>
 
         <Text style={styles.title}>Mes documents</Text>

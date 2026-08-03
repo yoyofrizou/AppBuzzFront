@@ -1,10 +1,11 @@
 import { StyleSheet } from "react-native";
+import { colors } from "./theme";
 
-const PRIMARY = "#8E2C47";
-const BACKGROUND = "#F5F5F7";
-const WHITE = "#FFFFFF";
-const TEXT = "#111111";
-const MUTED = "#6E6E73";
+const PRIMARY = colors.textPrimary;
+const BACKGROUND = colors.backgroundAlt;
+const WHITE = colors.surface;
+const TEXT = colors.textPrimary;
+const MUTED = colors.textSecondary;
 
 export default StyleSheet.create({
   safeArea: {
@@ -78,7 +79,7 @@ export default StyleSheet.create({
   },
 
   payButtonText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 17,
     fontWeight: "700",
   },

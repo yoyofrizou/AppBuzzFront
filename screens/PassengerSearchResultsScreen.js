@@ -14,6 +14,7 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 import styles from "../styles/PassengerSearchResultsStyles";
+import { colors } from "../styles/theme";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -67,7 +68,7 @@ function renderRatingStars(rating) {
       key={star}
       name={star <= rounded ? "star" : "star-outline"}
       size={16}
-      color="#8B2332"
+      color={colors.textPrimary}
       style={{ marginRight: 2 }}
     />
   ));
@@ -247,17 +248,17 @@ export default function PassengerSearchResultsScreen({ navigation }) {
             style={styles.backButton}
             activeOpacity={0.7}
           >
-            <Ionicons name="arrow-back" size={28} color="#8B2332" />
+            <Ionicons name="arrow-back" size={28} color={colors.textPrimary} />
           </TouchableOpacity>
 
-          <Text style={styles.logo}>BUZZ</Text>
+          <Text style={styles.logo}>TOGO</Text>
 
           <TouchableOpacity
             onPress={() => navigation.navigate("Profile")}
             style={styles.profileButton}
             activeOpacity={0.7}
           >
-            <Ionicons name="person-circle-outline" size={40} color="#111" />
+            <Ionicons name="person-circle-outline" size={40} color={colors.textPrimary} />
           </TouchableOpacity>
         </View>
 
@@ -266,7 +267,7 @@ export default function PassengerSearchResultsScreen({ navigation }) {
           activeOpacity={0.8}
           onPress={() => navigation.goBack()}
         >
-          <Ionicons name="search-outline" size={20} color="#8B2332" />
+          <Ionicons name="search-outline" size={20} color={colors.textPrimary} />
           <Text style={styles.searchRecapText} numberOfLines={1}>
             {searchParams?.departure || "Départ"} →{" "}
             {searchParams?.destination || "Destination"}
@@ -304,7 +305,7 @@ export default function PassengerSearchResultsScreen({ navigation }) {
                   <MaterialCommunityIcons
                     name="steering"
                     size={14}
-                    color="#FFFFFF"
+                    color={colors.white}
                   />
                   <Text style={styles.priceMarkerPrice}>
                     {ride.price ?? 0}€
@@ -374,7 +375,7 @@ export default function PassengerSearchResultsScreen({ navigation }) {
                     />
                   ) : (
                     <View style={styles.driverPlaceholder}>
-                      <Ionicons name="person" size={20} color="#FFFFFF" />
+                      <Ionicons name="person" size={20} color={colors.white} />
                     </View>
                   )}
 
@@ -462,7 +463,7 @@ export default function PassengerSearchResultsScreen({ navigation }) {
                   onPress={handleValidateRide}
                 >
                   {checkingRideAccess ? (
-                    <ActivityIndicator color="#FFFFFF" />
+                    <ActivityIndicator color={colors.white} />
                   ) : (
                     <Text style={styles.validateButtonText}>
                       Valider le trajet

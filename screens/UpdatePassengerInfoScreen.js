@@ -14,6 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserInfos } from "../redux/reducers/user";
 import styles from "../styles/UpdatePassengerInfoStyles";
+import { colors } from "../styles/theme";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -97,7 +98,7 @@ const UpdatePassengerInfoScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <StatusBar barStyle="dark-content" backgroundColor={colors.background} />
 
       <View style={styles.container}>
         <TouchableOpacity
@@ -105,7 +106,7 @@ const UpdatePassengerInfoScreen = ({ navigation }) => {
           onPress={() => navigation.goBack()}
           activeOpacity={0.7}
         >
-          <Ionicons name="arrow-back" size={28} color="#111111" />
+          <Ionicons name="arrow-back" size={28} color={colors.textPrimary} />
         </TouchableOpacity>
 
         <Text style={styles.title}>Mettre à jour vos informations</Text>
@@ -125,7 +126,7 @@ const UpdatePassengerInfoScreen = ({ navigation }) => {
               value={firstName}
               onChangeText={setFirstName}
               placeholder="Prénom"
-              placeholderTextColor="#777"
+              placeholderTextColor={colors.textSecondary}
             />
           </View>
 
@@ -136,7 +137,7 @@ const UpdatePassengerInfoScreen = ({ navigation }) => {
               value={lastName}
               onChangeText={setLastName}
               placeholder="Nom"
-              placeholderTextColor="#777"
+              placeholderTextColor={colors.textSecondary}
             />
           </View>
 
@@ -147,7 +148,7 @@ const UpdatePassengerInfoScreen = ({ navigation }) => {
               value={phone}
               onChangeText={setPhone}
               placeholder="Téléphone"
-              placeholderTextColor="#777"
+              placeholderTextColor={colors.textSecondary}
               keyboardType="phone-pad"
             />
           </View>
@@ -159,7 +160,7 @@ const UpdatePassengerInfoScreen = ({ navigation }) => {
               value={email}
               onChangeText={setEmail}
               placeholder="Email"
-              placeholderTextColor="#777"
+              placeholderTextColor={colors.textSecondary}
               keyboardType="email-address"
               autoCapitalize="none"
             />
@@ -173,7 +174,7 @@ const UpdatePassengerInfoScreen = ({ navigation }) => {
           disabled={loading}
         >
           {loading ? (
-            <ActivityIndicator color="#FFFFFF" />
+            <ActivityIndicator color={colors.white} />
           ) : (
             <Text style={styles.saveButtonText}>Sauvegarder</Text>
           )}

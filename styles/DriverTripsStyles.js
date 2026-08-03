@@ -1,14 +1,15 @@
 import { StyleSheet } from "react-native";
+import { colors, radii, shadow } from "./theme";
 
 export default StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#F7F7F7",
+    backgroundColor: colors.backgroundAlt,
   },
 
   topBar: {
     height: 140,
-    backgroundColor: "#7A2335",
+    backgroundColor: colors.backgroundAlt,
     paddingTop: 55,
     paddingHorizontal: 20,
     alignItems: "center",
@@ -16,7 +17,7 @@ export default StyleSheet.create({
   },
 
   topBarTitle: {
-    color: "#FFFFFF",
+    color: colors.textPrimary,
     fontSize: 22,
     fontWeight: "800",
   },
@@ -28,7 +29,7 @@ export default StyleSheet.create({
   },
 
   createButton: {
-    backgroundColor: "#7A2335",
+    backgroundColor: colors.textPrimary,
     borderRadius: 18,
     paddingVertical: 16,
     paddingHorizontal: 18,
@@ -37,14 +38,11 @@ export default StyleSheet.create({
     justifyContent: "center",
     gap: 8,
     marginBottom: 18,
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 2,
+    ...shadow.soft,
   },
 
   createButtonText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 14,
     fontWeight: "800",
   },
@@ -52,7 +50,7 @@ export default StyleSheet.create({
   tabsWrapper: {
     alignSelf: "center",
     flexDirection: "row",
-    backgroundColor: "#EFEFEF",
+    backgroundColor: colors.fill,
     borderRadius: 26,
     padding: 4,
     marginBottom: 22,
@@ -68,17 +66,17 @@ export default StyleSheet.create({
   },
 
   tabButtonActive: {
-    backgroundColor: "#7A2335",
+    backgroundColor: colors.mint,
   },
 
   tabButtonText: {
     fontSize: 14,
     fontWeight: "700",
-    color: "#3C3C3C",
+    color: colors.textSecondary,
   },
 
   tabButtonTextActive: {
-    color: "#FFFFFF",
+    color: colors.textPrimary,
   },
 
   loaderContainer: {
@@ -93,16 +91,13 @@ export default StyleSheet.create({
   },
 
   rideCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 26,
-    borderWidth: 2,
-    borderColor: "#6E2333",
+    borderWidth: 1,
+    borderColor: colors.border,
     padding: 16,
     marginBottom: 18,
-    shadowColor: "#000",
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 2,
+    ...shadow.card,
   },
 
   rideHeader: {
@@ -119,14 +114,14 @@ export default StyleSheet.create({
   rideRouteText: {
     fontSize: 14,
     fontWeight: "700",
-    color: "#222222",
+    color: colors.textPrimary,
     lineHeight: 22,
     marginBottom: 4,
   },
 
   rideDivider: {
     height: 1,
-    backgroundColor: "#E0E0E0",
+    backgroundColor: colors.border,
     marginVertical: 14,
   },
 
@@ -139,19 +134,19 @@ export default StyleSheet.create({
   ridePrice: {
     fontSize: 24,
     fontWeight: "900",
-    color: "#1E1E1E",
+    color: colors.textPrimary,
   },
 
   rideSeats: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#7B7B7B",
+    color: colors.textSecondary,
   },
 
   rideDescription: {
     marginTop: 12,
     fontSize: 13,
-    color: "#6F6F6F",
+    color: colors.textSecondary,
     lineHeight: 20,
   },
 
@@ -159,55 +154,52 @@ export default StyleSheet.create({
     marginTop: 16,
     paddingTop: 16,
     borderTopWidth: 1,
-    borderTopColor: "#E4E4E4",
+    borderTopColor: colors.border,
   },
 
   passengersSectionTitle: {
     fontSize: 16,
     fontWeight: "800",
-    color: "#1F1F1F",
+    color: colors.textPrimary,
     marginBottom: 12,
   },
 
   noPassengersText: {
     fontSize: 14,
-    color: "#6F6F6F",
+    color: colors.textSecondary,
     lineHeight: 20,
     marginBottom: 12,
   },
 
   startRideButton: {
     marginTop: 14,
-    backgroundColor: "#7A2335",
+    backgroundColor: colors.textPrimary,
     borderRadius: 18,
     paddingVertical: 16,
     paddingHorizontal: 10,
     alignItems: "center",
     justifyContent: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 2,
+    ...shadow.soft,
   },
 
   startRideButtonDisabled: {
-    backgroundColor: "#D9D9D9",
-  opacity: 0.9,
+    backgroundColor: colors.neutralLight,
+    opacity: 0.9,
   },
 
   startRideButtonText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 14,
     fontWeight: "800",
     textAlign: "center",
   },
 
   startRideButtonTextDisabled: {
-    color: "#7A7A7A",
+    color: colors.textSecondary,
   },
 
   emptyContainer: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 22,
     padding: 24,
     alignItems: "center",
@@ -218,7 +210,7 @@ export default StyleSheet.create({
   emptyTitle: {
     fontSize: 18,
     fontWeight: "800",
-    color: "#1F1F1F",
+    color: colors.textPrimary,
     marginTop: 18,
     marginBottom: 8,
     textAlign: "center",
@@ -226,14 +218,14 @@ export default StyleSheet.create({
 
   emptyText: {
     fontSize: 14,
-    color: "#6F6F6F",
+    color: colors.textSecondary,
     textAlign: "center",
     lineHeight: 20,
     marginBottom: 24,
   },
 
   emptyButton: {
-    backgroundColor: "#7A2335",
+    backgroundColor: colors.textPrimary,
     borderRadius: 18,
     paddingVertical: 16,
     paddingHorizontal: 24,
@@ -242,15 +234,15 @@ export default StyleSheet.create({
   },
 
   emptyButtonText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 14,
     fontWeight: "800",
   },
 
   emptySecondaryButton: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: "#7A2335",
+    borderColor: colors.border,
     borderRadius: 18,
     paddingVertical: 16,
     paddingHorizontal: 24,
@@ -259,133 +251,137 @@ export default StyleSheet.create({
   },
 
   emptySecondaryButtonText: {
-    color: "#7A2335",
+    color: colors.textPrimary,
     fontSize: 14,
     fontWeight: "800",
   },
+
   passengersGrid: {
-  flexDirection: "row",
-  flexWrap: "wrap",
-  justifyContent: "space-between",
-  gap: 12,
-},
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: 12,
+  },
 
-passengerCard: {
-  width: "47%",
-  backgroundColor: "#F8F8F8",
-  borderRadius: 18,
-  padding: 12,
-  alignItems: "center",
-  marginBottom: 10,
-  gap: 6,
-},
+  passengerCard: {
+    width: "47%",
+    backgroundColor: colors.fill,
+    borderRadius: 18,
+    padding: 12,
+    alignItems: "center",
+    marginBottom: 10,
+    gap: 6,
+  },
 
-passengerAvatar: {
-  width: 64,
-  height: 64,
-  borderRadius: 32,
-  marginBottom: 10,
-},
+  passengerAvatar: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    marginBottom: 10,
+  },
 
-passengerAvatarPlaceholder: {
-  width: 64,
-  height: 64,
-  borderRadius: 32,
-  backgroundColor: "#7A2335",
-  alignItems: "center",
-  justifyContent: "center",
-  marginBottom: 10,
-},
+  passengerAvatarPlaceholder: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: colors.textPrimary,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
+  },
 
-passengerCardName: {
-  fontSize: 14,
-  fontWeight: "800",
-  color: "#222222",
-  textAlign: "center",
-  marginBottom: 6,
-  maxWidth: "100%",
-},
+  passengerCardName: {
+    fontSize: 14,
+    fontWeight: "800",
+    color: colors.textPrimary,
+    textAlign: "center",
+    marginBottom: 6,
+    maxWidth: "100%",
+  },
 
-passengerCardStatus: {
-  fontSize: 12,
-  color: "#6F6F6F",
-  textAlign: "center",
-  marginBottom: 10,
-},
+  passengerCardStatus: {
+    fontSize: 12,
+    color: colors.textSecondary,
+    textAlign: "center",
+    marginBottom: 10,
+  },
 
-passengerCardButtons: {
-  width: "100%",
-  gap: 8,
-  alignItems: "center", // centre les boutons
-},
+  passengerCardButtons: {
+    width: "100%",
+    gap: 8,
+    alignItems: "center",
+  },
 
-passengerCardPrimaryButton: {
-  width: "100%",
-  backgroundColor: "#7A2335",
-  borderRadius: 14,
-  paddingVertical: 12,
-  alignItems: "center",
-  justifyContent: "center",
-},
+  passengerCardPrimaryButton: {
+    width: "100%",
+    backgroundColor: colors.textPrimary,
+    borderRadius: 14,
+    paddingVertical: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
-passengerCardPrimaryButtonText: {
-  color: "#FFFFFF",
-  fontSize: 13,
-  fontWeight: "800",
-  textAlign: "center",
-},
+  passengerCardPrimaryButtonText: {
+    color: colors.white,
+    fontSize: 13,
+    fontWeight: "800",
+    textAlign: "center",
+  },
 
-passengerCardSecondaryButton: {
-  width: "100%",
-  maxWidth: 140,
-  backgroundColor: "#FFFFFF",
-  borderWidth: 1,
-  borderColor: "#7A2335",
-  borderRadius: 14,
-  paddingVertical: 12,
-  alignItems: "center",
-  justifyContent: "center",
-},
+  passengerCardSecondaryButton: {
+    width: "100%",
+    maxWidth: 140,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 14,
+    paddingVertical: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
-passengerCardSecondaryButtonText: {
-  color: "#7A2335",
-  fontSize: 12,
-  fontWeight: "800",
-  textAlign: "center",
-},
-lockedRideText: {
-  marginTop: 10,
-  color: "#8A8A8A",
-  fontSize: 13,
-  fontWeight: "600",
-},
-rideDateTimeText: {
-  fontSize: 15,
-  color: "#222222",
-  fontWeight: "700",
-  marginBottom: 6,
-},
-cancelRideButton: {
-  marginTop: 10,
-  backgroundColor: "#FFFFFF",
-  borderWidth: 1,
-  borderColor: "#8B2332",
-  borderRadius: 14,
-  paddingVertical: 12,
-  alignItems: "center",
-},
+  passengerCardSecondaryButtonText: {
+    color: colors.textPrimary,
+    fontSize: 12,
+    fontWeight: "800",
+    textAlign: "center",
+  },
 
-cancelRideButtonDisabled: {
-  opacity: 0.6,
-},
+  lockedRideText: {
+    marginTop: 10,
+    color: colors.textSecondary,
+    fontSize: 13,
+    fontWeight: "600",
+  },
 
-cancelRideButtonText: {
-  color: "#8B2332",
-  fontWeight: "700",
-  fontSize: 15,
-},
+  rideDateTimeText: {
+    fontSize: 15,
+    color: colors.textPrimary,
+    fontWeight: "700",
+    marginBottom: 6,
+  },
 
-cancelRideButtonTextDisabled: {
-  color: "#A7A7A7",
-},
+  cancelRideButton: {
+    marginTop: 10,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.danger,
+    borderRadius: 14,
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+
+  cancelRideButtonDisabled: {
+    opacity: 0.6,
+  },
+
+  cancelRideButtonText: {
+    color: colors.danger,
+    fontWeight: "700",
+    fontSize: 15,
+  },
+
+  cancelRideButtonTextDisabled: {
+    color: colors.textSecondary,
+  },
 });

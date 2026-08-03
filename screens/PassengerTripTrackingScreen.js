@@ -11,6 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 import styles from "../styles/PassengerTripTrackingStyles";
+import { colors } from "../styles/theme";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -278,7 +279,7 @@ useFocusEffect(
   if (loading) {
     return (
       <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color="#8B2332" />
+        <ActivityIndicator size="large" color={colors.textPrimary} />
       </View>
     );
   }
@@ -312,7 +313,7 @@ useFocusEffect(
           activeOpacity={0.7}
           onPress={() => navigation.goBack()}
         >
-          <Ionicons name="arrow-back" size={28} color="#FFFFFF" />
+          <Ionicons name="arrow-back" size={28} color={colors.white} />
         </TouchableOpacity>
 
         <Text style={styles.topBarTitle}>Suivi du trajet</Text>
@@ -339,7 +340,7 @@ useFocusEffect(
         {destination && (
           <Marker coordinate={destination}>
             <View style={styles.destinationPinWrapper}>
-              <Ionicons name="location" size={40} color="#FF7A59" />
+              <Ionicons name="location" size={40} color={colors.danger} />
             </View>
           </Marker>
         )}
@@ -363,7 +364,7 @@ useFocusEffect(
       }}
     >
       <View style={styles.carMarkerContainer}>
-        <Ionicons name="car" size={24} color="#7A2335" />
+        <Ionicons name="car" size={24} color={colors.textPrimary} />
       </View>
     </Animated.View>
   </Marker.Animated>

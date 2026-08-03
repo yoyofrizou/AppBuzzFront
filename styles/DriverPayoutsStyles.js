@@ -1,14 +1,15 @@
 import { StyleSheet } from "react-native";
+import { colors, shadow } from "./theme";
 
 export default StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#F7F7F7",
+    backgroundColor: colors.backgroundAlt,
   },
 
   screen: {
     flex: 1,
-    backgroundColor: "#F7F7F7",
+    backgroundColor: colors.backgroundAlt,
   },
 
   header: {
@@ -18,7 +19,7 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 10,
     paddingBottom: 18,
-    backgroundColor: "#F7F7F7",
+    backgroundColor: colors.backgroundAlt,
   },
 
   backButton: {
@@ -30,7 +31,7 @@ export default StyleSheet.create({
   headerTitle: {
     fontSize: 22,
     fontWeight: "800",
-    color: "#7A2335",
+    color: colors.textPrimary,
     textAlign: "center",
   },
 
@@ -52,28 +53,25 @@ export default StyleSheet.create({
   },
 
   card: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 22,
-    borderWidth: 2,
-    borderColor: "#6E2333",
+    borderWidth: 1,
+    borderColor: colors.border,
     padding: 16,
     marginBottom: 16,
-    shadowColor: "#000",
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 2,
+    ...shadow.card,
   },
 
   dateText: {
     fontSize: 13,
-    color: "#6F6F6F",
+    color: colors.textSecondary,
     marginBottom: 8,
   },
 
   routeText: {
     fontSize: 16,
     fontWeight: "800",
-    color: "#1F1F1F",
+    color: colors.textPrimary,
     lineHeight: 22,
     marginBottom: 14,
   },
@@ -86,18 +84,18 @@ export default StyleSheet.create({
 
   passengersText: {
     fontSize: 13,
-    color: "#6F6F6F",
+    color: colors.textSecondary,
     fontWeight: "600",
   },
 
   amountText: {
     fontSize: 20,
     fontWeight: "900",
-    color: "#7A2335",
+    color: colors.success,
   },
 
   emptyContainer: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 22,
     padding: 24,
     alignItems: "center",
@@ -108,7 +106,7 @@ export default StyleSheet.create({
   emptyTitle: {
     fontSize: 18,
     fontWeight: "800",
-    color: "#1F1F1F",
+    color: colors.textPrimary,
     marginTop: 18,
     marginBottom: 8,
     textAlign: "center",
@@ -116,7 +114,7 @@ export default StyleSheet.create({
 
   emptyText: {
     fontSize: 14,
-    color: "#6F6F6F",
+    color: colors.textSecondary,
     textAlign: "center",
     lineHeight: 20,
   },

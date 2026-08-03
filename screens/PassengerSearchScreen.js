@@ -21,6 +21,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { setSearchedRides, setSearchParams } from "../redux/reducers/rides"; //action Redux pour stocker les trajets trouvés, action Redux pour stocker les paramètres de recherche
 import styles from "../styles/PassengerSearchStyles";
+import { colors } from "../styles/theme";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 const EXPO_PUBLIC_MAPBOX_TOKEN = process.env.EXPO_PUBLIC_MAPBOX_TOKEN; //token pour appeler l’API Mapbox
@@ -117,9 +118,9 @@ function SliderBlock({ title, value, onChange, max = MAX_WALK_MINUTES }) { //com
           minimumValue={0}
           maximumValue={max}
           step={1}
-          minimumTrackTintColor="#F4B63C"
-          maximumTrackTintColor="#E4E4EA"
-          thumbTintColor="#FFFFFF"
+          minimumTrackTintColor={colors.mint}
+          maximumTrackTintColor={colors.border}
+          thumbTintColor={colors.white}
           style={styles.slider}
         />
 
@@ -424,7 +425,7 @@ export default function PassengerSearchScreen({ navigation }) {
       style={styles.suggestionItem}
       onPress={() => onPress(item)}
     >
-      <Ionicons name="location-outline" size={18} color="#8B2332" />
+      <Ionicons name="location-outline" size={18} color={colors.textPrimary} />
       <Text style={styles.suggestionText} numberOfLines={2}>
         {item.label}
       </Text>
@@ -449,10 +450,10 @@ export default function PassengerSearchScreen({ navigation }) {
                 activeOpacity={0.7}
                 onPress={() => navigation.goBack()}
               >
-                <Ionicons name="arrow-back" size={28} color="#8B2332" />
+                <Ionicons name="arrow-back" size={28} color={colors.textPrimary} />
               </TouchableOpacity>
 
-              <Text style={styles.logo}>BUZZ</Text>
+              <Text style={styles.logo}>TOGO</Text>
 
               <View style={styles.headerRightSpacer} />
             </View>
@@ -460,7 +461,7 @@ export default function PassengerSearchScreen({ navigation }) {
             <View style={styles.card}>
               <View style={styles.fieldBlock}>
                 <View style={styles.inputRow}>
-                  <Ionicons name="location" size={24} color="#8B2332" />
+                  <Ionicons name="location" size={24} color={colors.textPrimary} />
                   <TextInput
                     value={departureQuery}
                     onChangeText={(text) => {
@@ -470,7 +471,7 @@ export default function PassengerSearchScreen({ navigation }) {
                     }}
                     onFocus={() => setShowDepartureSuggestions(true)}
                     placeholder="Adresse de départ"
-                    placeholderTextColor="#8C8C8C"
+                    placeholderTextColor={colors.textSecondary}
                     style={styles.input}
                   />
                 </View>
@@ -478,7 +479,7 @@ export default function PassengerSearchScreen({ navigation }) {
                 {loadingDepartureSuggestions && (
                   <ActivityIndicator
                     style={styles.suggestionsLoader}
-                    color="#8B2332"
+                    color={colors.textPrimary}
                   />
                 )}
 
@@ -493,7 +494,7 @@ export default function PassengerSearchScreen({ navigation }) {
 
               <View style={styles.fieldBlock}>
                 <View style={styles.inputRow}>
-                  <Ionicons name="location" size={24} color="#8B2332" />
+                  <Ionicons name="location" size={24} color={colors.textPrimary} />
                   <TextInput
                     value={destinationQuery}
                     onChangeText={(text) => {
@@ -503,7 +504,7 @@ export default function PassengerSearchScreen({ navigation }) {
                     }}
                     onFocus={() => setShowDestinationSuggestions(true)}
                     placeholder="Adresse d'arrivée"
-                    placeholderTextColor="#8C8C8C"
+                    placeholderTextColor={colors.textSecondary}
                     style={styles.input}
                   />
 
@@ -515,7 +516,7 @@ export default function PassengerSearchScreen({ navigation }) {
                     <Ionicons
                       name="chevron-forward"
                       size={24}
-                      color="#FFFFFF"
+                      color={colors.white}
                     />
                   </TouchableOpacity>
                 </View>
@@ -523,7 +524,7 @@ export default function PassengerSearchScreen({ navigation }) {
                 {loadingDestinationSuggestions && (
                   <ActivityIndicator
                     style={styles.suggestionsLoader}
-                    color="#8B2332"
+                    color={colors.textPrimary}
                   />
                 )}
 
@@ -555,7 +556,7 @@ export default function PassengerSearchScreen({ navigation }) {
                 <Ionicons
                   name="calendar-outline"
                   size={24}
-                  color="#8B2332"
+                  color={colors.textPrimary}
                 />
                 <Text style={styles.dateTimeText}>
                   {formatDateTimeLabel(departureDateTime)}

@@ -1,16 +1,16 @@
 import { StyleSheet } from "react-native";
+import { colors, shadow } from "./theme";
 
 export default StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.background,
   },
 
   container: {
     paddingHorizontal: 24,
-    paddingTop: 20,
-    paddingBottom: 40,
     paddingTop: 35,
+    paddingBottom: 40,
   },
 
   backButton: {
@@ -20,35 +20,31 @@ export default StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "800",
-    color: "#800020",
+    color: colors.textPrimary,
     marginBottom: 12,
     textAlign: "center",
   },
 
   subtitle: {
     fontSize: 14,
-    color: "#6B6B6B",
+    color: colors.textSecondary,
     lineHeight: 20,
     textAlign: "center",
     marginBottom: 24,
   },
 
   rowCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 18,
     paddingVertical: 18,
     paddingHorizontal: 16,
     borderWidth: 1,
-    borderColor: "#E5E5E5",
+    borderColor: colors.border,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 14,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 6,
-    elevation: 2,
+    ...shadow.card,
   },
 
   rowLeft: {
@@ -64,13 +60,13 @@ export default StyleSheet.create({
 
   rowTitle: {
     fontSize: 16,
-    color: "#222",
+    color: colors.textPrimary,
     fontWeight: "500",
     flexShrink: 1,
   },
 
   actionButton: {
-    backgroundColor: "#800020",
+    backgroundColor: colors.textPrimary,
     paddingVertical: 10,
     paddingHorizontal: 14,
     borderRadius: 10,
@@ -79,11 +75,11 @@ export default StyleSheet.create({
   },
 
   actionButtonDone: {
-    backgroundColor: "#4B6E52",
+    backgroundColor: colors.success,
   },
 
   actionButtonText: {
-    color: "#fff",
+    color: colors.white,
     fontWeight: "600",
     fontSize: 14,
   },
@@ -92,12 +88,12 @@ export default StyleSheet.create({
     marginTop: 10,
     fontSize: 14,
     lineHeight: 20,
-    color: "#6B6B6B",
+    color: colors.textSecondary,
     textAlign: "center",
   },
 
   saveButton: {
-    backgroundColor: "#800020",
+    backgroundColor: colors.textPrimary,
     paddingVertical: 15,
     borderRadius: 12,
     alignItems: "center",
@@ -105,11 +101,12 @@ export default StyleSheet.create({
   },
 
   saveButtonText: {
-    color: "#fff",
+    color: colors.white,
     fontWeight: "700",
     fontSize: 16,
   },
+
   saveButtonDisabled: {
-  opacity: 0.5,
-},
+    opacity: 0.5,
+  },
 });

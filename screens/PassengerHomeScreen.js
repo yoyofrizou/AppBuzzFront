@@ -14,6 +14,7 @@ import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "../styles/PassengerHomeStyles";
+import { colors } from "../styles/theme";
 
 export default function PassengerHomeScreen({ navigation }) {
   const [location, setLocation] = useState(null);
@@ -127,13 +128,13 @@ export default function PassengerHomeScreen({ navigation }) {
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <View style={styles.header}>
-          <Text style={styles.logo}>BUZZ</Text>
+          <Text style={styles.logo}>TOGO</Text>
 
           <TouchableOpacity
             onPress={() => navigation.navigate("Profile")}
             style={styles.profileIcon}
           >
-            <Ionicons name="person-circle-outline" size={40} color="#111" />
+            <Ionicons name="person-circle-outline" size={32} color={colors.textPrimary} />
           </TouchableOpacity>
         </View>
 
@@ -143,7 +144,9 @@ export default function PassengerHomeScreen({ navigation }) {
           onPress={() => navigation.navigate("PassengerSearch")}
         >
           <Text style={styles.searchPlaceholder}>Où allez-vous ?</Text>
-          <Ionicons name="search-outline" size={30} color="#7A7A7A" />
+          <View style={styles.searchBarIcon}>
+            <Ionicons name="search" size={20} color={colors.textPrimary} />
+          </View>
         </TouchableOpacity>
 
         {locationDenied && (
@@ -152,12 +155,12 @@ export default function PassengerHomeScreen({ navigation }) {
             activeOpacity={0.8}
             onPress={handleOpenSettings}
           >
-            <Ionicons name="warning-outline" size={20} color="#8B2332" />
+            <View style={styles.warningDot} />
             <Text style={styles.locationWarningText}>
               Vous devez activer la géolocalisation pour voir les trajets
               disponibles autour de vous. Appuyez ici.
             </Text>
-            <Ionicons name="chevron-forward" size={20} color="#8B2332" />
+            <Ionicons name="chevron-forward" size={20} color={colors.textPrimary} />
           </TouchableOpacity>
         )}
       </View>
@@ -181,15 +184,23 @@ export default function PassengerHomeScreen({ navigation }) {
           )}
         </MapView>
 
-        <TouchableOpacity
-          style={styles.driverModeButton}
-          activeOpacity={0.8}
-          onPress={() => navigation.navigate("DriverTabs")}
-        >
-          <Text style={styles.driverModeButtonText}>
-            Passer en mode conducteur
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.switchModeToggle}>
+          <TouchableOpacity
+            style={styles.switchModeSegment}
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate("DriverTabs")}
+          >
+            <Text style={styles.switchModeSegmentText}>Conducteur</Text>
+          </TouchableOpacity>
+
+          <View style={[styles.switchModeSegment, styles.switchModeSegmentActive]}>
+            <Text
+              style={[styles.switchModeSegmentText, styles.switchModeSegmentTextActive]}
+            >
+              Passager
+            </Text>
+          </View>
+        </View>
       </View>
 
       <Modal
@@ -204,7 +215,7 @@ export default function PassengerHomeScreen({ navigation }) {
               Autoriser la géolocalisation ?
             </Text>
             <Text style={styles.modalText}>
-              BUZZ a besoin d&apos;accéder à votre position pour vous proposer
+              Togo a besoin d&apos;accéder à votre position pour vous proposer
               des trajets autour de vous.
             </Text>
 
@@ -246,6 +257,7 @@ import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "../styles/PassengerHomeStyles";
+import { colors } from "../styles/theme";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 

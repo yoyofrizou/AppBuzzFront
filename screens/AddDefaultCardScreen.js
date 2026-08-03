@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context"; //zone “sûre�
 import { useStripe } from "@stripe/stripe-react-native";  //hook fournit par stripe
 import { useSelector } from "react-redux";  //importe deux hook redux, pour lire une donnee et pour envoyer une action Redux
 import styles from "../styles/AddDefaultCardStyles"; //importe les styles de cet ecran, je separe logique et visuel
+import { colors } from "../styles/theme";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL; //on met pas l'URL duback direct, on la prend dans le .env
 
@@ -77,7 +78,7 @@ export default function AddDefaultCardScreen({ navigation, route }) {  //c’est
       } = data;   //récup les 3 infos renvoyées par ton backend car stripe en a besoin pour preparer le PaymentSheet
 
       const init = await initPaymentSheet({ //prepare l interface stripe
-        merchantDisplayName: "BUZZ",
+        merchantDisplayName: "TOGO",
         customerId,
         customerEphemeralKeySecret: ephemeralKeySecret,
         setupIntentClientSecret,
@@ -163,7 +164,7 @@ export default function AddDefaultCardScreen({ navigation, route }) {  //c’est
           >
 
             {loading ? ( 
-              <ActivityIndicator color="#FFFFFF" />
+              <ActivityIndicator color={colors.white} />
             ) : (
               <Text style={styles.addButtonText}>{buttonLabel}</Text>
             )}

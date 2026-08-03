@@ -11,9 +11,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import styles from "../styles/DriverPayoutsStyles";
+import { colors } from "../styles/theme";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
-const BORDEAUX = "#7A2335";
+const BORDEAUX = colors.textPrimary;
 
 function formatRideDate(dateString) {
   if (!dateString) return "Trajet du --";
@@ -125,7 +126,7 @@ export default function DriverPayoutsScreen({ navigation }) {
   const renderEmptyState = () => {
     return (
       <View style={styles.emptyContainer}>
-        <Ionicons name="card-outline" size={58} color="#8A8A8A" />
+        <Ionicons name="card-outline" size={58} color={colors.textSecondary} />
         <Text style={styles.emptyTitle}>Aucun versement</Text>
         <Text style={styles.emptyText}>
           Vos versements apparaîtront ici après vos trajets.
@@ -153,7 +154,7 @@ export default function DriverPayoutsScreen({ navigation }) {
             onPress={() => navigation.goBack()}
             activeOpacity={0.7}
           >
-            <Ionicons name="arrow-back" size={28} color="#111111" />
+            <Ionicons name="arrow-back" size={28} color={colors.textPrimary} />
           </TouchableOpacity>
 
           <Text style={styles.headerTitle}>Mes versements</Text>

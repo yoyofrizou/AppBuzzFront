@@ -13,9 +13,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import styles from "../styles/PassengerPublicProfileStyles";
+import { colors } from "../styles/theme";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
-const BORDEAUX = "#8B2332";
+const BORDEAUX = colors.textPrimary;
 
 function formatDate(dateString) {
   if (!dateString) return "";
@@ -218,7 +219,7 @@ export default function PassengerPublicProfileScreen({ navigation, route }) {
             activeOpacity={0.8}
             onPress={() => navigation.goBack()}
           >
-            <Ionicons name="close" size={26} color="#111111" />
+            <Ionicons name="close" size={26} color={colors.textPrimary} />
           </TouchableOpacity>
         </View>
 
@@ -230,7 +231,7 @@ export default function PassengerPublicProfileScreen({ navigation, route }) {
             />
           ) : (
             <View style={styles.avatarPlaceholder}>
-              <Ionicons name="person" size={38} color="#FFFFFF" />
+              <Ionicons name="person" size={38} color={colors.white} />
             </View>
           )}
 
@@ -354,7 +355,7 @@ export default function PassengerPublicProfileScreen({ navigation, route }) {
             activeOpacity={0.8}
             onPress={() => navigation.goBack()}
           >
-            <Ionicons name="close" size={26} color="#111111" />
+            <Ionicons name="close" size={26} color={colors.textPrimary} />
           </TouchableOpacity>
         </View>
 

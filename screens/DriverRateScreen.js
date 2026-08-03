@@ -16,9 +16,10 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import styles from "../styles/DriverRateStyles";
+import { colors } from "../styles/theme";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
-const BORDEAUX = "#8B2332";
+const BORDEAUX = colors.textPrimary;
 
 function formatPassengerPaidAmount(booking, ride) {
   if (typeof booking?.finalAmount === "number" && booking.finalAmount >= 0) {
@@ -193,7 +194,7 @@ export default function DriverRateScreen({ navigation, route }) {
               activeOpacity={0.7}
               onPress={() => navigation.goBack()}
             >
-              <Ionicons name="arrow-back" size={28} color="#111111" />
+              <Ionicons name="arrow-back" size={28} color={colors.textPrimary} />
             </TouchableOpacity>
 
             <Text style={styles.headerTitle}>Évaluation des passagers</Text>
@@ -206,7 +207,7 @@ export default function DriverRateScreen({ navigation, route }) {
           </Text>
 
           <View style={styles.summaryCard}>
-            <Text style={styles.summaryTitle}>Merci d’avoir utilisé Buzz</Text>
+            <Text style={styles.summaryTitle}>Merci d’avoir utilisé Togo</Text>
             <Text style={styles.summarySubtitle}>
               Voici le montant payé par ce passager.
             </Text>
@@ -222,7 +223,7 @@ export default function DriverRateScreen({ navigation, route }) {
               />
             ) : (
               <View style={styles.avatarFallback}>
-                <Ionicons name="person" size={42} color="#FFFFFF" />
+                <Ionicons name="person" size={42} color={colors.white} />
               </View>
             )}
 
@@ -241,7 +242,7 @@ export default function DriverRateScreen({ navigation, route }) {
           <TextInput
             style={styles.input}
             placeholder="Écrivez votre commentaire ici..."
-            placeholderTextColor="#A0A0A0"
+            placeholderTextColor={colors.textSecondary}
             multiline
             textAlignVertical="top"
             value={currentComment}
@@ -258,7 +259,7 @@ export default function DriverRateScreen({ navigation, route }) {
             onPress={handleNext}
           >
             {loading ? (
-              <ActivityIndicator color="#FFFFFF" />
+              <ActivityIndicator color={colors.white} />
             ) : (
               <Text style={styles.submitButtonText}>
                 {currentIndex < normalizedPassengers.length - 1

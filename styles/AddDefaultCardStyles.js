@@ -1,11 +1,12 @@
 import { StyleSheet } from "react-native";
+import { colors } from "./theme";
 
-const PRIMARY = "#8E2C47";
-const BACKGROUND = "#F6F6F8";
-const WHITE = "#FFFFFF";
-const TEXT = "#111111";
-const MUTED = "#6E6E73";
-const BORDER = "#E5E5EA";
+const PRIMARY = colors.textPrimary;
+const BACKGROUND = colors.backgroundAlt;
+const WHITE = colors.surface;
+const TEXT = colors.textPrimary;
+const MUTED = colors.textSecondary;
+const BORDER = colors.border;
 
 export default StyleSheet.create({
   safeArea: {

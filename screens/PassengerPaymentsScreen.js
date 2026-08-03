@@ -12,6 +12,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
 import styles from "../styles/PassengerPaymentsStyles";
+import { colors } from "../styles/theme";
 import BackButton from "../components/BackButton";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
@@ -132,7 +133,7 @@ export default function PassengerPaymentsScreen({ navigation }) {
       <View style={styles.container}>
         <View style={styles.header}>
           <View style={styles.backWrapper}>
-            <BackButton />
+            <BackButton color={colors.textPrimary} />
           </View>
 
           <Text style={styles.headerTitle}>Paiement</Text>
@@ -183,7 +184,7 @@ export default function PassengerPaymentsScreen({ navigation }) {
             </View>
           ) : (
             <View style={styles.emptyCardBox}>
-              <Ionicons name="card-outline" size={30} color="#7A2335" />
+              <Ionicons name="card-outline" size={30} color={colors.textPrimary} />
               <Text style={styles.emptyCardTitle}>Aucune carte enregistrée</Text>
               <Text style={styles.emptyCardText}>
                 Ajoute une carte par défaut pour payer plus rapidement tes
@@ -218,7 +219,7 @@ export default function PassengerPaymentsScreen({ navigation }) {
             </View>
           ) : paymentHistory.length === 0 ? (
             <View style={styles.emptyHistoryBox}>
-              <Ionicons name="receipt-outline" size={30} color="#7A2335" />
+              <Ionicons name="receipt-outline" size={30} color={colors.textPrimary} />
               <Text style={styles.emptyHistoryTitle}>
                 Aucun paiement enregistré
               </Text>

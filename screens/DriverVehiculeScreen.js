@@ -19,6 +19,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 
 import styles from "../styles/DriverVehiculeStyles";
+import { colors } from "../styles/theme";
 import { updateDriverProfile } from "../redux/reducers/user";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
@@ -113,7 +114,7 @@ function CustomDropdown({
         <Ionicons
           name="chevron-down"
           size={20}
-          color={disabled ? "#B0B0B0" : "#666666"}
+          color={disabled ? colors.border : colors.textSecondary}
         />
       </TouchableOpacity>
     </View>
@@ -298,7 +299,7 @@ export default function DriverVehiculeScreen({ navigation }) {
               style={styles.backButton}
               onPress={() => navigation.goBack()}
             >
-              <Ionicons name="arrow-back" size={28} color="#111111" />
+              <Ionicons name="arrow-back" size={28} color={colors.textPrimary} />
             </TouchableOpacity>
 
             <Text style={styles.title}>Mon véhicule</Text>

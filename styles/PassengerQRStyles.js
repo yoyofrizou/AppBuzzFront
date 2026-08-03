@@ -1,11 +1,12 @@
 import { StyleSheet } from "react-native";
+import { colors } from "./theme";
 
-const PRIMARY = "#8E2C47";
-const BACKGROUND = "#F6F6F8";
-const WHITE = "#FFFFFF";
-const TEXT = "#111111";
-const MUTED = "#6E6E73";
-const BORDER = "#E5E5EA";
+const PRIMARY = colors.textPrimary;
+const BACKGROUND = colors.backgroundAlt;
+const WHITE = colors.surface;
+const TEXT = colors.textPrimary;
+const MUTED = colors.textSecondary;
+const BORDER = colors.border;
 
 export default StyleSheet.create({
   safeArea: {
@@ -64,26 +65,27 @@ export default StyleSheet.create({
   },
 
   buttonText: {
-    color: WHITE,
+    color: colors.white,
     fontSize: 16,
     fontWeight: "800",
   },
-  secondaryButton: {
-  marginTop: 12,
-  minHeight: 54,
-  minWidth: 200,
-  paddingHorizontal: 22,
-  borderRadius: 999,
-  alignItems: "center",
-  justifyContent: "center",
-  borderWidth: 1.5,
-  borderColor: PRIMARY,
-  backgroundColor: WHITE,
-},
 
-secondaryButtonText: {
-  color: PRIMARY,
-  fontSize: 16,
-  fontWeight: "800",
-},
+  secondaryButton: {
+    marginTop: 12,
+    minHeight: 54,
+    minWidth: 200,
+    paddingHorizontal: 22,
+    borderRadius: 999,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: WHITE,
+  },
+
+  secondaryButtonText: {
+    color: PRIMARY,
+    fontSize: 16,
+    fontWeight: "800",
+  },
 });

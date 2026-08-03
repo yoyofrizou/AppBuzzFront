@@ -14,9 +14,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 import styles from "../styles/DriverEvaluationsStyles";
+import { colors } from "../styles/theme";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
-const BORDEAUX = "#8B2332";
+const BORDEAUX = colors.textPrimary;
 
 export default function DriverEvaluationsScreen({ navigation }) { //fonction spéciale : un composant React Native, ca cree un ecran, Je récupère directement navigation (objet fourni par React Navigation qui sert a naviguer entre les ecrans) depuis les props
   //J’exporte ce composant (un seul element principal) pour qu’il puisse être utilisé ailleurs
@@ -94,7 +95,7 @@ export default function DriverEvaluationsScreen({ navigation }) { //fonction sp�
   if (loading) {
     return (
       <SafeAreaView style={styles.safeArea}>
-        <StatusBar barStyle="dark-content" backgroundColor="#F4F4F6" />
+        <StatusBar barStyle="dark-content" backgroundColor={colors.backgroundAlt} />
         <View style={styles.loaderContainer}>
           <ActivityIndicator size="large" color={BORDEAUX} />
         </View>
@@ -104,7 +105,7 @@ export default function DriverEvaluationsScreen({ navigation }) { //fonction sp�
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="dark-content" backgroundColor="#F4F4F6" />
+      <StatusBar barStyle="dark-content" backgroundColor={colors.backgroundAlt} />
 
       <View style={styles.screen}>
         {/* HEADER */}
@@ -114,7 +115,7 @@ export default function DriverEvaluationsScreen({ navigation }) { //fonction sp�
             onPress={() => navigation.goBack()} // ✅ SIMPLE
             activeOpacity={0.7}
           >
-            <Ionicons name="arrow-back" size={28} color="#111111" />
+            <Ionicons name="arrow-back" size={28} color={colors.textPrimary} />
           </TouchableOpacity>
 
           <Text style={styles.pageTitle}>Mes évaluations</Text>
@@ -181,7 +182,7 @@ export default function DriverEvaluationsScreen({ navigation }) { //fonction sp�
                   />
                 ) : (
                   <View style={styles.avatarFallback}>
-                    <Ionicons name="person" size={24} color="#FFFFFF" />
+                    <Ionicons name="person" size={24} color={colors.white} />
                   </View>
                 )}
               </View>

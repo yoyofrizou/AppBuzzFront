@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native";
+import { colors, shadow } from "./theme";
 
 export default StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#F6F6F6",
+    backgroundColor: colors.backgroundAlt,
   },
 
   keyboard: {
@@ -32,7 +33,7 @@ export default StyleSheet.create({
   logo: {
     fontSize: 34,
     fontWeight: "800",
-    color: "#8B2332",
+    color: colors.mint,
     letterSpacing: 1,
   },
 
@@ -41,13 +42,10 @@ export default StyleSheet.create({
   },
 
   card: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 28,
     padding: 18,
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    elevation: 4,
+    ...shadow.card,
   },
 
   sectionTitle: {
@@ -56,7 +54,7 @@ export default StyleSheet.create({
     textAlign: "center",
     fontSize: 24,
     fontWeight: "800",
-    color: "#8B2332",
+    color: colors.textPrimary,
   },
 
   fieldBlock: {
@@ -68,29 +66,26 @@ export default StyleSheet.create({
     marginBottom: 8,
     fontSize: 14,
     fontWeight: "700",
-    color: "#4B4B4B",
+    color: colors.textSecondary,
   },
 
   inputRow: {
     minHeight: 60,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 18,
     paddingHorizontal: 16,
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#ECECEC",
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 2,
+    borderColor: colors.border,
+    ...shadow.card,
   },
 
   input: {
     flex: 1,
     marginLeft: 12,
     fontSize: 16,
-    color: "#222",
+    color: colors.textPrimary,
   },
 
   suggestionsLoader: {
@@ -99,10 +94,10 @@ export default StyleSheet.create({
 
   suggestionsBox: {
     marginTop: 8,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: "#EFEFEF",
+    borderColor: colors.border,
     overflow: "hidden",
   },
 
@@ -113,36 +108,33 @@ export default StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#F1F1F1",
+    borderBottomColor: colors.border,
   },
 
   suggestionText: {
     flex: 1,
-    color: "#333",
+    color: colors.textPrimary,
     fontSize: 14,
     lineHeight: 20,
   },
 
   dateTimeButton: {
     minHeight: 64,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 18,
     paddingHorizontal: 16,
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#ECECEC",
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 2,
+    borderColor: colors.border,
+    ...shadow.card,
   },
 
   dateTimeText: {
     marginLeft: 12,
     flex: 1,
     fontSize: 16,
-    color: "#5B5B5B",
+    color: colors.textSecondary,
     fontWeight: "500",
   },
 
@@ -154,7 +146,7 @@ export default StyleSheet.create({
 
   smallDateButton: {
     flex: 1,
-    backgroundColor: "#F3F3F3",
+    backgroundColor: colors.fill,
     borderRadius: 14,
     paddingVertical: 12,
     alignItems: "center",
@@ -162,7 +154,7 @@ export default StyleSheet.create({
   },
 
   smallDateButtonText: {
-    color: "#6B6B6B",
+    color: colors.textSecondary,
     fontSize: 14,
     fontWeight: "700",
   },
@@ -179,14 +171,11 @@ export default StyleSheet.create({
   createButton: {
     height: 62,
     borderRadius: 22,
-    backgroundColor: "#8B2332",
+    backgroundColor: colors.textPrimary,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 6,
-    shadowColor: "#8B2332",
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 3,
+    ...shadow.soft,
   },
 
   createButtonDisabled: {
@@ -194,20 +183,18 @@ export default StyleSheet.create({
   },
 
   createButtonText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 18,
     fontWeight: "800",
   },
+
   dateTimeCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 18,
     borderWidth: 1,
-    borderColor: "#ECECEC",
+    borderColor: colors.border,
     padding: 14,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 2,
+    ...shadow.card,
   },
 
   dateTimeMainButton: {
@@ -222,13 +209,13 @@ export default StyleSheet.create({
 
   dateTimeMainLabel: {
     fontSize: 13,
-    color: "#7B7B7B",
+    color: colors.textSecondary,
     marginBottom: 4,
   },
 
   dateTimeMainValue: {
     fontSize: 16,
-    color: "#222",
+    color: colors.textPrimary,
     fontWeight: "700",
   },
 
@@ -243,7 +230,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#F7F1F3",
+    backgroundColor: colors.fill,
     borderRadius: 14,
     paddingVertical: 12,
     paddingHorizontal: 10,
@@ -253,12 +240,12 @@ export default StyleSheet.create({
     marginLeft: 8,
     fontSize: 14,
     fontWeight: "700",
-    color: "#8B2332",
+    color: colors.textPrimary,
   },
 
   pickerOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.35)",
+    backgroundColor: colors.overlay,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 20,
@@ -267,7 +254,7 @@ export default StyleSheet.create({
   pickerModalCard: {
     width: "100%",
     maxWidth: 380,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 24,
     padding: 18,
   },
@@ -275,7 +262,7 @@ export default StyleSheet.create({
   pickerTitle: {
     fontSize: 20,
     fontWeight: "800",
-    color: "#8B2332",
+    color: colors.textPrimary,
     textAlign: "center",
     marginBottom: 10,
   },
@@ -292,28 +279,28 @@ export default StyleSheet.create({
 
   pickerSecondaryButton: {
     flex: 1,
-    backgroundColor: "#F1F1F1",
+    backgroundColor: colors.neutralLight,
     borderRadius: 14,
     paddingVertical: 14,
     alignItems: "center",
   },
 
   pickerSecondaryButtonText: {
-    color: "#333",
+    color: colors.textPrimary,
     fontSize: 15,
     fontWeight: "700",
   },
 
   pickerPrimaryButton: {
     flex: 1,
-    backgroundColor: "#8B2332",
+    backgroundColor: colors.textPrimary,
     borderRadius: 14,
     paddingVertical: 14,
     alignItems: "center",
   },
 
   pickerPrimaryButtonText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 15,
     fontWeight: "700",
   },

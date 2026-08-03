@@ -1,9 +1,10 @@
 import { StyleSheet, Platform } from "react-native";
+import { colors, radii, shadow } from "./theme";
 
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#f4f4f4",
+    backgroundColor: colors.backgroundAlt,
   },
 
   container: {
@@ -14,57 +15,70 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    width: "84%",
+    width: "88%",
     alignItems: "center",
+    backgroundColor: colors.surface,
+    borderRadius: radii.card,
+    paddingVertical: 32,
+    paddingHorizontal: 24,
+    ...shadow.card,
   },
 
   logo: {
-    fontSize: 42,
+    fontSize: 36,
     fontWeight: "800",
-    color: "#A7333F",
-    marginBottom: 8,
+    letterSpacing: 1,
+    color: colors.mint,
+    marginBottom: 6,
   },
 
   title: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: "500",
-    color: "#444",
-    marginBottom: 24,
+    color: colors.textPrimary,
+    marginBottom: 26,
   },
 
-  input: {
+  inputRow: {
     width: "100%",
-    height: 46,
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    paddingHorizontal: 14,
+    height: 52,
+    backgroundColor: colors.fill,
+    borderRadius: 14,
+    paddingHorizontal: 16,
     marginBottom: 12,
-    color: "#333",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+
+  inputField: {
+    flex: 1,
+    height: "100%",
+    color: colors.textPrimary,
+    fontSize: 15,
   },
 
   passwordContainer: {
     width: "100%",
-    height: 46,
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    paddingHorizontal: 14,
+    height: 52,
+    backgroundColor: colors.fill,
+    borderRadius: 14,
+    paddingHorizontal: 16,
     marginBottom: 8,
     flexDirection: "row",
     alignItems: "center",
+    gap: 10,
   },
 
   passwordInput: {
     flex: 1,
     height: "100%",
-    color: "#333",
+    color: colors.textPrimary,
+    fontSize: 15,
   },
 
   forgotPassword: {
-    color: "#A7333F",
+    color: colors.textPrimary,
     marginTop: 12,
     marginBottom: 16,
     textDecorationLine: "underline",
@@ -73,32 +87,33 @@ const styles = StyleSheet.create({
 
   error: {
     width: "100%",
-    color: "#b00020",
+    color: colors.danger,
     marginBottom: 10,
     marginTop: -4,
     fontSize: 13,
   },
 
- backButton: {
-  position: "absolute",
-  top: Platform.OS === "ios" ? 60 : 40,
-  left: 20,
-  zIndex: 20,
-  padding: 8,
-},
+  backButton: {
+    position: "absolute",
+    top: Platform.OS === "ios" ? 60 : 40,
+    left: 20,
+    zIndex: 20,
+    padding: 8,
+  },
 
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: colors.overlay,
     justifyContent: "center",
     alignItems: "center",
   },
 
   modalBox: {
     width: "85%",
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    padding: 20,
+    backgroundColor: colors.surface,
+    borderRadius: radii.card,
+    padding: 22,
+    ...shadow.card,
   },
 
   modalTitle: {
@@ -106,11 +121,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
     textAlign: "center",
+    color: colors.textPrimary,
   },
 
   modalText: {
     fontSize: 14,
-    color: "#444",
+    color: colors.textSecondary,
     marginBottom: 15,
     textAlign: "center",
   },
@@ -124,6 +140,17 @@ const styles = StyleSheet.create({
   modalButton: {
     paddingVertical: 10,
     paddingHorizontal: 16,
+  },
+
+  modalButtonTextMuted: {
+    color: colors.textSecondary,
+    fontSize: 15,
+  },
+
+  modalButtonTextStrong: {
+    color: colors.textPrimary,
+    fontSize: 15,
+    fontWeight: "700",
   },
 });
 

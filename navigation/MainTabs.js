@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import { colors } from "../styles/theme";
 
 import PassengerHomeScreen from "../screens/PassengerHomeScreen";
 import MessagesScreen from "../screens/MessagesScreen";
@@ -47,12 +48,15 @@ export default function MainTabs() {
       screenOptions={({ route }) => ({  //définir les options globales de tes onglets
         lazy: true,   //écran montés qu’au moment où on les ouvre
         headerShown: false,   //je ne veux pas les headers automatiques sur tes tabs
-        tabBarActiveTintColor: "#8B2332",   //différencie visuellement l’onglet actif de l’inactif
-        tabBarInactiveTintColor: "#8A8A8A",
+        tabBarActiveTintColor: colors.mint,   //différencie visuellement l’onglet actif de l’inactif
+        tabBarInactiveTintColor: colors.textPrimary,
         tabBarStyle: {
           height: 85,
           paddingBottom: 10,
           paddingTop: 10,
+          backgroundColor: colors.background,
+          borderTopWidth: 1,
+          borderTopColor: colors.border,
         },
         tabBarItemStyle: {
           flex: 1,
@@ -110,7 +114,14 @@ export default function MainTabs() {
         component={MessagesScreen}
         options={{
           tabBarLabel: "Messages",
-          tabBarBadge: unreadCount > 0 ? unreadCount : undefined,  
+          tabBarBadge: unreadCount > 0 ? unreadCount : undefined,
+          tabBarBadgeStyle: {
+            backgroundColor: colors.danger,
+            color: colors.white,
+            fontSize: 11,
+            minWidth: 18,
+            height: 18,
+          },
         }}
       />
     </Tab.Navigator>

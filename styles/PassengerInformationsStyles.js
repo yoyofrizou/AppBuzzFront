@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native";
+import { colors, shadow } from "./theme";
 
 export default StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.background,
   },
 
   container: {
@@ -20,17 +21,18 @@ export default StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "700",
-    color: "#800020",
+    color: colors.textPrimary,
     marginBottom: 25,
   },
 
   card: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 14,
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderWidth: 1,
-    borderColor: "#E5E5E5",
+    borderColor: colors.border,
+    ...shadow.card,
   },
 
   row: {
@@ -51,24 +53,24 @@ export default StyleSheet.create({
 
   rowValue: {
     fontSize: 16,
-    color: "#111111",
+    color: colors.textPrimary,
   },
 
   separator: {
     height: 1,
-    backgroundColor: "#EEEEEE",
+    backgroundColor: colors.border,
   },
 
   editButton: {
     marginTop: 35,
-    backgroundColor: "#800020",
+    backgroundColor: colors.textPrimary,
     paddingVertical: 14,
     borderRadius: 10,
     alignItems: "center",
   },
 
   editButtonText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 16,
     fontWeight: "600",
   },

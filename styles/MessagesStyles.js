@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native";
+import { colors } from "./theme";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F7F7F7",
+    backgroundColor: colors.backgroundAlt,
   },
 
   title: {
@@ -12,7 +13,7 @@ export default StyleSheet.create({
     textAlign: "center",
     marginTop: 20,
     marginBottom: 20,
-    color: "#A34757",
+    color: colors.textPrimary,
   },
 
   loader: {
@@ -23,7 +24,7 @@ export default StyleSheet.create({
     textAlign: "center",
     marginTop: 40,
     fontSize: 16,
-    color: "#666",
+    color: colors.textSecondary,
   },
 
   listContent: {
@@ -33,21 +34,37 @@ export default StyleSheet.create({
   card: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     marginHorizontal: 16,
     marginVertical: 8,
     padding: 14,
     borderRadius: 18,
-     position: "relative",
+    borderWidth: 1,
+    borderColor: colors.border,
+    position: "relative",
   },
 
-avatarImage: {
-  width: 50,
-  height: 50,
-  borderRadius: 25,
-  borderWidth: 2,
-  borderColor: "#8B2332",
-},
+  avatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: colors.mint,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+  },
+
+  avatarText: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: colors.textPrimary,
+  },
+
+  avatarImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
 
   textContainer: {
     marginLeft: 14,
@@ -57,31 +74,31 @@ avatarImage: {
   name: {
     fontSize: 18,
     fontWeight: "700",
-    color: "#111",
+    color: colors.textPrimary,
     marginBottom: 4,
   },
 
   preview: {
     fontSize: 14,
-    color: "#555",
+    color: colors.textSecondary,
     marginTop: 4,
   },
 
   nameUnread: {
-  fontWeight: "800",
-  color: "#111111",
-},
+    fontWeight: "800",
+    color: colors.textPrimary,
+  },
 
-previewUnread: {
-  color: "#111111",
-  fontWeight: "600",
-},
+  previewUnread: {
+    color: colors.textPrimary,
+    fontWeight: "600",
+  },
 
-unreadDot: {
+  unreadDot: {
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: "#E53935",
+    backgroundColor: colors.danger,
     marginLeft: 8,
     flexShrink: 0,
     alignSelf: "center",

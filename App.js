@@ -10,6 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";  //tockge 
 import store from "./redux/store"; //store redux global
 import RootNavigator from "./navigation/RootNavigator"; //point central de navigation
 import { login } from "./redux/reducers/user"; //action Redux qui remet l’utilisateur dans l’état global
+import { colors } from "./styles/theme";
 
 function AppContent() {   
   const dispatch = useDispatch();   //récupère la fonction Redux pour envoyer des actions, pour pouvoir faire dispatch(login(parsedUser))
@@ -44,7 +45,7 @@ function AppContent() {
           backgroundColor: "#FFFFFF",
         }}
       >
-        <ActivityIndicator size="large" color="#8B2332" />
+        <ActivityIndicator size="large" color={colors.textPrimary} />
       </View>
     );
   }

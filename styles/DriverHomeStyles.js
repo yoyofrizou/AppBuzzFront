@@ -1,15 +1,16 @@
 import { StyleSheet } from "react-native";
+import { colors, shadow } from "./theme";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
   },
 
   topContainer: {
     paddingTop: 55,
     paddingHorizontal: 20,
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
   },
 
   header: {
@@ -19,19 +20,31 @@ export default StyleSheet.create({
     marginBottom: 20,
   },
 
+  logoGroup: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+
   logo: {
-    fontSize: 38,
+    fontSize: 24,
     fontWeight: "800",
-    color: "#8B2332",
+    letterSpacing: 1,
+    color: colors.mint,
+    marginTop: 9,
+    marginLeft: 4,
   },
 
   profileIcon: {},
 
   searchBar: {
-    height: 54,
-    borderRadius: 28,
-    backgroundColor: "#F3F3F3",
-    paddingHorizontal: 18,
+    height: 58,
+    borderRadius: 29,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingLeft: 20,
+    paddingRight: 6,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -40,23 +53,42 @@ export default StyleSheet.create({
 
   searchPlaceholder: {
     fontSize: 16,
-    color: "#7A7A7A",
+    fontWeight: "500",
+    color: colors.textPrimary,
+  },
+
+  searchBarIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: colors.mint,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   locationWarning: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#FCECEF",
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
     borderRadius: 16,
     paddingVertical: 12,
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
     marginBottom: 12,
-    gap: 8,
+    gap: 10,
+  },
+
+  warningDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: colors.danger,
   },
 
   locationWarningText: {
     flex: 1,
-    color: "#8B2332",
+    color: colors.textPrimary,
     fontSize: 13,
     fontWeight: "500",
   },
@@ -74,11 +106,11 @@ export default StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 21,
-    backgroundColor: "#8B2332",
+    backgroundColor: colors.textPrimary,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 3,
-    borderColor: "#fff",
+    borderColor: colors.white,
   },
 
   calloutContainer: {
@@ -98,30 +130,40 @@ export default StyleSheet.create({
     color: "#444",
   },
 
-  switchModeButton: {
+  switchModeToggle: {
     position: "absolute",
     bottom: 40,
     alignSelf: "center",
-    backgroundColor: "#8B2332",
-    paddingVertical: 14,
-    paddingHorizontal: 28,
+    flexDirection: "row",
+    backgroundColor: colors.surface,
     borderRadius: 30,
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 6,
+    padding: 4,
+    ...shadow.soft,
   },
 
-  switchModeButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "700",
+  switchModeSegment: {
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    borderRadius: 30,
+  },
+
+  switchModeSegmentActive: {
+    backgroundColor: colors.mint,
+  },
+
+  switchModeSegmentText: {
+    color: colors.textPrimary,
+    fontSize: 17,
+    fontWeight: "500",
+  },
+
+  switchModeSegmentTextActive: {
+    fontWeight: "800",
   },
 
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.35)",
+    backgroundColor: colors.overlay,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 24,
@@ -131,7 +173,7 @@ export default StyleSheet.create({
     width: "90%",
     maxWidth: 380,
     alignSelf: "center",
-    backgroundColor: "#fff",
+    backgroundColor: colors.surface,
     borderRadius: 22,
     padding: 22,
   },
@@ -153,23 +195,23 @@ export default StyleSheet.create({
   },
 
   modalButtons: {
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "center",
-  width: "100%",
-},
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+  },
 
   allowButton: {
     flex: 1,
     marginRight: 6,
-    backgroundColor: "#8B2332",
+    backgroundColor: colors.textPrimary,
     paddingVertical: 14,
     borderRadius: 14,
     alignItems: "center",
   },
 
   allowButtonText: {
-    color: "#fff",
+    color: colors.white,
     fontSize: 15,
     fontWeight: "700",
   },
@@ -177,7 +219,7 @@ export default StyleSheet.create({
   denyButton: {
     flex: 1,
     marginLeft: 6,
-    backgroundColor: "#F1F1F1",
+    backgroundColor: colors.neutralLight,
     paddingVertical: 14,
     borderRadius: 14,
     alignItems: "center",
@@ -188,21 +230,24 @@ export default StyleSheet.create({
     fontSize: 15,
     fontWeight: "700",
   },
-  driverWarning: {
-  flexDirection: "row",
-  alignItems: "center",
-  backgroundColor: "#FCECEF",
-  borderRadius: 16,
-  paddingVertical: 12,
-  paddingHorizontal: 12,
-  marginBottom: 12,
-  gap: 8,
-},
 
-driverWarningText: {
-  flex: 1,
-  color: "#8B2332",
-  fontSize: 13,
-  fontWeight: "500",
-},
+  driverWarning: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    marginBottom: 12,
+    gap: 10,
+  },
+
+  driverWarningText: {
+    flex: 1,
+    color: colors.textPrimary,
+    fontSize: 13,
+    fontWeight: "500",
+  },
 });

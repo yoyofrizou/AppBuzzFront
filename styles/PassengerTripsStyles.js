@@ -1,14 +1,15 @@
 import { StyleSheet } from "react-native";
+import { colors, shadow } from "./theme";
 
 export default StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#F7F7F7",
+    backgroundColor: colors.backgroundAlt,
   },
 
   topBar: {
     height: 140,
-    backgroundColor: "#7A2335",
+    backgroundColor: colors.backgroundAlt,
     paddingTop: 55,
     paddingHorizontal: 20,
     flexDirection: "row",
@@ -21,7 +22,7 @@ export default StyleSheet.create({
   },
 
   topBarTitle: {
-    color: "#FFFFFF",
+    color: colors.textPrimary,
     fontSize: 22,
     fontWeight: "800",
   },
@@ -39,7 +40,7 @@ export default StyleSheet.create({
   tabsWrapper: {
     alignSelf: "center",
     flexDirection: "row",
-    backgroundColor: "#EFEFEF",
+    backgroundColor: colors.fill,
     borderRadius: 26,
     padding: 4,
     marginBottom: 22,
@@ -55,17 +56,17 @@ export default StyleSheet.create({
   },
 
   tabButtonActive: {
-    backgroundColor: "#7A2335",
+    backgroundColor: colors.mint,
   },
 
   tabButtonText: {
     fontSize: 14,
     fontWeight: "700",
-    color: "#3C3C3C",
+    color: colors.textSecondary,
   },
 
   tabButtonTextActive: {
-    color: "#FFFFFF",
+    color: colors.textPrimary,
   },
 
   loaderContainer: {
@@ -79,50 +80,46 @@ export default StyleSheet.create({
   },
 
   tripCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 24,
-    borderWidth: 2,
-    borderColor: "#6E2333",
+    borderWidth: 1,
+    borderColor: colors.border,
     padding: 18,
     marginBottom: 18,
-    shadowColor: "#000",
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 2,
+    ...shadow.card,
   },
 
   tripLeft: {
-  width: "100%",
-  marginBottom: 14,
-},
+    width: "100%",
+    marginBottom: 14,
+  },
 
- tripMiddle: {
-  flexDirection: "row",
-  alignItems: "center",
-  marginBottom: 16,
-},
+  tripMiddle: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
+  },
 
- tripRight: {
-  width: "100%",
-},
+  tripRight: {
+    width: "100%",
+  },
 
   tripRouteText: {
     fontSize: 14,
-    fontWeight: "700",
-    color: "#222222",
     fontWeight: "500",
+    color: colors.textPrimary,
   },
 
   tripDivider: {
     height: 1,
-    backgroundColor: "#E0E0E0",
+    backgroundColor: colors.border,
     marginVertical: 10,
   },
 
   tripPrice: {
     fontSize: 22,
     fontWeight: "900",
-    color: "#1E1E1E",
+    color: colors.textPrimary,
     marginTop: 4,
   },
 
@@ -137,7 +134,7 @@ export default StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: "#7A2335",
+    backgroundColor: colors.textPrimary,
     alignItems: "center",
     justifyContent: "center",
     marginRight: 12,
@@ -146,18 +143,18 @@ export default StyleSheet.create({
   driverName: {
     fontSize: 15,
     fontWeight: "800",
-    color: "#222222",
+    color: colors.textPrimary,
     marginBottom: 4,
   },
 
   driverCar: {
     fontSize: 12,
-    color: "#7B7B7B",
+    color: colors.textSecondary,
     lineHeight: 17,
   },
 
   actionButton: {
-    backgroundColor: "#7A2335",
+    backgroundColor: colors.textPrimary,
     borderRadius: 16,
     paddingVertical: 14,
     paddingHorizontal: 12,
@@ -167,14 +164,14 @@ export default StyleSheet.create({
   },
 
   actionButtonText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 14,
     fontWeight: "800",
     textAlign: "center",
   },
 
   emptyContainer: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 22,
     padding: 24,
     alignItems: "center",
@@ -185,13 +182,13 @@ export default StyleSheet.create({
   emptyTitle: {
     fontSize: 18,
     fontWeight: "800",
-    color: "#1F1F1F",
+    color: colors.textPrimary,
     marginBottom: 8,
   },
 
   emptySubtitle: {
     fontSize: 14,
-    color: "#6F6F6F",
+    color: colors.textSecondary,
     textAlign: "center",
     lineHeight: 20,
   },
@@ -202,9 +199,9 @@ export default StyleSheet.create({
     right: 0,
     bottom: 0,
     height: 84,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderTopWidth: 1,
-    borderTopColor: "#ECECEC",
+    borderTopColor: colors.border,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
@@ -221,95 +218,100 @@ export default StyleSheet.create({
   footerText: {
     marginTop: 4,
     fontSize: 12,
-    color: "#9B9B9B",
+    color: colors.textSecondary,
     fontWeight: "600",
   },
 
   footerTextActive: {
     marginTop: 4,
     fontSize: 12,
-    color: "#7A2335",
+    color: colors.textPrimary,
     fontWeight: "700",
   },
+
   actionButtonDisabled: {
-  backgroundColor: "#D9D9D9",
-},
+    backgroundColor: colors.neutralLight,
+  },
 
-actionButtonTextDisabled: {
-  color: "#7A7A7A",
-},
+  actionButtonTextDisabled: {
+    color: colors.textSecondary,
+  },
 
-secondaryActionButton: {
-    backgroundColor: "#FFFFFF",
+  secondaryActionButton: {
+    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: "#7A2335",
+    borderColor: colors.border,
   },
 
   secondaryActionButtonText: {
-    color: "#7A2335",
+    color: colors.textPrimary,
   },
 
   manualWarningBox: {
-  marginTop: 14,
-  marginBottom: 10,
-  backgroundColor: "#FFF4E5",
-  borderWidth: 1,
-  borderColor: "#E7C38A",
-  borderRadius: 14,
-  padding: 12,
-},
+    marginTop: 14,
+    marginBottom: 10,
+    backgroundColor: colors.fill,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 14,
+    padding: 12,
+  },
 
-manualWarningTitle: {
-  fontSize: 14,
-  fontWeight: "800",
-  color: "#7A2335",
-  marginBottom: 6,
-},
+  manualWarningTitle: {
+    fontSize: 14,
+    fontWeight: "800",
+    color: colors.textPrimary,
+    marginBottom: 6,
+  },
 
-manualWarningText: {
-  fontSize: 12,
-  lineHeight: 18,
-  color: "#5C4A2D",
-},
+  manualWarningText: {
+    fontSize: 12,
+    lineHeight: 18,
+    color: colors.textSecondary,
+  },
 
-validationInfoBox: {
-  marginTop: 14,
-  marginBottom: 10,
-  backgroundColor: "#EAF6EA",
-  borderWidth: 1,
-  borderColor: "#9DCC9D",
-  borderRadius: 14,
-  padding: 12,
-},
+  validationInfoBox: {
+    marginTop: 14,
+    marginBottom: 10,
+    backgroundColor: colors.mintSoft,
+    borderWidth: 1,
+    borderColor: colors.mint,
+    borderRadius: 14,
+    padding: 12,
+  },
 
-validationInfoTitle: {
-  fontSize: 14,
-  fontWeight: "800",
-  color: "#2E6B3A",
-  marginBottom: 6,
-},
+  validationInfoTitle: {
+    fontSize: 14,
+    fontWeight: "800",
+    color: colors.success,
+    marginBottom: 6,
+  },
 
-validationInfoText: {
-  fontSize: 12,
-  lineHeight: 18,
-  color: "#355B3D",
-},
-tripMainRow: {
-  width: "100%",
-},
-tripDateTimeText: {
-  fontSize: 15,
-  color: "#333333",
-  fontWeight: "700",
-  marginBottom: 6,
-},
-tripStatus: {
-  marginTop: 6,
-  fontSize: 13,
-  fontWeight: "700",
-  color: "#800020",
-},
-tripStatusCancelled: {
-  color: "#8B2332",
-},
+  validationInfoText: {
+    fontSize: 12,
+    lineHeight: 18,
+    color: colors.textPrimary,
+  },
+
+  tripMainRow: {
+    width: "100%",
+  },
+
+  tripDateTimeText: {
+    fontSize: 15,
+    color: colors.textPrimary,
+    fontWeight: "700",
+    marginBottom: 6,
+  },
+
+  tripStatus: {
+    marginTop: 6,
+    fontSize: 13,
+    fontWeight: "700",
+    color: colors.textPrimary,
+  },
+
+  tripStatusCancelled: {
+    color: colors.danger,
+  },
 });

@@ -19,6 +19,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import styles from "../styles/CreateRideStyles";
+import { colors } from "../styles/theme";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 const EXPO_PUBLIC_MAPBOX_TOKEN = process.env.EXPO_PUBLIC_MAPBOX_TOKEN;
@@ -388,7 +389,7 @@ export default function CreateRideScreen({ navigation }) {
       style={styles.suggestionItem}
       onPress={() => onSelect(item)}
     >
-      <Ionicons name="location-outline" size={18} color="#8B2332" />
+      <Ionicons name="location-outline" size={18} color={colors.textPrimary} />
       <Text style={styles.suggestionText} numberOfLines={2}>
         {item.label || ""}
       </Text>
@@ -413,10 +414,10 @@ export default function CreateRideScreen({ navigation }) {
                 activeOpacity={0.7}
                 onPress={() => navigation.goBack()}
               >
-                <Ionicons name="arrow-back" size={28} color="#8B2332" />
+                <Ionicons name="arrow-back" size={28} color={colors.textPrimary} />
               </TouchableOpacity>
 
-              <Text style={styles.logo}>BUZZ</Text>
+              <Text style={styles.logo}>TOGO</Text>
 
               <View style={styles.headerRightSpacer} />
             </View>
@@ -427,7 +428,7 @@ export default function CreateRideScreen({ navigation }) {
               <View style={styles.fieldBlock}>
                 <Text style={styles.label}>Adresse de départ</Text>
                 <View style={styles.inputRow}>
-                  <Ionicons name="location" size={24} color="#8B2332" />
+                  <Ionicons name="location" size={24} color={colors.textPrimary} />
                   <TextInput
                     value={departureQuery}
                     onChangeText={(text) => {
@@ -437,7 +438,7 @@ export default function CreateRideScreen({ navigation }) {
                     }}
                     onFocus={() => setShowDepartureSuggestions(true)}
                     placeholder="Adresse de départ"
-                    placeholderTextColor="#8C8C8C"
+                    placeholderTextColor={colors.textSecondary}
                     style={styles.input}
                   />
                 </View>
@@ -445,7 +446,7 @@ export default function CreateRideScreen({ navigation }) {
                 {loadingDepartureSuggestions ? (
                   <ActivityIndicator
                     style={styles.suggestionsLoader}
-                    color="#8B2332"
+                    color={colors.textPrimary}
                   />
                 ) : null}
 
@@ -461,7 +462,7 @@ export default function CreateRideScreen({ navigation }) {
               <View style={styles.fieldBlock}>
                 <Text style={styles.label}>Adresse d’arrivée</Text>
                 <View style={styles.inputRow}>
-                  <Ionicons name="location" size={24} color="#8B2332" />
+                  <Ionicons name="location" size={24} color={colors.textPrimary} />
                   <TextInput
                     value={destinationQuery}
                     onChangeText={(text) => {
@@ -471,7 +472,7 @@ export default function CreateRideScreen({ navigation }) {
                     }}
                     onFocus={() => setShowDestinationSuggestions(true)}
                     placeholder="Adresse d'arrivée"
-                    placeholderTextColor="#8C8C8C"
+                    placeholderTextColor={colors.textSecondary}
                     style={styles.input}
                   />
                 </View>
@@ -479,7 +480,7 @@ export default function CreateRideScreen({ navigation }) {
                 {loadingDestinationSuggestions ? (
                   <ActivityIndicator
                     style={styles.suggestionsLoader}
-                    color="#8B2332"
+                    color={colors.textPrimary}
                   />
                 ) : null}
 
@@ -505,7 +506,7 @@ export default function CreateRideScreen({ navigation }) {
                     <Ionicons
                       name="calendar-outline"
                       size={22}
-                      color="#8B2332"
+                      color={colors.textPrimary}
                     />
                     <View style={styles.dateTimeContent}>
                       <Text style={styles.dateTimeMainLabel}>Départ prévu</Text>
@@ -516,7 +517,7 @@ export default function CreateRideScreen({ navigation }) {
                     <Ionicons
                       name="chevron-forward"
                       size={20}
-                      color="#8C8C8C"
+                      color={colors.textSecondary}
                     />
                   </TouchableOpacity>
 
@@ -529,7 +530,7 @@ export default function CreateRideScreen({ navigation }) {
                       <Ionicons
                         name="calendar-clear-outline"
                         size={18}
-                        color="#8B2332"
+                        color={colors.textPrimary}
                       />
                       <Text style={styles.dateChipText}>
                         {formatDate(departureDateTime)}
@@ -544,7 +545,7 @@ export default function CreateRideScreen({ navigation }) {
                       <Ionicons
                         name="time-outline"
                         size={18}
-                        color="#8B2332"
+                        color={colors.textPrimary}
                       />
                       <Text style={styles.dateChipText}>
                         {formatTime(departureDateTime)}
@@ -558,12 +559,12 @@ export default function CreateRideScreen({ navigation }) {
                 <View style={[styles.fieldBlock, styles.halfField]}>
                   <Text style={styles.label}>Prix (€)</Text>
                   <View style={styles.inputRow}>
-                    <Ionicons name="cash-outline" size={22} color="#8B2332" />
+                    <Ionicons name="cash-outline" size={22} color={colors.textPrimary} />
                     <TextInput
                       value={price}
                       onChangeText={setPrice}
                       placeholder="Ex : 6"
-                      placeholderTextColor="#8C8C8C"
+                      placeholderTextColor={colors.textSecondary}
                       keyboardType="numeric"
                       style={styles.input}
                     />
@@ -576,13 +577,13 @@ export default function CreateRideScreen({ navigation }) {
                     <Ionicons
                       name="people-outline"
                       size={22}
-                      color="#8B2332"
+                      color={colors.textPrimary}
                     />
                     <TextInput
                       value={availableSeats}
                       onChangeText={setAvailableSeats}
                       placeholder="Ex : 3"
-                      placeholderTextColor="#8C8C8C"
+                      placeholderTextColor={colors.textSecondary}
                       keyboardType="numeric"
                       style={styles.input}
                     />
@@ -741,6 +742,7 @@ import DateTimePicker from "@react-native-community/datetimepicker"; //Composant
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import styles from "../styles/CreateRideStyles";
+import { colors } from "../styles/theme";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 const EXPO_PUBLIC_MAPBOX_TOKEN = process.env.EXPO_PUBLIC_MAPBOX_TOKEN;
@@ -1116,7 +1118,7 @@ const confirmTimeSelection = () => { //confirmation de l'heure IOS, on repart de
     style={styles.suggestionItem}
     onPress={() => handleSelectSuggestion(item)}
   >
-    <Ionicons name="location-outline" size={18} color="#8B2332" />
+    <Ionicons name="location-outline" size={18} color={colors.textPrimary} />
     <Text style={styles.suggestionText} numberOfLines={2}>
       {item.label}
     </Text>
@@ -1141,10 +1143,10 @@ const confirmTimeSelection = () => { //confirmation de l'heure IOS, on repart de
                 activeOpacity={0.7}
                 onPress={() => navigation.goBack()}
               >
-                <Ionicons name="arrow-back" size={28} color="#8B2332" />
+                <Ionicons name="arrow-back" size={28} color={colors.textPrimary} />
               </TouchableOpacity>
 
-              <Text style={styles.logo}>BUZZ</Text>
+              <Text style={styles.logo}>TOGO</Text>
 
               <View style={styles.headerRightSpacer} />
             </View>
@@ -1155,7 +1157,7 @@ const confirmTimeSelection = () => { //confirmation de l'heure IOS, on repart de
               <View style={styles.fieldBlock}>
                 <Text style={styles.label}>Adresse de départ</Text>
                 <View style={styles.inputRow}>
-                  <Ionicons name="location" size={24} color="#8B2332" />
+                  <Ionicons name="location" size={24} color={colors.textPrimary} />
                   <TextInput
                     value={departureQuery}
                     onChangeText={(text) => {
@@ -1165,7 +1167,7 @@ const confirmTimeSelection = () => { //confirmation de l'heure IOS, on repart de
                     }}
                     onFocus={() => setShowDepartureSuggestions(true)}
                     placeholder="Adresse de départ"
-                    placeholderTextColor="#8C8C8C"
+                    placeholderTextColor={colors.textSecondary}
                     style={styles.input}
                   />
                 </View>
@@ -1173,7 +1175,7 @@ const confirmTimeSelection = () => { //confirmation de l'heure IOS, on repart de
                 {loadingDepartureSuggestions ? (
                   <ActivityIndicator
                     style={styles.suggestionsLoader}
-                    color="#8B2332"
+                    color={colors.textPrimary}
                   />
                 ) : null}
 
@@ -1189,7 +1191,7 @@ const confirmTimeSelection = () => { //confirmation de l'heure IOS, on repart de
               <View style={styles.fieldBlock}>
                 <Text style={styles.label}>Adresse d’arrivée</Text>
                 <View style={styles.inputRow}>
-                  <Ionicons name="location" size={24} color="#8B2332" />
+                  <Ionicons name="location" size={24} color={colors.textPrimary} />
                   <TextInput
                     value={destinationQuery}
                     onChangeText={(text) => {
@@ -1199,7 +1201,7 @@ const confirmTimeSelection = () => { //confirmation de l'heure IOS, on repart de
                     }}
                     onFocus={() => setShowDestinationSuggestions(true)}
                     placeholder="Adresse d'arrivée"
-                    placeholderTextColor="#8C8C8C"
+                    placeholderTextColor={colors.textSecondary}
                     style={styles.input}
                   />
                 </View>
@@ -1207,7 +1209,7 @@ const confirmTimeSelection = () => { //confirmation de l'heure IOS, on repart de
                 {loadingDestinationSuggestions ? (
                   <ActivityIndicator
                     style={styles.suggestionsLoader}
-                    color="#8B2332"
+                    color={colors.textPrimary}
                   />
                 ) : null}
 
@@ -1233,7 +1235,7 @@ const confirmTimeSelection = () => { //confirmation de l'heure IOS, on repart de
                     <Ionicons
                       name="calendar-outline"
                       size={22}
-                      color="#8B2332"
+                      color={colors.textPrimary}
                     />
                     <View style={styles.dateTimeContent}>
                       <Text style={styles.dateTimeMainLabel}>Départ prévu</Text>
@@ -1244,7 +1246,7 @@ const confirmTimeSelection = () => { //confirmation de l'heure IOS, on repart de
                     <Ionicons
                       name="chevron-forward"
                       size={20}
-                      color="#8C8C8C"
+                      color={colors.textSecondary}
                     />
                   </TouchableOpacity>
 
@@ -1257,7 +1259,7 @@ const confirmTimeSelection = () => { //confirmation de l'heure IOS, on repart de
                       <Ionicons
                         name="calendar-clear-outline"
                         size={18}
-                        color="#8B2332"
+                        color={colors.textPrimary}
                       />
                       <Text style={styles.dateChipText}>
                         {formatDate(departureDateTime)}
@@ -1272,7 +1274,7 @@ const confirmTimeSelection = () => { //confirmation de l'heure IOS, on repart de
                       <Ionicons
                         name="time-outline"
                         size={18}
-                        color="#8B2332"
+                        color={colors.textPrimary}
                       />
                       <Text style={styles.dateChipText}>
                         {formatTime(departureDateTime)}
@@ -1286,12 +1288,12 @@ const confirmTimeSelection = () => { //confirmation de l'heure IOS, on repart de
                 <View style={[styles.fieldBlock, styles.halfField]}>
                   <Text style={styles.label}>Prix (€)</Text>
                   <View style={styles.inputRow}>
-                    <Ionicons name="cash-outline" size={22} color="#8B2332" />
+                    <Ionicons name="cash-outline" size={22} color={colors.textPrimary} />
                     <TextInput
                       value={price}
                       onChangeText={setPrice}
                       placeholder="Ex : 6"
-                      placeholderTextColor="#8C8C8C"
+                      placeholderTextColor={colors.textSecondary}
                       keyboardType="numeric"
                       style={styles.input}
                     />
@@ -1304,13 +1306,13 @@ const confirmTimeSelection = () => { //confirmation de l'heure IOS, on repart de
                     <Ionicons
                       name="people-outline"
                       size={22}
-                      color="#8B2332"
+                      color={colors.textPrimary}
                     />
                     <TextInput
                       value={availableSeats}
                       onChangeText={setAvailableSeats}
                       placeholder="Ex : 3"
-                      placeholderTextColor="#8C8C8C"
+                      placeholderTextColor={colors.textSecondary}
                       keyboardType="numeric"
                       style={styles.input}
                     />

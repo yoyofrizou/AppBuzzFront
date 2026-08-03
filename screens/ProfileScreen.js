@@ -19,6 +19,7 @@ import { logout, updateProfilePhoto } from "../redux/reducers/user";
 import { resetRidesState } from "../redux/reducers/rides";
 
 import styles from "../styles/ProfileStyles";
+import { colors } from "../styles/theme";
 import BackButton from "../components/BackButton";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
@@ -160,9 +161,9 @@ const confirmLogout = async () => {
     <SafeAreaView style={styles.screen}>
       <View style={styles.header}>
   <View style={styles.backButtonWrapper}>
-    <BackButton />
+    <BackButton color={colors.textPrimary} />
   </View>
-  <Text style={styles.headerTitle}>Mon compte Buzz</Text>
+  <Text style={styles.headerTitle}>Mon compte Togo</Text>
 </View>
 
       <ScrollView

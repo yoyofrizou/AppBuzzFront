@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native";
+import { colors, shadow } from "./theme";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: colors.backgroundAlt,
   },
 
   map: {
@@ -34,9 +35,9 @@ export default StyleSheet.create({
   },
 
   logo: {
-    fontSize: 34,
+    fontSize: 28,
     fontWeight: "800",
-    color: "#8B2332",
+    color: colors.mint,
     letterSpacing: 1,
   },
 
@@ -48,41 +49,33 @@ export default StyleSheet.create({
 
   searchRecap: {
     minHeight: 52,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 18,
     paddingHorizontal: 16,
     flexDirection: "row",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 3,
+    ...shadow.card,
   },
 
   searchRecapText: {
     marginLeft: 10,
     flex: 1,
     fontSize: 15,
-    color: "#444",
+    color: colors.textPrimary,
     fontWeight: "500",
   },
 
   priceMarker: {
     minWidth: 62,
-    backgroundColor: "#8B2332",
+    backgroundColor: colors.textPrimary,
     borderRadius: 16,
     paddingHorizontal: 8,
     paddingVertical: 6,
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "#FFFFFF",
-    shadowColor: "#000",
-    shadowOpacity: 0.18,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 4,
+    borderColor: colors.white,
+    ...shadow.soft,
   },
 
   priceMarkerTop: {
@@ -92,13 +85,13 @@ export default StyleSheet.create({
   },
 
   priceMarkerPrice: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontWeight: "800",
     fontSize: 13,
   },
 
   priceMarkerTime: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 11,
     fontWeight: "700",
     marginTop: 2,
@@ -113,15 +106,11 @@ export default StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 16,
     zIndex: 15,
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 2,
+    ...shadow.card,
   },
 
   resultsBadgeText: {
-    color: "#333",
+    color: colors.textPrimary,
     fontWeight: "700",
     fontSize: 13,
   },
@@ -136,37 +125,33 @@ export default StyleSheet.create({
     padding: 22,
     alignItems: "center",
     zIndex: 30,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 4,
+    ...shadow.card,
   },
 
   emptyTitle: {
     fontSize: 20,
     fontWeight: "800",
-    color: "#1F1F1F",
+    color: colors.textPrimary,
     marginBottom: 8,
   },
 
   emptyText: {
     textAlign: "center",
     fontSize: 14,
-    color: "#666",
+    color: colors.textSecondary,
     lineHeight: 20,
     marginBottom: 18,
   },
 
   emptyButton: {
-    backgroundColor: "#8B2332",
+    backgroundColor: colors.textPrimary,
     borderRadius: 16,
     paddingVertical: 14,
     paddingHorizontal: 18,
   },
 
   emptyButtonText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 15,
     fontWeight: "800",
   },
@@ -178,24 +163,20 @@ export default StyleSheet.create({
   },
 
   modalCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
     paddingHorizontal: 20,
     paddingTop: 12,
     paddingBottom: 30,
-    shadowColor: "#000",
-    shadowOpacity: 0.12,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: -2 },
-    elevation: 8,
+    ...shadow.card,
   },
 
   modalHandle: {
     width: 54,
     height: 6,
     borderRadius: 3,
-    backgroundColor: "#D9D9D9",
+    backgroundColor: colors.border,
     alignSelf: "center",
     marginBottom: 14,
   },
@@ -203,19 +184,19 @@ export default StyleSheet.create({
   modalTitle: {
     fontSize: 22,
     fontWeight: "800",
-    color: "#1F1F1F",
+    color: colors.textPrimary,
     marginBottom: 14,
   },
 
   driverCard: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#F8F4F5",
+    backgroundColor: colors.fill,
     borderRadius: 18,
     padding: 14,
     marginBottom: 18,
     borderWidth: 1,
-    borderColor: "#F0E2E5",
+    borderColor: colors.border,
   },
 
   driverImage: {
@@ -230,7 +211,7 @@ export default StyleSheet.create({
     height: 56,
     borderRadius: 28,
     marginRight: 12,
-    backgroundColor: "#8B2332",
+    backgroundColor: colors.textPrimary,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -241,7 +222,7 @@ export default StyleSheet.create({
 
   driverLabel: {
     fontSize: 12,
-    color: "#777",
+    color: colors.textSecondary,
     marginBottom: 3,
     fontWeight: "500",
   },
@@ -249,7 +230,7 @@ export default StyleSheet.create({
   driverName: {
     fontSize: 17,
     fontWeight: "700",
-    color: "#1F1F1F",
+    color: colors.textPrimary,
   },
 
   driverRatingRow: {
@@ -266,14 +247,14 @@ export default StyleSheet.create({
   },
 
   driverRatingText: {
-    color: "#8B2332",
+    color: colors.textPrimary,
     fontSize: 14,
     fontWeight: "700",
     marginRight: 6,
   },
 
   driverRatingCountText: {
-    color: "#666666",
+    color: colors.textSecondary,
     fontSize: 13,
     fontWeight: "500",
   },
@@ -281,7 +262,7 @@ export default StyleSheet.create({
   modalDateTime: {
     fontSize: 15,
     fontWeight: "800",
-    color: "#1F1F1F",
+    color: colors.textPrimary,
     marginBottom: 14,
   },
 
@@ -292,19 +273,19 @@ export default StyleSheet.create({
   modalAddressLabel: {
     fontSize: 13,
     fontWeight: "800",
-    color: "#8B2332",
+    color: colors.textPrimary,
     marginBottom: 4,
   },
 
   modalAddressText: {
     fontSize: 14,
-    color: "#2A2A2A",
+    color: colors.textPrimary,
     lineHeight: 20,
   },
 
   modalRoute: {
     fontSize: 15,
-    color: "#333",
+    color: colors.textPrimary,
     lineHeight: 22,
     marginBottom: 8,
     fontWeight: "500",
@@ -312,7 +293,7 @@ export default StyleSheet.create({
 
   modalMeta: {
     fontSize: 14,
-    color: "#666",
+    color: colors.textSecondary,
     marginBottom: 16,
   },
 
@@ -328,37 +309,33 @@ export default StyleSheet.create({
   modalPrice: {
     fontSize: 30,
     fontWeight: "800",
-    color: "#1F1F1F",
+    color: colors.textPrimary,
   },
 
   modalSeats: {
     fontSize: 14,
-    color: "#666",
+    color: colors.textSecondary,
     fontWeight: "600",
   },
 
   modalDescription: {
     fontSize: 14,
-    color: "#4F4F4F",
+    color: colors.textPrimary,
     lineHeight: 21,
     marginBottom: 16,
   },
 
   validateButton: {
-    backgroundColor: "#8B2332",
+    backgroundColor: colors.textPrimary,
     borderRadius: 18,
     paddingVertical: 16,
     alignItems: "center",
     justifyContent: "center",
-    shadowColor: "#8B2332",
-    shadowOpacity: 0.22,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 4,
+    ...shadow.soft,
   },
 
   validateButtonText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 16,
     fontWeight: "800",
   },
@@ -366,16 +343,17 @@ export default StyleSheet.create({
   validateButtonDisabled: {
     opacity: 0.7,
   },
-  addressRow: {
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "center",
-  marginBottom: 4,
-},
 
-walkingTimeText: {
-  fontSize: 13,
-  color: "#8B2332",
-  fontWeight: "600",
-},
+  addressRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 4,
+  },
+
+  walkingTimeText: {
+    fontSize: 13,
+    color: colors.textPrimary,
+    fontWeight: "600",
+  },
 });

@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native";
+import { colors, shadow } from "./theme";
 
 export default StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#F6F6F6",
+    backgroundColor: colors.backgroundAlt,
   },
 
   keyboard: {
@@ -32,7 +33,7 @@ export default StyleSheet.create({
   logo: {
     fontSize: 34,
     fontWeight: "800",
-    color: "#8B2332",
+    color: colors.mint,
     letterSpacing: 1,
   },
 
@@ -41,13 +42,10 @@ export default StyleSheet.create({
   },
 
   card: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 28,
     padding: 18,
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    elevation: 4,
+    ...shadow.card,
   },
 
   fieldBlock: {
@@ -57,31 +55,28 @@ export default StyleSheet.create({
 
   inputRow: {
     minHeight: 74,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 22,
     paddingHorizontal: 18,
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#ECECEC",
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 2,
+    borderColor: colors.border,
+    ...shadow.card,
   },
 
   input: {
     flex: 1,
     marginLeft: 14,
     fontSize: 17,
-    color: "#222",
+    color: colors.textPrimary,
   },
 
   inlineSearchButton: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: "#8B2332",
+    backgroundColor: colors.textPrimary,
     alignItems: "center",
     justifyContent: "center",
     marginLeft: 10,
@@ -93,10 +88,10 @@ export default StyleSheet.create({
 
   suggestionsBox: {
     marginTop: 8,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: "#EFEFEF",
+    borderColor: colors.border,
     overflow: "hidden",
   },
 
@@ -107,12 +102,12 @@ export default StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#F1F1F1",
+    borderBottomColor: colors.border,
   },
 
   suggestionText: {
     flex: 1,
-    color: "#333",
+    color: colors.textPrimary,
     fontSize: 14,
     lineHeight: 20,
   },
@@ -123,7 +118,7 @@ export default StyleSheet.create({
     textAlign: "center",
     fontSize: 24,
     fontWeight: "800",
-    color: "#8B2332",
+    color: colors.textPrimary,
   },
 
   sliderSection: {
@@ -140,12 +135,12 @@ export default StyleSheet.create({
   sliderTitle: {
     fontSize: 17,
     fontWeight: "700",
-    color: "#2F2F2F",
+    color: colors.textPrimary,
   },
 
   sliderMax: {
     fontSize: 16,
-    color: "#666",
+    color: colors.textSecondary,
     fontWeight: "600",
   },
 
@@ -157,7 +152,7 @@ export default StyleSheet.create({
     position: "absolute",
     top: 0,
     width: 190,
-    backgroundColor: "#F4B63C",
+    backgroundColor: colors.textPrimary,
     borderRadius: 22,
     paddingVertical: 10,
     paddingHorizontal: 10,
@@ -167,7 +162,7 @@ export default StyleSheet.create({
   },
 
   sliderBadgeText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 12,
     fontWeight: "800",
   },
@@ -185,31 +180,28 @@ export default StyleSheet.create({
 
   sliderScaleText: {
     fontSize: 12,
-    color: "#9B9B9B",
+    color: colors.textSecondary,
     fontWeight: "600",
   },
 
   dateTimeButton: {
     minHeight: 72,
     marginTop: 2,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 20,
     paddingHorizontal: 18,
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#ECECEC",
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 2,
+    borderColor: colors.border,
+    ...shadow.card,
   },
 
   dateTimeText: {
     marginLeft: 14,
     flex: 1,
     fontSize: 18,
-    color: "#5B5B5B",
+    color: colors.textSecondary,
     fontWeight: "500",
   },
 
@@ -221,7 +213,7 @@ export default StyleSheet.create({
 
   smallDateButton: {
     flex: 1,
-    backgroundColor: "#F3F3F3",
+    backgroundColor: colors.fill,
     borderRadius: 14,
     paddingVertical: 12,
     alignItems: "center",
@@ -229,7 +221,7 @@ export default StyleSheet.create({
   },
 
   smallDateButtonText: {
-    color: "#6B6B6B",
+    color: colors.textSecondary,
     fontSize: 14,
     fontWeight: "700",
   },
@@ -239,20 +231,17 @@ export default StyleSheet.create({
     marginBottom: 18,
     textAlign: "center",
     fontSize: 13,
-    color: "#8E8E8E",
+    color: colors.textSecondary,
     lineHeight: 20,
   },
 
   searchButton: {
     height: 66,
     borderRadius: 24,
-    backgroundColor: "#8B2332",
+    backgroundColor: colors.textPrimary,
     alignItems: "center",
     justifyContent: "center",
-    shadowColor: "#8B2332",
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 3,
+    ...shadow.soft,
   },
 
   searchButtonDisabled: {
@@ -260,14 +249,14 @@ export default StyleSheet.create({
   },
 
   searchButtonText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 20,
     fontWeight: "800",
   },
 
   pickerOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.35)",
+    backgroundColor: colors.overlay,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 20,
@@ -275,7 +264,7 @@ export default StyleSheet.create({
 
   pickerCard: {
     width: "100%",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 20,
     padding: 20,
   },
@@ -283,7 +272,7 @@ export default StyleSheet.create({
   pickerTitle: {
     fontSize: 18,
     fontWeight: "700",
-    color: "#111111",
+    color: colors.textPrimary,
     textAlign: "center",
     marginBottom: 12,
   },
@@ -298,15 +287,15 @@ export default StyleSheet.create({
   pickerSecondaryButton: {
     flex: 1,
     borderWidth: 1,
-    borderColor: "#8B2332",
+    borderColor: colors.border,
     borderRadius: 14,
     paddingVertical: 12,
     alignItems: "center",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
   },
 
   pickerSecondaryButtonText: {
-    color: "#8B2332",
+    color: colors.textPrimary,
     fontWeight: "700",
     fontSize: 15,
   },
@@ -316,11 +305,11 @@ export default StyleSheet.create({
     borderRadius: 14,
     paddingVertical: 12,
     alignItems: "center",
-    backgroundColor: "#8B2332",
+    backgroundColor: colors.textPrimary,
   },
 
   pickerPrimaryButtonText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontWeight: "700",
     fontSize: 15,
   },

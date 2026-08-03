@@ -15,6 +15,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 
 import styles from "../styles/InscriptionStyles";
+import { colors } from "../styles/theme";
 import CustomButton from "../components/CustomButton";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
@@ -155,13 +156,6 @@ const handleSignup = async () => {
 
   return (
   <SafeAreaView style={styles.screen}>
-    <TouchableOpacity
-      onPress={() => navigation.navigate("Home")}
-      style={styles.backButton}
-    >
-      <Ionicons name="arrow-back" size={26} color="#111" />
-    </TouchableOpacity>
-
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -171,7 +165,14 @@ const handleSignup = async () => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.card}>
-          <Text style={styles.logo}>BUZZ</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Home")}
+            style={styles.backButton}
+          >
+            <Ionicons name="arrow-back" size={24} color={colors.textPrimary} />
+          </TouchableOpacity>
+
+          <Text style={styles.logo}>TOGO</Text>
           <Text style={styles.title}>Créer un compte</Text>
 
             <TouchableOpacity
@@ -190,42 +191,55 @@ const handleSignup = async () => {
               </View>
             </TouchableOpacity>
 
-            <TextInput
-              placeholder="Prénom"
-              style={styles.input}
-              onChangeText={setPrenom}
-              value={prenom}
-            />
+            <View style={styles.inputRow}>
+              <Ionicons name="person-outline" size={18} color={colors.textSecondary} />
+              <TextInput
+                placeholder="Prénom"
+                style={styles.inputField}
+                onChangeText={setPrenom}
+                value={prenom}
+              />
+            </View>
 
-            <TextInput
-              placeholder="Nom"
-              style={styles.input}
-              onChangeText={setNom}
-              value={nom}
-            />
+            <View style={styles.inputRow}>
+              <Ionicons name="person-outline" size={18} color={colors.textSecondary} />
+              <TextInput
+                placeholder="Nom"
+                style={styles.inputField}
+                onChangeText={setNom}
+                value={nom}
+              />
+            </View>
 
-            <TextInput
-              placeholder="Email"
-              style={styles.input}
-              onChangeText={setEmail}
-              value={email}
-              autoCapitalize="none"
-              keyboardType="email-address"
-              textContentType="emailAddress"
-              autoComplete="email"
-            />
+            <View style={styles.inputRow}>
+              <Ionicons name="mail-outline" size={18} color={colors.textSecondary} />
+              <TextInput
+                placeholder="Email"
+                style={styles.inputField}
+                onChangeText={setEmail}
+                value={email}
+                autoCapitalize="none"
+                keyboardType="email-address"
+                textContentType="emailAddress"
+                autoComplete="email"
+              />
+            </View>
 
             {emailError && <Text style={styles.error}>Adresse email invalide</Text>}
 
-            <TextInput
-              placeholder="Numéro de téléphone"
-              style={styles.input}
-              onChangeText={setTelephone}
-              value={telephone}
-              keyboardType="phone-pad"
-            />
+            <View style={styles.inputRow}>
+              <Ionicons name="call-outline" size={18} color={colors.textSecondary} />
+              <TextInput
+                placeholder="Numéro de téléphone"
+                style={styles.inputField}
+                onChangeText={setTelephone}
+                value={telephone}
+                keyboardType="phone-pad"
+              />
+            </View>
 
             <View style={styles.passwordContainer}>
+              <Ionicons name="lock-closed-outline" size={18} color={colors.textSecondary} />
               <TextInput
                 placeholder="Mot de passe"
                 style={styles.passwordInput}
@@ -239,7 +253,7 @@ const handleSignup = async () => {
                 <Ionicons
                   name={showPassword ? "eye-off-outline" : "eye-outline"}
                   size={22}
-                  color="#555"
+                  color={colors.textSecondary}
                 />
               </TouchableOpacity>
             </View>
@@ -254,6 +268,7 @@ const handleSignup = async () => {
             </Text>
 
             <View style={styles.passwordContainer}>
+              <Ionicons name="lock-closed-outline" size={18} color={colors.textSecondary} />
               <TextInput
                 placeholder="Confirmation mot de passe"
                 style={styles.passwordInput}
@@ -269,7 +284,7 @@ const handleSignup = async () => {
                 <Ionicons
                   name={showConfirmPassword ? "eye-off-outline" : "eye-outline"}
                   size={22}
-                  color="#555"
+                  color={colors.textSecondary}
                 />
               </TouchableOpacity>
             </View>
@@ -461,9 +476,9 @@ if (!response.ok || !data.result) {
     onPress={() => navigation.navigate("Home")}
     style={styles.backButton}
   >
-    <Ionicons name="arrow-back" size={26} color="#111" />
+    <Ionicons name="arrow-back" size={26} color={colors.textPrimary} />
   </TouchableOpacity>
-            <Text style={styles.logo}>BUZZ</Text>
+            <Text style={styles.logo}>TOGO</Text>
             <Text style={styles.title}>Créer un compte</Text>
 
             <TouchableOpacity
@@ -531,7 +546,7 @@ if (!response.ok || !data.result) {
     <Ionicons
       name={showPassword ? "eye-off-outline" : "eye-outline"}
       size={22}
-      color="#555"
+      color={colors.textSecondary}
     />
   </TouchableOpacity>
 </View>
@@ -559,7 +574,7 @@ if (!response.ok || !data.result) {
     <Ionicons
       name={showConfirmPassword ? "eye-off-outline" : "eye-outline"}
       size={22}
-      color="#555"
+      color={colors.textSecondary}
     />
   </TouchableOpacity>
 </View>

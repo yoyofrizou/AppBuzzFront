@@ -1,11 +1,12 @@
 import { StyleSheet } from "react-native";
+import { colors } from "./theme";
 
-const BORDEAUX = "#7A2335";
-const BG = "#F7F7F7";
-const WHITE = "#FFFFFF";
-const TEXT = "#111111";
-const SUBTEXT = "#666666";
-const BORDER = "#E5E5E5";
+const BORDEAUX = colors.textPrimary;
+const BG = colors.backgroundAlt;
+const WHITE = colors.surface;
+const TEXT = colors.textPrimary;
+const SUBTEXT = colors.textSecondary;
+const BORDER = colors.border;
 
 export default StyleSheet.create({
   safeArea: {
@@ -26,7 +27,7 @@ export default StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#EFEFEF",
+    borderBottomColor: colors.border,
   },
 
   backWrapper: {
@@ -107,16 +108,16 @@ export default StyleSheet.create({
   },
 
   defaultBadge: {
-    backgroundColor: "#ECFDF3",
+    backgroundColor: colors.mintSoft,
     borderWidth: 1,
-    borderColor: "#ABEFC6",
+    borderColor: colors.mint,
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 999,
   },
 
   defaultBadgeText: {
-    color: "#067647",
+    color: colors.success,
     fontSize: 12,
     fontWeight: "700",
   },
@@ -131,7 +132,7 @@ export default StyleSheet.create({
   },
 
   primaryActionText: {
-    color: WHITE,
+    color: colors.white,
     fontSize: 15,
     fontWeight: "700",
   },
@@ -163,7 +164,7 @@ export default StyleSheet.create({
 
   divider: {
     height: 1,
-    backgroundColor: "#E9E9E9",
+    backgroundColor: colors.border,
     marginVertical: 24,
   },
 
@@ -209,11 +210,11 @@ export default StyleSheet.create({
   },
 
   historyTitle: {
-  flex: 1,
-  fontSize: 15,
-  fontWeight: "700",
-  color: TEXT,
-},
+    flex: 1,
+    fontSize: 15,
+    fontWeight: "700",
+    color: TEXT,
+  },
 
   historyAmount: {
     fontSize: 17,
@@ -228,7 +229,7 @@ export default StyleSheet.create({
   },
 
   errorText: {
-    color: "#B42318",
+    color: colors.danger,
     fontSize: 14,
     fontWeight: "600",
     marginTop: 12,

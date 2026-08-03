@@ -4,6 +4,7 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import { colors } from "../styles/theme";
 
 import DriverHomeScreen from "../screens/DriverHomeScreen";
 import DriverTripsScreen from "../screens/DriverTripsScreen";
@@ -50,12 +51,15 @@ export default function DriverTabs() {
       screenOptions={({ route }) => ({
         lazy: true,
         headerShown: false,
-        tabBarActiveTintColor: "#8B2332",
-        tabBarInactiveTintColor: "#8A8A8A",
+        tabBarActiveTintColor: colors.mint,
+        tabBarInactiveTintColor: colors.textPrimary,
         tabBarStyle: {
           height: 85,
           paddingBottom: 20,
           paddingTop: 6,
+          backgroundColor: colors.background,
+          borderTopWidth: 1,
+          borderTopColor: colors.border,
         },
         tabBarItemStyle: {
           flex: 1,
@@ -128,8 +132,8 @@ export default function DriverTabs() {
           tabBarLabel: "Messages",
           tabBarBadge: unreadCount > 0 ? unreadCount : undefined,
           tabBarBadgeStyle: {
-            backgroundColor: "#8B2332",
-            color: "#fff",
+            backgroundColor: colors.danger,
+            color: colors.white,
             fontSize: 11,
             minWidth: 18,
             height: 18,

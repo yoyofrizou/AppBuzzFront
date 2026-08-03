@@ -1,13 +1,14 @@
 import { StyleSheet } from "react-native";
+import { colors, shadow } from "./theme";
 
 export default StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#F3F3F3",
+    backgroundColor: colors.backgroundAlt,
   },
 
   topBar: {
-    backgroundColor: "#8B2332",
+    backgroundColor: colors.textPrimary,
     paddingTop: 58,
     paddingBottom: 20,
     paddingHorizontal: 18,
@@ -22,7 +23,7 @@ export default StyleSheet.create({
   },
 
   topBarTitle: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 26,
     fontWeight: "800",
   },
@@ -40,7 +41,7 @@ export default StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.white,
     borderWidth: 6,
     borderColor: "#2D9CDB",
   },
@@ -56,20 +57,17 @@ export default StyleSheet.create({
   },
 
   carMarkerContainer: {
-  backgroundColor: "#FFFFFF",
-  padding: 6,
-  borderRadius: 20,
-  alignItems: "center",
-  justifyContent: "center",
-  shadowColor: "#000",
-  shadowOpacity: 0.2,
-  shadowRadius: 4,
-  elevation: 3,
-},
+    backgroundColor: colors.white,
+    padding: 6,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    ...shadow.soft,
+  },
 
   bottomSheet: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     marginTop: -16,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
@@ -81,20 +79,20 @@ export default StyleSheet.create({
   etaTitle: {
     fontSize: 28,
     fontWeight: "800",
-    color: "#111111",
+    color: colors.textPrimary,
     marginBottom: 4,
   },
 
   etaSubtitle: {
     fontSize: 16,
-    color: "#8A8A8A",
+    color: colors.textSecondary,
     marginBottom: 22,
   },
 
   sectionTitle: {
     fontSize: 18,
     fontWeight: "800",
-    color: "#111111",
+    color: colors.textPrimary,
     marginBottom: 16,
   },
 
@@ -113,7 +111,7 @@ export default StyleSheet.create({
     width: 84,
     height: 84,
     borderRadius: 42,
-    backgroundColor: "#EFEFEF",
+    backgroundColor: colors.fill,
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
@@ -128,19 +126,19 @@ export default StyleSheet.create({
   passengerName: {
     fontSize: 15,
     fontWeight: "700",
-    color: "#111111",
+    color: colors.textPrimary,
     textAlign: "center",
     marginBottom: 4,
   },
 
   passengerState: {
     fontSize: 13,
-    color: "#8A8A8A",
+    color: colors.textSecondary,
     textAlign: "center",
   },
 
   primaryButton: {
-    backgroundColor: "#8B2332",
+    backgroundColor: colors.textPrimary,
     borderRadius: 14,
     paddingVertical: 16,
     alignItems: "center",
@@ -148,7 +146,7 @@ export default StyleSheet.create({
   },
 
   primaryButtonText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 16,
     fontWeight: "800",
   },
@@ -169,7 +167,7 @@ export default StyleSheet.create({
   emptyTitle: {
     fontSize: 20,
     fontWeight: "700",
-    color: "#111111",
+    color: colors.textPrimary,
     marginBottom: 16,
   },
 });

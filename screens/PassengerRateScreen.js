@@ -16,9 +16,10 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import styles from "../styles/PassengerRateStyles";
+import { colors } from "../styles/theme";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
-const BORDEAUX = "#8B2332";
+const BORDEAUX = colors.textPrimary;
 
 function formatPaidAmount(booking, ride) {
   if (typeof booking?.finalAmount === "number" && booking.finalAmount >= 0) {
@@ -178,7 +179,7 @@ export default function PassengerRateScreen({ navigation, route }) {
               activeOpacity={0.7}
               onPress={() => navigation.goBack()}
             >
-              <Ionicons name="arrow-back" size={28} color="#111111" />
+              <Ionicons name="arrow-back" size={28} color={colors.textPrimary} />
             </TouchableOpacity>
 
             <Text style={styles.headerTitle}>Évaluation</Text>
@@ -187,7 +188,7 @@ export default function PassengerRateScreen({ navigation, route }) {
           </View>
 
           <View style={styles.summaryCard}>
-            <Text style={styles.summaryTitle}>Merci d’avoir utilisé Buzz</Text>
+            <Text style={styles.summaryTitle}>Merci d’avoir utilisé Togo</Text>
             <Text style={styles.summarySubtitle}>Votre trajet est terminé.</Text>
             <Text style={styles.paidAmountLabel}>Montant final payé</Text>
             <Text style={styles.paidAmountValue}>{paidAmount}</Text>
@@ -198,7 +199,7 @@ export default function PassengerRateScreen({ navigation, route }) {
               <Image source={{ uri: driver.profilePhoto }} style={styles.avatar} />
             ) : (
               <View style={styles.avatarPlaceholder}>
-                <Ionicons name="person" size={42} color="#FFFFFF" />
+                <Ionicons name="person" size={42} color={colors.white} />
               </View>
             )}
 
@@ -222,7 +223,7 @@ export default function PassengerRateScreen({ navigation, route }) {
           <TextInput
             style={styles.input}
             placeholder="Écrivez votre commentaire ici..."
-            placeholderTextColor="#A0A0A0"
+            placeholderTextColor={colors.textSecondary}
             multiline
             textAlignVertical="top"
             value={comment}
@@ -239,7 +240,7 @@ export default function PassengerRateScreen({ navigation, route }) {
             onPress={handleSubmit}
           >
             {loading ? (
-              <ActivityIndicator color="#FFFFFF" />
+              <ActivityIndicator color={colors.white} />
             ) : (
               <Text style={styles.submitButtonText}>ENVOYER L'ÉVALUATION</Text>
             )}

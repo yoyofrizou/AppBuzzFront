@@ -13,9 +13,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import styles from "../styles/DriverPublicProfileStyles";
+import { colors } from "../styles/theme";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
-const BORDEAUX = "#8B2332";
+const BORDEAUX = colors.textPrimary;
 
 function formatDateTime(dateString) {
   if (!dateString) return "Date non renseignée";
@@ -170,7 +171,7 @@ export default function DriverPublicProfileScreen({ navigation, route }) {
   if (loading) {
     return (
       <SafeAreaView style={styles.safeArea}>
-        <StatusBar barStyle="dark-content" backgroundColor="#F4F4F6" />
+        <StatusBar barStyle="dark-content" backgroundColor={colors.backgroundAlt} />
         <View style={styles.loaderContainer}>
           <ActivityIndicator size="large" color={BORDEAUX} />
         </View>
@@ -180,7 +181,7 @@ export default function DriverPublicProfileScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="dark-content" backgroundColor="#F4F4F6" />
+      <StatusBar barStyle="dark-content" backgroundColor={colors.backgroundAlt} />
 
       <View style={styles.screen}>
       <View style={styles.header}>
@@ -193,7 +194,7 @@ export default function DriverPublicProfileScreen({ navigation, route }) {
     onPress={() => navigation.goBack()}
     activeOpacity={0.7}
   >
-    <Ionicons name="close" size={28} color="#111111" />
+    <Ionicons name="close" size={28} color={colors.textPrimary} />
   </TouchableOpacity>
 </View>
 
@@ -216,7 +217,7 @@ export default function DriverPublicProfileScreen({ navigation, route }) {
               />
             ) : (
               <View style={styles.driverPlaceholder}>
-                <Ionicons name="person" size={34} color="#FFFFFF" />
+                <Ionicons name="person" size={34} color={colors.white} />
               </View>
             )}
 
@@ -340,7 +341,7 @@ export default function DriverPublicProfileScreen({ navigation, route }) {
                         />
                       ) : (
                         <View style={styles.reviewAvatarFallback}>
-                          <Ionicons name="person" size={18} color="#FFFFFF" />
+                          <Ionicons name="person" size={18} color={colors.white} />
                         </View>
                       )}
                     </View>

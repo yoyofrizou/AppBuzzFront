@@ -1,13 +1,14 @@
 import { StyleSheet } from "react-native";
+import { colors, radii, shadow } from "./theme";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#EFEFEF",
+    backgroundColor: colors.backgroundAlt,
   },
 
   topContainer: {
-    backgroundColor: "#F5F5F5",
+    backgroundColor: colors.background,
     paddingTop: 70,
     paddingHorizontal: 25,
     paddingBottom: 18,
@@ -24,9 +25,10 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    fontSize: 40,
+    fontSize: 28,
     fontWeight: "800",
-    color: "#8B2332",
+    letterSpacing: 1,
+    color: colors.mint,
   },
 
   profileIcon: {
@@ -35,23 +37,31 @@ const styles = StyleSheet.create({
   },
 
   searchBar: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 18,
-    height: 56,
-    paddingHorizontal: 18,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 29,
+    height: 58,
+    paddingLeft: 20,
+    paddingRight: 6,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 4,
   },
 
   searchPlaceholder: {
-    fontSize: 20,
-    color: "#8A8A8A",
+    fontSize: 16,
+    fontWeight: "500",
+    color: colors.textPrimary,
+  },
+
+  searchBarIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: colors.mint,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   mapContainer: {
@@ -68,32 +78,28 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 22,
-    backgroundColor: "rgba(0,0,0,0.08)",
+    backgroundColor: colors.overlay,
   },
 
   modalCard: {
     width: "100%",
     maxWidth: 335,
-    backgroundColor: "#FFFFFF",
-    borderRadius: 22,
+    backgroundColor: colors.surface,
+    borderRadius: radii.card,
     padding: 24,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.14,
-    shadowRadius: 10,
-    elevation: 6,
+    ...shadow.card,
   },
 
   modalTitle: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "800",
-    color: "#111",
+    color: colors.textPrimary,
     marginBottom: 12,
   },
 
   modalText: {
-    fontSize: 17,
-    color: "#666",
+    fontSize: 16,
+    color: colors.textSecondary,
     lineHeight: 24,
     marginBottom: 24,
   },
@@ -106,55 +112,70 @@ const styles = StyleSheet.create({
 
   allowButton: {
     flex: 1,
-    backgroundColor: "#8B2332",
-    borderRadius: 18,
+    backgroundColor: colors.textPrimary,
+    borderRadius: 16,
     height: 56,
     justifyContent: "center",
     alignItems: "center",
   },
 
   allowButtonText: {
-    color: "#FFFFFF",
-    fontSize: 18,
+    color: colors.white,
+    fontSize: 17,
     fontWeight: "700",
   },
 
   denyButton: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
-    borderRadius: 18,
+    backgroundColor: colors.surface,
+    borderRadius: 16,
     height: 56,
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 2,
-    borderColor: "#9C9C9C",
+    borderWidth: 1,
+    borderColor: colors.border,
   },
 
   denyButtonText: {
-    color: "#7A7A7A",
-    fontSize: 18,
+    color: colors.textSecondary,
+    fontSize: 17,
     fontWeight: "600",
   },
-  driverModeButton: {
-  position: "absolute",
-  bottom: 40,
-  alignSelf: "center",
-  backgroundColor: "#8B2332",
-  paddingVertical: 14,
-  paddingHorizontal: 28,
-  borderRadius: 30,
-  elevation: 5,
-},
 
-driverModeButtonText: {
-  color: "#fff",
-  fontSize: 16,
-  fontWeight: "700",
-},
+  switchModeToggle: {
+    position: "absolute",
+    bottom: 40,
+    alignSelf: "center",
+    flexDirection: "row",
+    backgroundColor: colors.surface,
+    borderRadius: 30,
+    padding: 4,
+    ...shadow.soft,
+  },
+
+  switchModeSegment: {
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    borderRadius: 30,
+  },
+
+  switchModeSegmentActive: {
+    backgroundColor: colors.mint,
+  },
+
+  switchModeSegmentText: {
+    color: colors.textPrimary,
+    fontSize: 17,
+    fontWeight: "500",
+  },
+
+  switchModeSegmentTextActive: {
+    fontWeight: "800",
+  },
 
   footer: {
     height: 85,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
     flexDirection: "row",
@@ -162,11 +183,7 @@ driverModeButtonText: {
     alignItems: "center",
     paddingBottom: 20,
     paddingTop: 6,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -3 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 8,
+    ...shadow.card,
   },
 
   footerItem: {
@@ -178,52 +195,44 @@ driverModeButtonText: {
   footerActiveText: {
     marginTop: 6,
     fontSize: 15,
-    color: "#8B2332",
+    color: colors.textPrimary,
     fontWeight: "600",
   },
 
   footerText: {
     marginTop: 6,
     fontSize: 15,
-    color: "#8A8A8A",
+    color: colors.textSecondary,
     fontWeight: "500",
   },
+
   locationWarning: {
-  marginTop: 14,
-  backgroundColor: "#FFF4F5",
-  borderRadius: 14,
-  paddingVertical: 12,
-  paddingHorizontal: 14,
-  flexDirection: "row",
-  alignItems: "center",
-  gap: 8,
-},
+    marginTop: 14,
+    backgroundColor: colors.surface,
+    borderRadius: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
 
-locationWarningText: {
-  color: "#8B2332",
-  fontSize: 16,
-  fontWeight: "600",
-},
-locationWarning: {
-  marginTop: 14,
-  backgroundColor: "#FFF4F5",
-  borderRadius: 14,
-  paddingVertical: 14,
-  paddingHorizontal: 14,
-  flexDirection: "row",
-  alignItems: "center",
-  gap: 8,
-  borderWidth: 1,
-  borderColor: "#F0C8CE",
-},
+  warningDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: colors.danger,
+  },
 
-locationWarningText: {
-  color: "#8B2332",
-  fontSize: 15,
-  fontWeight: "600",
-  flex: 1,
-  lineHeight: 20,
-},
+  locationWarningText: {
+    color: colors.textPrimary,
+    fontSize: 13,
+    fontWeight: "500",
+    flex: 1,
+    lineHeight: 20,
+  },
 });
 
 export default styles;

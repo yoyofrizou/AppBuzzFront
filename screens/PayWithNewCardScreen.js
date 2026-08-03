@@ -10,6 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useStripe } from "@stripe/stripe-react-native";
 import { useSelector } from "react-redux";
 import styles from "../styles/PayWithNewCardStyles";
+import { colors } from "../styles/theme";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -99,7 +100,7 @@ export default function PayWithNewCardScreen({ navigation, route }) {
       }
 
       const init = await initPaymentSheet({
-        merchantDisplayName: "BUZZ",
+        merchantDisplayName: "TOGO",
         paymentIntentClientSecret: data.paymentIntentClientSecret,
         allowsDelayedPaymentMethods: false,
       });
@@ -158,7 +159,7 @@ export default function PayWithNewCardScreen({ navigation, route }) {
           activeOpacity={0.85}
         >
           {loading ? (
-            <ActivityIndicator color="#FFFFFF" />
+            <ActivityIndicator color={colors.white} />
           ) : (
             <Text style={styles.payButtonText}>Payer</Text>
           )}

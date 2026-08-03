@@ -15,6 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { login } from "../redux/reducers/user";
 import CustomButton from "../components/CustomButton";
 import styles from "../styles/ConnexionStyles";
+import { colors } from "../styles/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
@@ -176,7 +177,7 @@ export default function ConnexionScreen({ navigation }) {
         onPress={() => navigation.navigate("Home")}
         style={styles.backButton}
       >
-        <Ionicons name="arrow-back" size={26} color="#111" />
+        <Ionicons name="arrow-back" size={26} color={colors.textPrimary} />
       </TouchableOpacity>
 
       <KeyboardAvoidingView
@@ -185,19 +186,22 @@ export default function ConnexionScreen({ navigation }) {
       >
         {/* Conteneur visuel du formulaire */}
         <View style={styles.card}>
-          <Text style={styles.logo}>BUZZ</Text>
+          <Text style={styles.logo}>TOGO</Text>
           <Text style={styles.title}>Se connecter</Text>
 
-          <TextInput
-            placeholder="Email"
-            style={styles.input}
-            onChangeText={setEmail}
-            value={email}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            textContentType="emailAddress"
-            autoComplete="email"
-          />
+          <View style={styles.inputRow}>
+            <Ionicons name="mail-outline" size={18} color={colors.textSecondary} />
+            <TextInput
+              placeholder="Email"
+              style={styles.inputField}
+              onChangeText={setEmail}
+              value={email}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              textContentType="emailAddress"
+              autoComplete="email"
+            />
+          </View>
 
           {/* Si emailError vaut true, le message apparaît */}
           {emailError && (
@@ -205,6 +209,7 @@ export default function ConnexionScreen({ navigation }) {
           )}
 
           <View style={styles.passwordContainer}>
+            <Ionicons name="lock-closed-outline" size={18} color={colors.textSecondary} />
             <TextInput
               placeholder="Mot de passe"
               style={styles.passwordInput}
@@ -218,7 +223,7 @@ export default function ConnexionScreen({ navigation }) {
               <Ionicons
                 name={showPassword ? "eye-off-outline" : "eye-outline"}
                 size={22}
-                color="#555"
+                color={colors.textSecondary}
               />
             </TouchableOpacity>
           </View>
@@ -245,14 +250,17 @@ export default function ConnexionScreen({ navigation }) {
               Entrez votre adresse email pour recevoir un lien de réinitialisation.
             </Text>
 
-            <TextInput
-              placeholder="Votre email"
-              style={styles.input}
-              value={forgotEmail}
-              onChangeText={setForgotEmail}
-              autoCapitalize="none"
-              keyboardType="email-address"
-            />
+            <View style={styles.inputRow}>
+              <Ionicons name="mail-outline" size={18} color={colors.textSecondary} />
+              <TextInput
+                placeholder="Votre email"
+                style={styles.inputField}
+                value={forgotEmail}
+                onChangeText={setForgotEmail}
+                autoCapitalize="none"
+                keyboardType="email-address"
+              />
+            </View>
 
             {/* Conteneur des boutons */}
             <View style={styles.modalButtons}>
@@ -260,7 +268,7 @@ export default function ConnexionScreen({ navigation }) {
                 style={styles.modalButton}
                 onPress={() => setForgotModalVisible(false)}
               >
-                <Text>Annuler</Text>
+                <Text style={styles.modalButtonTextMuted}>Annuler</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -268,7 +276,9 @@ export default function ConnexionScreen({ navigation }) {
                 onPress={handleForgotPassword}
                 disabled={forgotLoading}
               >
-                <Text>{forgotLoading ? "Envoi..." : "Envoyer"}</Text>
+                <Text style={styles.modalButtonTextStrong}>
+                  {forgotLoading ? "Envoi..." : "Envoyer"}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

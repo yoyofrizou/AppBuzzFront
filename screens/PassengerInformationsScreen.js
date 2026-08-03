@@ -10,6 +10,7 @@ import { Ionicons, Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 
 import styles from "../styles/PassengerInformationsStyles";
+import { colors } from "../styles/theme";
 
 const PassengerInformationsScreen = ({ navigation }) => {
 
@@ -28,7 +29,7 @@ const fullName =
   const InfoRow = ({ icon, value }) => (
     <View style={styles.row}>
       <View style={styles.rowLeft}>
-        <Feather name={icon} size={22} color="#5F6368" style={styles.rowIcon} />
+        <Feather name={icon} size={22} color={colors.textSecondary} style={styles.rowIcon} />
         <Text style={styles.rowValue}>{value}</Text>
       </View>
     </View>
@@ -36,7 +37,7 @@ const fullName =
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <StatusBar barStyle="dark-content" backgroundColor={colors.background} />
 
       <View style={styles.container}>
         <TouchableOpacity
@@ -44,7 +45,7 @@ const fullName =
           onPress={() => navigation.goBack()}
           activeOpacity={0.7}
         >
-          <Ionicons name="arrow-back" size={28} color="#111111" />
+          <Ionicons name="arrow-back" size={28} color={colors.textPrimary} />
         </TouchableOpacity>
 
         <Text style={styles.title}>Informations personnelles</Text>

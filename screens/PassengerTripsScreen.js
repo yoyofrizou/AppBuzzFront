@@ -16,6 +16,7 @@ import {
   removePassengerBooking,
 } from "../redux/reducers/rides";
 import styles from "../styles/PassengerTripsStyles";
+import { colors } from "../styles/theme";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -400,7 +401,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
               />
             ) : (
               <View style={styles.driverPlaceholder}>
-                <Ionicons name="person" size={22} color="#FFFFFF" />
+                <Ionicons name="person" size={22} color={colors.white} />
               </View>
             )}
 
@@ -574,7 +575,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
             }
           }}
         >
-          <Ionicons name="arrow-back" size={28} color="#FFFFFF" />
+          <Ionicons name="arrow-back" size={28} color={colors.textPrimary} />
         </TouchableOpacity>
 
         <Text style={styles.topBarTitle}>Mes trajets</Text>
@@ -641,7 +642,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
 
         {shouldShowLoader ? (
           <View style={styles.loaderContainer}>
-            <ActivityIndicator size="large" color="#7A2335" />
+            <ActivityIndicator size="large" color={colors.textPrimary} />
           </View>
         ) : (
           <FlatList

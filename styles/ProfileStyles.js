@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native";
+import { colors } from "./theme";
 
 export default StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
   },
 
   header: {
@@ -14,7 +15,7 @@ export default StyleSheet.create({
     paddingHorizontal: 80,
   },
 
-backButtonWrapper: {
+  backButtonWrapper: {
     position: "absolute",
     left: 12,
     top: 22,
@@ -24,7 +25,7 @@ backButtonWrapper: {
   headerTitle: {
     fontSize: 26,
     fontWeight: "800",
-    color: "#800020",
+    color: colors.textPrimary,
     marginLeft: 6,
   },
 
@@ -56,7 +57,7 @@ backButtonWrapper: {
     width: 120,
     height: 120,
     borderRadius: 60,
-    backgroundColor: "#D9D9D9",
+    backgroundColor: colors.placeholder,
   },
 
   plusBadge: {
@@ -66,13 +67,13 @@ backButtonWrapper: {
     width: 30,
     height: 30,
     borderRadius: 15,
-    backgroundColor: "#800020",
+    backgroundColor: colors.mint,
     justifyContent: "center",
     alignItems: "center",
   },
 
   plusText: {
-    color: "#fff",
+    color: colors.textPrimary,
     fontSize: 20,
     fontWeight: "bold",
   },
@@ -81,14 +82,14 @@ backButtonWrapper: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 30,
-    color: "#800020",
+    color: colors.textPrimary,
   },
 
   button: {
     width: "80%",
     height: 55,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: colors.border,
     borderRadius: 10,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -112,14 +113,13 @@ backButtonWrapper: {
   },
 
   logoutText: {
-    color: "#800020",
+    color: colors.textPrimary,
     textDecorationLine: "underline",
     fontSize: 16,
-
   },
 
   deleteText: {
-    color: "#800020",
+    color: colors.textPrimary,
     textDecorationLine: "underline",
     fontSize: 16,
   },
@@ -133,7 +133,7 @@ backButtonWrapper: {
 
   modalBox: {
     width: "80%",
-    backgroundColor: "#fff",
+    backgroundColor: colors.surface,
     borderRadius: 12,
     padding: 20,
     alignItems: "center",

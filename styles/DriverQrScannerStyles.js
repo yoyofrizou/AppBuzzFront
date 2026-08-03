@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colors } from "./theme";
 
 export default StyleSheet.create({
   container: {
@@ -15,20 +16,20 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 24,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.background,
   },
 
   title: {
     fontSize: 22,
     fontWeight: "800",
-    color: "#1F1F1F",
+    color: colors.textPrimary,
     marginBottom: 10,
     textAlign: "center",
   },
 
   subtitle: {
     fontSize: 15,
-    color: "#6F6F6F",
+    color: colors.textSecondary,
     lineHeight: 22,
     textAlign: "center",
   },
@@ -36,7 +37,7 @@ export default StyleSheet.create({
   infoText: {
     marginTop: 12,
     fontSize: 15,
-    color: "#6F6F6F",
+    color: colors.textSecondary,
     textAlign: "center",
   },
 
@@ -136,7 +137,7 @@ export default StyleSheet.create({
 
   button: {
     marginTop: 32,
-    backgroundColor: "#7A2335",
+    backgroundColor: colors.textPrimary,
     borderRadius: 18,
     paddingVertical: 14,
     paddingHorizontal: 22,
@@ -145,14 +146,14 @@ export default StyleSheet.create({
   },
 
   buttonText: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 15,
     fontWeight: "800",
   },
 
   manualButton: {
   marginTop: 24,
-  backgroundColor: "#FFFFFF",
+  backgroundColor: colors.white,
   borderRadius: 18,
   paddingVertical: 14,
   paddingHorizontal: 22,
@@ -162,7 +163,7 @@ export default StyleSheet.create({
 },
 
 manualButtonText: {
-  color: "#7A2335",
+  color: colors.textPrimary,
   fontSize: 15,
   fontWeight: "800",
 },
