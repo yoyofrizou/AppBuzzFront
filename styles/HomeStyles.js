@@ -28,20 +28,20 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 
-  routeDotStart: {
+  routeDotDeparture: {
+    width: 12,
+    height: 12,
+    borderRadius: 3,
+    backgroundColor: colors.textPrimary,
+  },
+
+  routeDotArrival: {
     width: 12,
     height: 12,
     borderRadius: 6,
     backgroundColor: colors.mint,
     borderWidth: 2,
     borderColor: colors.textPrimary,
-  },
-
-  routeDotEnd: {
-    width: 12,
-    height: 12,
-    borderRadius: 3,
-    backgroundColor: colors.textPrimary,
   },
 
   routeDots: {
@@ -60,9 +60,9 @@ const styles = StyleSheet.create({
   },
 
   routeCarBadge: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
+    width: 58,
+    height: 58,
+    borderRadius: 29,
     backgroundColor: colors.textPrimary,
     alignItems: "center",
     justifyContent: "center",

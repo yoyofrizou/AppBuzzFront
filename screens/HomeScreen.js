@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import styles from "../styles/HomeStyles"
 import { colors } from "../styles/theme";
 
@@ -8,7 +8,7 @@ export default function HomeScreen({ navigation }) {
     <View style={styles.container}>
       <View style={styles.heroCard}>
         <View style={styles.routeRow}>
-          <View style={styles.routeDotStart} />
+          <View style={styles.routeDotDeparture} />
 
           <View style={styles.routeDots}>
             {Array.from({ length: 8 }).map((_, index) => (
@@ -17,7 +17,7 @@ export default function HomeScreen({ navigation }) {
           </View>
 
           <View style={styles.routeCarBadge}>
-            <Ionicons name="car-sport" size={20} color={colors.white} />
+            <MaterialCommunityIcons name="steering" size={32} color={colors.mint} />
           </View>
 
           <View style={styles.routeDots}>
@@ -26,11 +26,11 @@ export default function HomeScreen({ navigation }) {
             ))}
           </View>
 
-          <View style={styles.routeDotEnd} />
+          <View style={styles.routeDotArrival} />
         </View>
 
         <Text style={styles.heroCaption}>
-          Des trajets partagés, en toute simplicité
+          Partagez la route, pas juste les frais.
         </Text>
       </View>
 
