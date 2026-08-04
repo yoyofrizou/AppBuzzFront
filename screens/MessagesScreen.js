@@ -66,35 +66,37 @@ export default function MessagesScreen({ navigation }) {
       "Utilisateur";
 
 
-      const formatPreview = (text) => {
-  if (!text) return "Aucun message";
+      const getPreviewInfo = (text) => {
+  if (!text) {
+    return { text: "Aucun message", isSystem: false };
+  }
 
   if (text.startsWith("Bonjour, Un passager")) {
-    return "Nouvelle réservation";
+    return { text: "Nouvelle réservation", isSystem: true, icon: "person-add-outline", iconColor: colors.textPrimary };
   }
 
   if (text.startsWith("Merci d’avoir réservé")) {
-    return "Réservation confirmée";
+    return { text: "Réservation confirmée", isSystem: true, icon: "checkmark-circle-outline", iconColor: colors.success };
   }
 
   if (text.startsWith("Le conducteur")) {
-    return "Trajet annulé";
+    return { text: "Trajet annulé", isSystem: true, icon: "close-circle-outline", iconColor: colors.danger };
   }
 
-  return text;
+  return { text, isSystem: false };
 };
 
   const previewTextRaw = isCurrentUserDriver
     ? item.lastMessagePreviewDriver
     : item.lastMessagePreviewPassenger;
 
-  const previewText = formatPreview(previewTextRaw);
+  const previewInfo = getPreviewInfo(previewTextRaw);
 
 const hasUnread = (item.unreadCount || 0) > 0;
 
     return (
       <TouchableOpacity
-        style={styles.card}
+        style={[styles.card, hasUnread && styles.cardUnread]}
         onPress={() =>
           navigation.navigate("ChatScreen", {
             conversationId: item._id,
@@ -120,17 +122,30 @@ const hasUnread = (item.unreadCount || 0) > 0;
             {otherUserName}
           </Text>
 
-          <Text
-  style={[styles.preview, hasUnread && styles.previewUnread]}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          >
-            {previewText || "Aucun message"}
-          </Text>
+          <View style={styles.previewRow}>
+            {previewInfo.isSystem && (
+              <View style={styles.previewIconBadge}>
+                <Ionicons name={previewInfo.icon} size={11} color={previewInfo.iconColor} />
+              </View>
+            )}
+
+            <Text
+              style={[styles.preview, hasUnread && styles.previewUnread]}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {previewInfo.text}
+            </Text>
+          </View>
         </View>
 
-        {hasUnread && <View style={styles.unreadDot} />}
-
+        {hasUnread && (
+          <View style={styles.unreadBadge}>
+            <Text style={styles.unreadBadgeText}>
+              {item.unreadCount > 9 ? "9+" : item.unreadCount}
+            </Text>
+          </View>
+        )}
       </TouchableOpacity>
     );
   };
@@ -139,7 +154,12 @@ const hasUnread = (item.unreadCount || 0) > 0;
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Messages</Text>
+      <View style={styles.titleRow}>
+        <View style={styles.titleIconBadge}>
+          <Ionicons name="chatbubbles" size={18} color={colors.textPrimary} />
+        </View>
+        <Text style={styles.title}>Messages</Text>
+      </View>
 
       {isLoading && conversations.length === 0 ? (
         <ActivityIndicator size="large" color={colors.textPrimary} style={styles.loader} />

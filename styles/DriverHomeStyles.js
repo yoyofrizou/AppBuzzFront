@@ -26,15 +26,6 @@ export default StyleSheet.create({
     gap: 8,
   },
 
-  logo: {
-    fontSize: 24,
-    fontWeight: "800",
-    letterSpacing: 1,
-    color: colors.mint,
-    marginTop: 9,
-    marginLeft: 4,
-  },
-
   profileIcon: {},
 
   searchBar: {

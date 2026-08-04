@@ -27,14 +27,6 @@ const styles = StyleSheet.create({
     ...shadow.card,
   },
 
-  logo: {
-    fontSize: 32,
-    fontWeight: "800",
-    letterSpacing: 1,
-    color: colors.mint,
-    marginBottom: 6,
-  },
-
   title: {
     fontSize: 17,
     fontWeight: "500",

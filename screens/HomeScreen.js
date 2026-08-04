@@ -1,43 +1,32 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
+import TogoLogo from "../components/TogoLogo";
 import styles from "../styles/HomeStyles"
-import { colors } from "../styles/theme";
 
 export default function HomeScreen({ navigation }) {
   return (
-    <View style={styles.container}>
-      <View style={styles.heroCard}>
-        <View style={styles.routeRow}>
-          <View style={styles.routeDotDeparture} />
+    <SafeAreaView style={styles.container}>
+      <View style={styles.wordmarkBlock}>
+        <TogoLogo size={54} style={styles.wordmarkRow} />
 
-          <View style={styles.routeDots}>
-            {Array.from({ length: 8 }).map((_, index) => (
-              <View key={`dot-left-${index}`} style={styles.routeDot} />
+        <View style={styles.routeLine}>
+          <View style={styles.dotDeparture} />
+
+          <View style={styles.routeDashes}>
+            {Array.from({ length: 16 }).map((_, index) => (
+              <View key={`dash-${index}`} style={styles.routeDash} />
             ))}
           </View>
 
-          <View style={styles.routeCarBadge}>
-            <MaterialCommunityIcons name="steering" size={32} color={colors.mint} />
-          </View>
-
-          <View style={styles.routeDots}>
-            {Array.from({ length: 8 }).map((_, index) => (
-              <View key={`dot-right-${index}`} style={styles.routeDot} />
-            ))}
-          </View>
-
-          <View style={styles.routeDotArrival} />
+          <View style={styles.dotArrival} />
         </View>
 
-        <Text style={styles.heroCaption}>
+        <Text style={styles.tagline}>
           Partagez la route, pas juste les frais.
         </Text>
       </View>
 
-      <View style={styles.card}>
-        <Text style={styles.logo}>TOGO</Text>
-        <Text style={styles.tagline}>Voyagez ensemble, simplement.</Text>
-
+      <View style={styles.buttonsBlock}>
         <TouchableOpacity
           style={styles.primaryButton}
           activeOpacity={0.85}
@@ -54,6 +43,6 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.secondaryButtonText}>Se connecter</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   )
 }

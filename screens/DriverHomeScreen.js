@@ -14,6 +14,7 @@ import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector } from "react-redux";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import TogoLogo from "../components/TogoLogo";
 import styles from "../styles/DriverHomeStyles";
 import { colors } from "../styles/theme";
 
@@ -184,7 +185,7 @@ export default function DriverHomeScreen({ navigation }) {
       <View style={styles.topContainer}>
         <View style={styles.header}>
           <View style={styles.logoGroup}>
-            <Text style={styles.logo}>TOGO</Text>
+            <TogoLogo size={24} style={{ marginTop: 9, marginLeft: 4 }} />
           </View>
 
           <TouchableOpacity

@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 import styles from "../styles/PassengerSearchResultsStyles";
 import { colors } from "../styles/theme";
+import TogoLogo from "../components/TogoLogo";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -251,7 +252,7 @@ export default function PassengerSearchResultsScreen({ navigation }) {
             <Ionicons name="arrow-back" size={28} color={colors.textPrimary} />
           </TouchableOpacity>
 
-          <Text style={styles.logo}>TOGO</Text>
+          <TogoLogo size={28} />
 
           <TouchableOpacity
             onPress={() => navigation.navigate("Profile")}

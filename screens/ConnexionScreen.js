@@ -14,6 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { login } from "../redux/reducers/user";
 import CustomButton from "../components/CustomButton";
+import TogoLogo from "../components/TogoLogo";
 import styles from "../styles/ConnexionStyles";
 import { colors } from "../styles/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -186,7 +187,7 @@ export default function ConnexionScreen({ navigation }) {
       >
         {/* Conteneur visuel du formulaire */}
         <View style={styles.card}>
-          <Text style={styles.logo}>TOGO</Text>
+          <TogoLogo size={36} style={{ marginBottom: 6 }} />
           <Text style={styles.title}>Se connecter</Text>
 
           <View style={styles.inputRow}>

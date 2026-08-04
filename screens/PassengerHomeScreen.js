@@ -13,6 +13,7 @@ import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
+import TogoLogo from "../components/TogoLogo";
 import styles from "../styles/PassengerHomeStyles";
 import { colors } from "../styles/theme";
 
@@ -128,7 +129,7 @@ export default function PassengerHomeScreen({ navigation }) {
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <View style={styles.header}>
-          <Text style={styles.logo}>TOGO</Text>
+          <TogoLogo size={28} />
 
           <TouchableOpacity
             onPress={() => navigation.navigate("Profile")}

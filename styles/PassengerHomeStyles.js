@@ -24,13 +24,6 @@ const styles = StyleSheet.create({
     marginBottom: 22,
   },
 
-  logo: {
-    fontSize: 28,
-    fontWeight: "800",
-    letterSpacing: 1,
-    color: colors.mint,
-  },
-
   profileIcon: {
     justifyContent: "center",
     alignItems: "center",

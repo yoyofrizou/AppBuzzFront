@@ -22,6 +22,7 @@ import { useDispatch } from "react-redux";
 import { setSearchedRides, setSearchParams } from "../redux/reducers/rides"; //action Redux pour stocker les trajets trouvés, action Redux pour stocker les paramètres de recherche
 import styles from "../styles/PassengerSearchStyles";
 import { colors } from "../styles/theme";
+import TogoLogo from "../components/TogoLogo";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 const EXPO_PUBLIC_MAPBOX_TOKEN = process.env.EXPO_PUBLIC_MAPBOX_TOKEN; //token pour appeler l’API Mapbox
@@ -474,7 +475,7 @@ export default function PassengerSearchScreen({ navigation }) {
                 <Ionicons name="arrow-back" size={28} color={colors.textPrimary} />
               </TouchableOpacity>
 
-              <Text style={styles.logo}>TOGO</Text>
+              <TogoLogo size={34} />
 
               <View style={styles.headerRightSpacer} />
             </View>

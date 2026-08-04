@@ -31,6 +31,8 @@ export default StyleSheet.create({
     height: 40,
     borderRadius: 20,
     marginRight: 10,
+    borderWidth: 2,
+    borderColor: colors.mintSoft,
   },
 
   headerAvatarFallback: {
@@ -41,6 +43,8 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginRight: 10,
+    borderWidth: 2,
+    borderColor: colors.mintSoft,
   },
 
   headerAvatarText: {
@@ -77,11 +81,30 @@ export default StyleSheet.create({
   },
 
   systemMessageBubble: {
-    backgroundColor: colors.fill,
+    backgroundColor: colors.mintSoft,
     borderRadius: 14,
     paddingVertical: 10,
     paddingHorizontal: 14,
     maxWidth: "88%",
+  },
+
+  dateSeparatorContainer: {
+    alignItems: "center",
+    marginVertical: 14,
+  },
+
+  dateSeparatorPill: {
+    backgroundColor: colors.mintSoft,
+    borderRadius: 999,
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+  },
+
+  dateSeparatorText: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: colors.textPrimary,
+    textTransform: "capitalize",
   },
 
   systemMessageText: {
@@ -112,7 +135,7 @@ export default StyleSheet.create({
   },
 
   myMessageBubble: {
-    backgroundColor: colors.textPrimary,
+    backgroundColor: colors.mint,
   },
 
   otherMessageBubble: {
@@ -124,7 +147,7 @@ export default StyleSheet.create({
   },
 
   myMessageText: {
-    color: colors.white,
+    color: colors.textPrimary,
   },
 
   otherMessageText: {
@@ -148,19 +171,26 @@ export default StyleSheet.create({
     paddingVertical: 12,
     fontSize: 15,
     color: colors.textPrimary,
+    borderWidth: 1.5,
+    borderColor: "transparent",
+  },
+
+  inputFocused: {
+    borderColor: colors.mint,
+    backgroundColor: colors.surface,
   },
 
   sendButton: {
     marginLeft: 10,
-    backgroundColor: colors.textPrimary,
-    borderRadius: 22,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    width: 46,
+    height: 46,
+    borderRadius: 23,
+    backgroundColor: colors.mint,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
-  sendButtonText: {
-    color: colors.white,
-    fontWeight: "700",
-    fontSize: 14,
+  sendButtonDisabled: {
+    backgroundColor: colors.fill,
   },
 });

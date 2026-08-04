@@ -34,13 +34,6 @@ export default StyleSheet.create({
     justifyContent: "center",
   },
 
-  logo: {
-    fontSize: 28,
-    fontWeight: "800",
-    color: colors.mint,
-    letterSpacing: 1,
-  },
-
   profileButton: {
     width: 40,
     alignItems: "flex-end",

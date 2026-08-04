@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";  //useState memoire locale pour messages/text/isLoading et UseCallback pour memoriser une fonction qu on utilise avec UseFocusEffect
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";  //useState memoire locale pour messages/text/isLoading et UseCallback pour memoriser une fonction qu on utilise avec UseFocusEffect
 import {
   View,
   Text,
@@ -18,6 +18,31 @@ import { colors } from "../styles/theme";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
+function getDayKey(dateString) {
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return null;
+  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+}
+
+function getRelativeDayLabel(dateString) {
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return "";
+
+  const now = new Date();
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const startOfDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const diffDays = Math.round((startOfDate - startOfToday) / 86400000);
+
+  if (diffDays === 0) return "Aujourd'hui";
+  if (diffDays === -1) return "Hier";
+
+  return date.toLocaleDateString("fr-FR", {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+  });
+}
+
 export default function ChatScreen({ route, navigation }) { //ici pour go back
   const user = useSelector((state) => state.user.value); //lire l utilisateur connecte
   const token = user?.token;     //je recup 2 infos : le token
@@ -28,8 +53,31 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
   const [messages, setMessages] = useState([]); //liste des messages affiches et fonction pour changer la liste
   const [text, setText] = useState(""); //ce que l'utilisateur ecrit, au depart chaine vide
   const [isLoading, setIsLoading] = useState(true); //Déclencher une action quand l’écran reprend le focus, qd l'ecran s'ouvre on considere qu il est en telechargement
+  const [isInputFocused, setIsInputFocused] = useState(false);
 
    const flatListRef = useRef(null);
+
+  const listData = useMemo(() => { //insère un séparateur de date entre les messages de jours différents
+    const result = [];
+    let lastDayKey = null;
+
+    messages.forEach((message) => {
+      const dayKey = getDayKey(message.createdAt);
+
+      if (dayKey && dayKey !== lastDayKey) {
+        result.push({
+          _id: `separator-${dayKey}`,
+          type: "separator",
+          label: getRelativeDayLabel(message.createdAt),
+        });
+        lastDayKey = dayKey;
+      }
+
+      result.push(message);
+    });
+
+    return result;
+  }, [messages]);
 
   const isCurrentUserDriver = //compare IdDriver et currentUserId savoir si c est le conducteur qui ecrit ou non
     String(conversation.driver?._id || conversation.driver) === //conversation.driver?._id parce que parfois deja un objet peuple avec id
@@ -126,6 +174,16 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
   };
 
   const renderMessage = ({ item }) => {    //Fonction appelée par FlatList pour afficher chaque message, item c est le message actuel
+    if (item.type === "separator") { //ligne de date entre deux jours différents
+      return (
+        <View style={styles.dateSeparatorContainer}>
+          <View style={styles.dateSeparatorPill}>
+            <Text style={styles.dateSeparatorText}>{item.label}</Text>
+          </View>
+        </View>
+      );
+    }
+
     const isSystem = item.type === "system"; //on regarde si c est un message systeme
     const isMine =  //on regarde si le message est a moi en comparant l auteur du message avec mon id utilisateur
       String(item.sender?._id || item.sender) === String(currentUserId);
@@ -210,9 +268,9 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
             <Text style={styles.loadingText}>Chargement...</Text>
           </View>
         ) : (
-          <FlatList    
+          <FlatList
            ref={flatListRef}
-            data={messages}
+            data={listData}
             keyExtractor={(item) => String(item._id)}  
             renderItem={renderMessage}  
             contentContainerStyle={styles.messagesList} 
@@ -222,17 +280,27 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
           />
         )}
 
-        <View style={styles.inputBar}> 
+        <View style={styles.inputBar}>
           <TextInput
-            style={styles.input}
-            placeholder="Envoyer un message..."  
-            value={text}   
-            onChangeText={setText}   
-            multiline={false}  
-          /> 
+            style={[styles.input, isInputFocused && styles.inputFocused]}
+            placeholder="Envoyer un message..."
+            value={text}
+            onChangeText={setText}
+            multiline={false}
+            onFocus={() => setIsInputFocused(true)}
+            onBlur={() => setIsInputFocused(false)}
+          />
 
-          <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
-            <Text style={styles.sendButtonText}>Envoyer</Text>
+          <TouchableOpacity
+            style={[styles.sendButton, !text.trim() && styles.sendButtonDisabled]}
+            onPress={sendMessage}
+            disabled={!text.trim()}
+          >
+            <Ionicons
+              name="send"
+              size={18}
+              color={text.trim() ? colors.textPrimary : colors.textSecondary}
+            />
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

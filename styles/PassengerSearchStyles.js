@@ -30,13 +30,6 @@ export default StyleSheet.create({
     justifyContent: "center",
   },
 
-  logo: {
-    fontSize: 34,
-    fontWeight: "800",
-    color: colors.mint,
-    letterSpacing: 1,
-  },
-
   headerRightSpacer: {
     width: 40,
   },

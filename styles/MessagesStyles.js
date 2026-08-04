@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors } from "./theme";
+import { colors, shadow } from "./theme";
 
 export default StyleSheet.create({
   container: {
@@ -7,12 +7,27 @@ export default StyleSheet.create({
     backgroundColor: colors.backgroundAlt,
   },
 
-  title: {
-    fontSize: 28,
-    fontWeight: "700",
-    textAlign: "center",
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
     marginTop: 20,
     marginBottom: 20,
+  },
+
+  titleIconBadge: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: colors.mintSoft,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  title: {
+    fontSize: 26,
+    fontWeight: "800",
     color: colors.textPrimary,
   },
 
@@ -57,16 +72,24 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
     position: "relative",
+    ...shadow.card,
+  },
+
+  cardUnread: {
+    backgroundColor: colors.mintSoft,
+    borderColor: colors.mint,
   },
 
   avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 52,
+    height: 52,
+    borderRadius: 26,
     backgroundColor: colors.mint,
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
+    borderWidth: 3,
+    borderColor: colors.white,
   },
 
   avatarText: {
@@ -76,9 +99,8 @@ export default StyleSheet.create({
   },
 
   avatarImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: "100%",
+    height: "100%",
   },
 
   textContainer: {
@@ -87,21 +109,36 @@ export default StyleSheet.create({
   },
 
   name: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: "700",
     color: colors.textPrimary,
-    marginBottom: 4,
-  },
-
-  preview: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginTop: 4,
   },
 
   nameUnread: {
     fontWeight: "800",
-    color: colors.textPrimary,
+  },
+
+  previewRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 5,
+    gap: 6,
+  },
+
+  previewIconBadge: {
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: colors.mintSoft,
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
+  },
+
+  preview: {
+    flexShrink: 1,
+    fontSize: 14,
+    color: colors.textSecondary,
   },
 
   previewUnread: {
@@ -109,13 +146,20 @@ export default StyleSheet.create({
     fontWeight: "600",
   },
 
-  unreadDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: colors.danger,
+  unreadBadge: {
+    minWidth: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: colors.mint,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 7,
     marginLeft: 8,
-    flexShrink: 0,
-    alignSelf: "center",
+  },
+
+  unreadBadgeText: {
+    fontSize: 12,
+    fontWeight: "800",
+    color: colors.textPrimary,
   },
 });
