@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { colors } from "../styles/theme";
@@ -72,6 +73,19 @@ export default function MainTabs() {
           justifyContent: "center",
           alignItems: "center",
         },
+        tabBarButton: (props) => (
+          <TouchableOpacity
+            {...props}
+            style={[
+              props.style,
+              {
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              },
+            ]}
+          />
+        ),
         tabBarIconStyle: {
           alignSelf: "center",
         },
