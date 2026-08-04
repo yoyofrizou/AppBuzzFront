@@ -10,24 +10,70 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
 
-  blobTop: {
-    position: "absolute",
-    top: -140,
-    right: -60,
-    width: 320,
-    height: 320,
-    borderRadius: 160,
-    backgroundColor: colors.mintSoft,
+  heroCard: {
+    width: "85%",
+    backgroundColor: colors.surface,
+    borderRadius: 28,
+    paddingVertical: 30,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    marginBottom: 40,
+    ...shadow.card,
   },
 
-  blobBottom: {
-    position: "absolute",
-    bottom: -100,
-    left: -80,
-    width: 240,
-    height: 240,
-    borderRadius: 120,
-    backgroundColor: colors.backgroundAlt,
+  routeRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    marginBottom: 16,
+  },
+
+  routeDotStart: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: colors.mint,
+    borderWidth: 2,
+    borderColor: colors.textPrimary,
+  },
+
+  routeDotEnd: {
+    width: 12,
+    height: 12,
+    borderRadius: 3,
+    backgroundColor: colors.textPrimary,
+  },
+
+  routeDots: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 8,
+  },
+
+  routeDot: {
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: colors.border,
+  },
+
+  routeCarBadge: {
+    width: 46,
+    height: 46,
+    borderRadius: 23,
+    backgroundColor: colors.textPrimary,
+    alignItems: "center",
+    justifyContent: "center",
+    ...shadow.soft,
+  },
+
+  heroCaption: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: colors.textSecondary,
+    textAlign: "center",
   },
 
   card: {
