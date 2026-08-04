@@ -24,6 +24,7 @@ import styles from "../styles/DriverDocumentsStyles"; //On importe l’objet sty
            //Ensuite on l’utilise comme : style={styles.title}, pour separer le style de la logique
 import { colors } from "../styles/theme";
 import { updateDriverProfile } from "../redux/reducers/user"; //importe une action Redux appelée updateDriverProfile, pour mettre a jour le profil conducteur dans le store apres la sauvegarde
+import { persistUser } from "../utils/persistUser";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL; //permet ensuite de faire par ex : fetch(`${EXPO_PUBLIC_API_URL}/users/uploadDriverDocument`)
 
@@ -120,8 +121,6 @@ export default function DriverDocumentsScreen({ navigation }) { //exporte le com
       if (documentType === "insuranceDocument") {
         setInsuranceDocumentUrl(data.url);
       }
-
-      Alert.alert("Succès", "Document ajouté.");
     } catch (error) {
       Alert.alert("Erreur", "Erreur serveur ou problème réseau.");
     } finally {
@@ -177,12 +176,9 @@ export default function DriverDocumentsScreen({ navigation }) { //exporte le com
         })
       );
 
-      Alert.alert("Succès", "Documents enregistrés.", [
-        {
-          text: "OK",
-          onPress: () => navigation.goBack(),
-        },
-      ]);
+      await persistUser({ ...user, car: data.car, driverProfile: data.driverProfile });
+
+      navigation.goBack();
     } catch (error) {
      
       Alert.alert("Erreur", "Erreur serveur ou problème réseau.");
@@ -202,12 +198,18 @@ export default function DriverDocumentsScreen({ navigation }) { //exporte le com
     return (
       <View style={styles.rowCard}>
         <View style={styles.rowLeft}>
-          <FontAwesome
-            name={isDone ? "check-circle" : "exclamation-circle"}
-            size={18}
-            color={isDone ? colors.success : colors.danger}
-            style={styles.rowIcon}
-          />
+          <View
+            style={[
+              styles.statusBadge,
+              isDone ? styles.statusBadgeDone : styles.statusBadgeMissing,
+            ]}
+          >
+            <FontAwesome
+              name={isDone ? "check" : "exclamation"}
+              size={14}
+              color={isDone ? colors.white : colors.danger}
+            />
+          </View>
           <Text style={styles.rowTitle}>{title}</Text>
         </View>
 

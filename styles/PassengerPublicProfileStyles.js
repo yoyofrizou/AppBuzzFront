@@ -53,6 +53,8 @@ export default StyleSheet.create({
     height: 104,
     borderRadius: 52,
     marginBottom: 14,
+    borderWidth: 3,
+    borderColor: colors.mintSoft,
   },
 
   avatarPlaceholder: {
@@ -63,6 +65,8 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 14,
+    borderWidth: 3,
+    borderColor: colors.mintSoft,
   },
 
   name: {

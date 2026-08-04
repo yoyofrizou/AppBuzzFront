@@ -80,11 +80,22 @@ export default StyleSheet.create({
   },
 
   cardBox: {
-    backgroundColor: WHITE,
-    borderRadius: 16,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: BORDER,
+    backgroundColor: colors.textPrimary,
+    borderRadius: 20,
+    padding: 20,
+    elevation: 6,
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    shadowOffset: { width: 0, height: 8 },
+    shadowRadius: 16,
+  },
+
+  cardChip: {
+    width: 32,
+    height: 22,
+    borderRadius: 5,
+    backgroundColor: colors.mintSoft,
+    marginBottom: 16,
   },
 
   cardTopRow: {
@@ -96,15 +107,16 @@ export default StyleSheet.create({
   },
 
   cardBrand: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: "700",
-    color: TEXT,
+    color: colors.white,
     marginBottom: 6,
+    letterSpacing: 0.5,
   },
 
   cardMeta: {
     fontSize: 14,
-    color: SUBTEXT,
+    color: colors.onDarkMuted,
   },
 
   defaultBadge: {
@@ -137,6 +149,22 @@ export default StyleSheet.create({
     fontWeight: "700",
   },
 
+  primaryActionOnDark: {
+    backgroundColor: colors.mint,
+    borderRadius: 14,
+    paddingVertical: 13,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 4,
+  },
+
+  primaryActionOnDarkText: {
+    color: colors.textPrimary,
+    fontSize: 15,
+    fontWeight: "700",
+  },
+
   emptyCardBox: {
     backgroundColor: WHITE,
     borderRadius: 16,
@@ -144,6 +172,15 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: BORDER,
     alignItems: "center",
+  },
+
+  emptyIconBadge: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: colors.mintSoft,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   emptyCardTitle: {
@@ -193,12 +230,28 @@ export default StyleSheet.create({
   },
 
   historyCard: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 12,
     backgroundColor: WHITE,
     borderRadius: 16,
     padding: 16,
     borderWidth: 1,
     borderColor: BORDER,
     marginBottom: 12,
+  },
+
+  historyIconBadge: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.mintSoft,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  historyContent: {
+    flex: 1,
   },
 
   historyTopRow: {

@@ -331,6 +331,9 @@ export default function PassengerSearchResultsScreen({ navigation }) {
 
       {filteredRides.length === 0 && (
         <View style={styles.emptyOverlay}>
+          <View style={styles.emptyIconBadge}>
+            <Ionicons name="search-outline" size={36} color={colors.textPrimary} />
+          </View>
           <Text style={styles.emptyTitle}>Aucun trajet trouvé</Text>
           <Text style={styles.emptyText}>
             Essaie de modifier le départ, l’arrivée ou l’heure de recherche.

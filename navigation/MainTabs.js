@@ -49,14 +49,23 @@ export default function MainTabs() {
         lazy: true,   //écran montés qu’au moment où on les ouvre
         headerShown: false,   //je ne veux pas les headers automatiques sur tes tabs
         tabBarActiveTintColor: colors.mint,   //différencie visuellement l’onglet actif de l’inactif
-        tabBarInactiveTintColor: colors.textPrimary,
+        tabBarInactiveTintColor: colors.onDarkMuted,
         tabBarStyle: {
-          height: 85,
-          paddingBottom: 10,
-          paddingTop: 10,
-          backgroundColor: colors.background,
-          borderTopWidth: 1,
-          borderTopColor: colors.border,
+          position: "absolute",
+          left: 16,
+          right: 16,
+          bottom: 16,
+          height: 72,
+          borderRadius: 28,
+          backgroundColor: colors.textPrimary,
+          borderTopWidth: 0,
+          paddingBottom: 0,
+          paddingTop: 0,
+          elevation: 12,
+          shadowColor: "#000",
+          shadowOpacity: 0.18,
+          shadowOffset: { width: 0, height: 8 },
+          shadowRadius: 20,
         },
         tabBarItemStyle: {
           flex: 1,
@@ -68,6 +77,7 @@ export default function MainTabs() {
         },
         tabBarLabelStyle: {
           fontSize: 12,
+          fontWeight: "700",
           textAlign: "center",
         },
         tabBarIcon: ({ color, size }) => {   

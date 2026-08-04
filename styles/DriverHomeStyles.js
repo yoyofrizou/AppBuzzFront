@@ -132,7 +132,7 @@ export default StyleSheet.create({
 
   switchModeToggle: {
     position: "absolute",
-    bottom: 40,
+    bottom: 110,
     alignSelf: "center",
     flexDirection: "row",
     backgroundColor: colors.surface,
@@ -206,14 +206,17 @@ export default StyleSheet.create({
     marginRight: 6,
     backgroundColor: colors.textPrimary,
     paddingVertical: 14,
+    paddingHorizontal: 8,
     borderRadius: 14,
     alignItems: "center",
+    justifyContent: "center",
   },
 
   allowButtonText: {
     color: colors.white,
     fontSize: 15,
     fontWeight: "700",
+    textAlign: "center",
   },
 
   denyButton: {
@@ -221,14 +224,17 @@ export default StyleSheet.create({
     marginLeft: 6,
     backgroundColor: colors.neutralLight,
     paddingVertical: 14,
+    paddingHorizontal: 8,
     borderRadius: 14,
     alignItems: "center",
+    justifyContent: "center",
   },
 
   denyButtonText: {
     color: "#333",
     fontSize: 15,
     fontWeight: "700",
+    textAlign: "center",
   },
 
   driverWarning: {

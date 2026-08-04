@@ -128,6 +128,16 @@ export default StyleSheet.create({
     ...shadow.card,
   },
 
+  emptyIconBadge: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: colors.mintSoft,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 14,
+  },
+
   emptyTitle: {
     fontSize: 20,
     fontWeight: "800",

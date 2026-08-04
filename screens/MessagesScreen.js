@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import styles from "../styles/MessagesStyles";
@@ -152,7 +153,12 @@ const hasUnread = (item.unreadCount || 0) > 0;
       {isLoading && conversations.length === 0 ? (
         <ActivityIndicator size="large" color={colors.textPrimary} style={styles.loader} />
       ) : shouldShowEmpty ? (
-        <Text style={styles.emptyText}>Aucune conversation</Text>
+        <View style={styles.emptyContainer}>
+          <View style={styles.emptyIconBadge}>
+            <Ionicons name="chatbubble-ellipses-outline" size={36} color={colors.textPrimary} />
+          </View>
+          <Text style={styles.emptyText}>Aucune conversation</Text>
+        </View>
       ) : (
         <FlatList
           data={conversations}

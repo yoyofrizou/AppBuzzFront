@@ -385,11 +385,10 @@ const handleCancelRide = (rideId) => {
               return;
             }
 
-            Alert.alert("Trajet annulé");
             await fetchDriverRides();
             setActiveTab("past");
           } catch (error) {
-          
+
             Alert.alert("Erreur", "Impossible d’annuler le trajet.");
           } finally {
             setCancelRideLoadingId(null);
@@ -602,18 +601,6 @@ const handleCancelRide = (rideId) => {
               <Text style={styles.rideDateTimeText}>
                 {formatDateTime(item.departureDateTime)}
               </Text>
-
-              <Text style={styles.rideRouteText}>
-                <Text style={styles.labelBold}>Départ : </Text>
-                {item.departureAddress || item.departureCity || "Non renseigné"}
-              </Text>
-
-              <Text style={styles.rideRouteText}>
-                <Text style={styles.labelBold}>Arrivée : </Text>
-                {item.destinationAddress ||
-                  item.destinationCity ||
-                  "Non renseigné"}
-              </Text>
             </View>
 
             <Ionicons
@@ -623,6 +610,30 @@ const handleCancelRide = (rideId) => {
             />
           </View>
 
+          <View style={styles.routeTimeline}>
+            <View style={styles.routeIndicators}>
+              <View style={styles.routeDotStart} />
+              <View style={styles.routeConnector} />
+              <View style={styles.routeDotEnd} />
+            </View>
+
+            <View style={styles.routeTextColumn}>
+              <View style={styles.routeAddressRow}>
+                <Text style={styles.routeAddressText} numberOfLines={1}>
+                  {item.departureAddress || item.departureCity || "Non renseigné"}
+                </Text>
+              </View>
+
+              <View style={styles.routeAddressRow}>
+                <Text style={styles.routeAddressText} numberOfLines={1}>
+                  {item.destinationAddress ||
+                    item.destinationCity ||
+                    "Non renseigné"}
+                </Text>
+              </View>
+            </View>
+          </View>
+
           <View style={styles.rideDivider} />
 
           <View style={styles.rideFooterRow}>
@@ -630,12 +641,15 @@ const handleCancelRide = (rideId) => {
               {(item.price ?? 0).toFixed(2)} €
             </Text>
 
-            <Text style={styles.rideSeats}>
-              {item.placesLeft ?? item.availableSeats ?? item.seats ?? 0} place
-              {(item.placesLeft ?? item.availableSeats ?? item.seats ?? 0) > 1
-                ? "s"
-                : ""}
-            </Text>
+            <View style={styles.seatsChip}>
+              <Ionicons name="people" size={14} color={colors.textPrimary} />
+              <Text style={styles.seatsChipText}>
+                {item.placesLeft ?? item.availableSeats ?? item.seats ?? 0} place
+                {(item.placesLeft ?? item.availableSeats ?? item.seats ?? 0) > 1
+                  ? "s"
+                  : ""}
+              </Text>
+            </View>
           </View>
 
           {item.description ? (
@@ -755,7 +769,9 @@ const handleCancelRide = (rideId) => {
 
     return (
       <View style={styles.emptyContainer}>
-        <Ionicons name="car-outline" size={58} color={colors.textSecondary} />
+        <View style={styles.emptyIconBadge}>
+          <Ionicons name="car-outline" size={40} color={colors.textPrimary} />
+        </View>
         <Text style={styles.emptyTitle}>{title}</Text>
         <Text style={styles.emptyText}>{subtitle}</Text>
 

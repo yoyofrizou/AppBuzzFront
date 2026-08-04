@@ -18,8 +18,9 @@ export default StyleSheet.create({
 
   topBarTitle: {
     color: colors.textPrimary,
-    fontSize: 22,
+    fontSize: 26,
     fontWeight: "800",
+    letterSpacing: 0.2,
   },
 
   content: {
@@ -67,6 +68,7 @@ export default StyleSheet.create({
 
   tabButtonActive: {
     backgroundColor: colors.mint,
+    ...shadow.soft,
   },
 
   tabButtonText: {
@@ -95,15 +97,16 @@ export default StyleSheet.create({
     borderRadius: 26,
     borderWidth: 1,
     borderColor: colors.border,
-    padding: 16,
+    padding: 18,
     marginBottom: 18,
-    ...shadow.card,
+    ...shadow.elevated,
   },
 
   rideHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
+    marginBottom: 14,
   },
 
   rideHeaderLeft: {
@@ -119,10 +122,63 @@ export default StyleSheet.create({
     marginBottom: 4,
   },
 
+  routeTimeline: {
+    flexDirection: "row",
+    marginBottom: 14,
+  },
+
+  routeIndicators: {
+    width: 16,
+    alignItems: "center",
+    paddingVertical: 4,
+  },
+
+  routeDotStart: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: colors.mint,
+    borderWidth: 2,
+    borderColor: colors.textPrimary,
+  },
+
+  routeConnector: {
+    width: 2,
+    flex: 1,
+    minHeight: 18,
+    backgroundColor: colors.border,
+    marginVertical: 4,
+    borderRadius: 1,
+  },
+
+  routeDotEnd: {
+    width: 10,
+    height: 10,
+    borderRadius: 3,
+    backgroundColor: colors.textPrimary,
+  },
+
+  routeTextColumn: {
+    flex: 1,
+    marginLeft: 12,
+    justifyContent: "space-between",
+  },
+
+  routeAddressRow: {
+    minHeight: 22,
+    justifyContent: "center",
+  },
+
+  routeAddressText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: colors.textPrimary,
+  },
+
   rideDivider: {
     height: 1,
     backgroundColor: colors.border,
-    marginVertical: 14,
+    marginBottom: 14,
   },
 
   rideFooterRow: {
@@ -141,6 +197,22 @@ export default StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
     color: colors.textSecondary,
+  },
+
+  seatsChip: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: colors.fill,
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    gap: 6,
+  },
+
+  seatsChipText: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: colors.textPrimary,
   },
 
   rideDescription: {
@@ -201,10 +273,20 @@ export default StyleSheet.create({
   emptyContainer: {
     backgroundColor: colors.surface,
     borderRadius: 22,
-    padding: 24,
+    padding: 28,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 12,
+    ...shadow.card,
+  },
+
+  emptyIconBadge: {
+    width: 88,
+    height: 88,
+    borderRadius: 44,
+    backgroundColor: colors.mintSoft,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   emptyTitle: {
@@ -265,12 +347,15 @@ export default StyleSheet.create({
 
   passengerCard: {
     width: "47%",
-    backgroundColor: colors.fill,
+    backgroundColor: colors.surface,
     borderRadius: 18,
-    padding: 12,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: 14,
     alignItems: "center",
     marginBottom: 10,
     gap: 6,
+    ...shadow.card,
   },
 
   passengerAvatar: {
@@ -278,6 +363,8 @@ export default StyleSheet.create({
     height: 64,
     borderRadius: 32,
     marginBottom: 10,
+    borderWidth: 3,
+    borderColor: colors.mintSoft,
   },
 
   passengerAvatarPlaceholder: {
@@ -288,6 +375,8 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 10,
+    borderWidth: 3,
+    borderColor: colors.mintSoft,
   },
 
   passengerCardName: {
@@ -319,6 +408,7 @@ export default StyleSheet.create({
     paddingVertical: 12,
     alignItems: "center",
     justifyContent: "center",
+    ...shadow.soft,
   },
 
   passengerCardPrimaryButtonText: {

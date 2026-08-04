@@ -1,37 +1,47 @@
 import { StyleSheet } from "react-native";
-import { colors } from "./theme";
+import { colors, radii, shadow } from "./theme";
 
 export default StyleSheet.create({
   screen: {
     flex: 1,
+    backgroundColor: colors.backgroundAlt,
+  },
+
+  hero: {
     backgroundColor: colors.background,
+    borderBottomLeftRadius: 32,
+    borderBottomRightRadius: 32,
+    paddingTop: 30,
+    paddingBottom: 28,
+    alignItems: "center",
+    ...shadow.card,
   },
 
   header: {
     position: "relative",
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: 30,
-    paddingHorizontal: 80,
+    justifyContent: "center",
+    marginBottom: 10,
   },
 
   backButtonWrapper: {
     position: "absolute",
     left: 12,
-    top: 22,
+    top: -6,
     zIndex: 2,
   },
 
   headerTitle: {
-    fontSize: 26,
-    fontWeight: "800",
+    fontSize: 18,
+    fontWeight: "700",
     color: colors.textPrimary,
-    marginLeft: 6,
   },
 
   container: {
     alignItems: "center",
-    paddingTop: 100,
+    paddingTop: 24,
     paddingHorizontal: 20,
     paddingBottom: 140,
   },
@@ -44,72 +54,122 @@ export default StyleSheet.create({
 
   avatarWrapper: {
     position: "relative",
-    marginBottom: 20,
+    marginBottom: 14,
   },
 
   avatar: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: 116,
+    height: 116,
+    borderRadius: 58,
+    borderWidth: 4,
+    borderColor: colors.mintSoft,
   },
 
   avatarPlaceholder: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: 116,
+    height: 116,
+    borderRadius: 58,
     backgroundColor: colors.placeholder,
+    borderWidth: 4,
+    borderColor: colors.mintSoft,
   },
 
   plusBadge: {
     position: "absolute",
-    bottom: 0,
-    right: 0,
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+    bottom: 2,
+    right: 2,
+    width: 34,
+    height: 34,
+    borderRadius: 17,
     backgroundColor: colors.mint,
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 3,
+    borderColor: colors.background,
+    ...shadow.soft,
   },
 
   plusText: {
     color: colors.textPrimary,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
   },
 
   name: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 30,
+    fontSize: 22,
+    fontWeight: "800",
     color: colors.textPrimary,
   },
 
-  button: {
-    width: "80%",
-    height: 55,
+  emailText: {
+    fontSize: 14,
+    color: colors.textSecondary,
+    marginTop: 4,
+  },
+
+  sectionLabel: {
+    width: "100%",
+    fontSize: 13,
+    fontWeight: "700",
+    color: colors.textSecondary,
+    textTransform: "uppercase",
+    letterSpacing: 0.6,
+    marginBottom: 10,
+    marginTop: 26,
+  },
+
+  menuCard: {
+    width: "100%",
+    backgroundColor: colors.surface,
+    borderRadius: radii.card,
     borderWidth: 1,
     borderColor: colors.border,
-    borderRadius: 10,
+    overflow: "hidden",
+    ...shadow.card,
+  },
+
+  button: {
+    width: "100%",
+    minHeight: 62,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 15,
-    marginBottom: 15,
+    paddingHorizontal: 16,
+    gap: 14,
+  },
+
+  menuDivider: {
+    height: 1,
+    backgroundColor: colors.border,
+    marginLeft: 66,
+  },
+
+  menuIconBadge: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.mintSoft,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  menuIconBadgeDanger: {
+    backgroundColor: "#F6E2DF",
   },
 
   buttonText: {
+    flex: 1,
     fontSize: 16,
+    fontWeight: "600",
+    color: colors.textPrimary,
+  },
+
+  buttonTextDanger: {
+    color: colors.danger,
   },
 
   bottomContainer: {
-    position: "absolute",
-    bottom: 35,
-    left: 0,
-    right: 0,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 30,
+    display: "none",
   },
 
   logoutText: {
@@ -119,30 +179,34 @@ export default StyleSheet.create({
   },
 
   deleteText: {
-    color: colors.textPrimary,
+    color: colors.danger,
     textDecorationLine: "underline",
     fontSize: 16,
   },
 
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: colors.overlay,
     justifyContent: "center",
     alignItems: "center",
+    paddingHorizontal: 24,
   },
 
   modalBox: {
     width: "80%",
     backgroundColor: colors.surface,
-    borderRadius: 12,
-    padding: 20,
+    borderRadius: radii.card,
+    padding: 22,
     alignItems: "center",
+    ...shadow.card,
   },
 
   modalText: {
-    fontSize: 18,
+    fontSize: 17,
     textAlign: "center",
     marginBottom: 20,
+    color: colors.textPrimary,
+    lineHeight: 24,
   },
 
   modalButtons: {
@@ -159,5 +223,6 @@ export default StyleSheet.create({
   modalButtonText: {
     fontSize: 16,
     fontWeight: "600",
+    color: colors.textPrimary,
   },
 });

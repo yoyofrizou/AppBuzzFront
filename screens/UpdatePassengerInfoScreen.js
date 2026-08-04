@@ -13,6 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserInfos } from "../redux/reducers/user";
+import { persistUser } from "../utils/persistUser";
 import styles from "../styles/UpdatePassengerInfoStyles";
 import { colors } from "../styles/theme";
 
@@ -76,14 +77,16 @@ const UpdatePassengerInfoScreen = ({ navigation }) => {
         );
       }
 
-      dispatch(
-        updateUserInfos({
-          prenom: data.user?.prenom ?? updatedUser.firstName,
-          nom: data.user?.nom ?? updatedUser.lastName,
-          email: data.user?.email ?? updatedUser.email,
-          telephone: data.user?.telephone ?? updatedUser.phone,
-        })
-      );
+      const nextInfos = {
+        prenom: data.user?.prenom ?? updatedUser.firstName,
+        nom: data.user?.nom ?? updatedUser.lastName,
+        email: data.user?.email ?? updatedUser.email,
+        telephone: data.user?.telephone ?? updatedUser.phone,
+      };
+
+      dispatch(updateUserInfos(nextInfos));
+
+      await persistUser({ ...user, ...nextInfos });
 
       navigation.goBack();
     } catch (error) {

@@ -43,7 +43,7 @@ export default StyleSheet.create({
     borderRadius: 12,
     backgroundColor: colors.white,
     borderWidth: 6,
-    borderColor: "#2D9CDB",
+    borderColor: colors.mint,
   },
 
   destinationPinWrapper: {
@@ -74,6 +74,7 @@ export default StyleSheet.create({
     paddingHorizontal: 18,
     paddingTop: 22,
     paddingBottom: 18,
+    ...shadow.elevated,
   },
 
   etaTitle: {
@@ -116,6 +117,8 @@ export default StyleSheet.create({
     justifyContent: "center",
     overflow: "hidden",
     marginBottom: 10,
+    borderWidth: 3,
+    borderColor: colors.mintSoft,
   },
 
   avatarImage: {
@@ -143,6 +146,7 @@ export default StyleSheet.create({
     paddingVertical: 16,
     alignItems: "center",
     justifyContent: "center",
+    ...shadow.card,
   },
 
   primaryButtonText: {

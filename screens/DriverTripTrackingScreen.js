@@ -439,7 +439,7 @@ export default function DriverTripTrackingScreen({ navigation, route }) {
           <Polyline
             coordinates={polylineCoordinates}
             strokeWidth={6}
-            strokeColor="#1DA1F2"
+            strokeColor={colors.textPrimary}
           />
         )}
 

@@ -21,6 +21,7 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from "../styles/DriverVehiculeStyles";
 import { colors } from "../styles/theme";
 import { updateDriverProfile } from "../redux/reducers/user";
+import { persistUser } from "../utils/persistUser";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -90,6 +91,7 @@ function CustomDropdown({
   placeholder,
   onPress,
   disabled = false,
+  icon,
 }) {
   return (
     <View style={styles.dropdownBlock}>
@@ -100,6 +102,15 @@ function CustomDropdown({
         activeOpacity={disabled ? 1 : 0.8}
         onPress={disabled ? undefined : onPress}
       >
+        {!!icon && (
+          <Ionicons
+            name={icon}
+            size={18}
+            color={disabled ? colors.textSecondary : colors.textPrimary}
+            style={styles.dropdownIcon}
+          />
+        )}
+
         <Text
           style={[
             styles.dropdownButtonText,
@@ -275,7 +286,8 @@ export default function DriverVehiculeScreen({ navigation }) {
         })
       );
 
-      Alert.alert("Succès", "Informations du véhicule enregistrées");
+      await persistUser({ ...user, car: data.car, driverProfile: data.driverProfile });
+
       navigation.goBack();
     } catch (error) {
       Alert.alert("Erreur", "Erreur serveur");
@@ -307,6 +319,7 @@ export default function DriverVehiculeScreen({ navigation }) {
             <View style={styles.card}>
               <CustomDropdown
                 label="Marque"
+                icon="car-sport-outline"
                 value={brand}
                 placeholder="Sélectionner une marque"
                 onPress={() => setBrandModalVisible(true)}
@@ -314,6 +327,7 @@ export default function DriverVehiculeScreen({ navigation }) {
 
               <CustomDropdown
                 label="Modèle"
+                icon="list-outline"
                 value={model}
                 placeholder={
                   brand
@@ -326,31 +340,47 @@ export default function DriverVehiculeScreen({ navigation }) {
 
               <CustomDropdown
                 label="Couleur"
+                icon="color-palette-outline"
                 value={color}
                 placeholder="Sélectionner une couleur"
                 onPress={() => setColorModalVisible(true)}
               />
 
               <Text style={styles.inputLabel}>Nombre de places</Text>
-              <TextInput
-                placeholder="Ex : 4"
-                value={nbSeats}
-                onChangeText={setNbSeats}
-                keyboardType="numeric"
-                style={styles.input}
-                maxLength={1}
-                returnKeyType="done"
-              />
+              <View>
+                <Ionicons
+                  name="people-outline"
+                  size={18}
+                  color={colors.textPrimary}
+                  style={styles.inputIcon}
+                />
+                <TextInput
+                  placeholder="Ex : 4"
+                  value={nbSeats}
+                  onChangeText={setNbSeats}
+                  keyboardType="numeric"
+                  style={[styles.input, styles.inputWithIcon]}
+                  maxLength={1}
+                  returnKeyType="done"
+                />
+              </View>
 
               <Text style={styles.inputLabel}>Plaque d'immatriculation</Text>
-              <TextInput
-                placeholder="AB-123-CD"
-                value={licencePlate}
-                onChangeText={handlePlateChange}
-                autoCapitalize="characters"
-                style={styles.input}
-                maxLength={9}
-                returnKeyType="done"
+              <View>
+                <Ionicons
+                  name="card-outline"
+                  size={18}
+                  color={colors.textPrimary}
+                  style={styles.inputIcon}
+                />
+                <TextInput
+                  placeholder="AB-123-CD"
+                  value={licencePlate}
+                  onChangeText={handlePlateChange}
+                  autoCapitalize="characters"
+                  style={[styles.input, styles.inputWithIcon]}
+                  maxLength={9}
+                  returnKeyType="done"
               />
             </View>
 

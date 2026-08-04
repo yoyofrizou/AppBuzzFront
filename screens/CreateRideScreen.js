@@ -23,6 +23,7 @@ import { colors } from "../styles/theme";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 const EXPO_PUBLIC_MAPBOX_TOKEN = process.env.EXPO_PUBLIC_MAPBOX_TOKEN;
+console.log("MAPBOX TOKEN =", EXPO_PUBLIC_MAPBOX_TOKEN);
 
 function formatDate(date) {
   return date.toLocaleDateString("fr-FR");
@@ -366,16 +367,10 @@ export default function CreateRideScreen({ navigation }) {
         return;
       }
 
-      Alert.alert("Succès", "Votre trajet a bien été créé.", [
-        {
-          text: "OK",
-          onPress: () =>
-            navigation.navigate("DriverTabs", {
-              screen: "DriverTrips",
-              params: { initialTab: "upcoming" },
-            }),
-        },
-      ]);
+      navigation.navigate("DriverTabs", {
+        screen: "DriverTrips",
+        params: { initialTab: "upcoming" },
+      });
     } catch (error) {
       Alert.alert("Erreur", "Impossible de créer le trajet.");
     } finally {

@@ -10,6 +10,7 @@ export const colors = {
   mintSoft: "#DCEFE4",
   danger: "#C24C42",
   success: "#4B6E52",
+  onDarkMuted: "#A89F92",
   neutralLight: "#F1F1F1",
   placeholder: "#D9D9D9",
   overlay: "rgba(0,0,0,0.35)",
@@ -36,5 +37,12 @@ export const shadow = {
     shadowOpacity: 0.06,
     shadowOffset: { width: 0, height: 6 },
     shadowRadius: 16,
+  },
+  elevated: {
+    elevation: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 10 },
+    shadowRadius: 22,
   },
 };

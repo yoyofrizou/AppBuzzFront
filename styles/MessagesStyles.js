@@ -20,15 +20,30 @@ export default StyleSheet.create({
     marginTop: 40,
   },
 
+  emptyContainer: {
+    alignItems: "center",
+    marginTop: 60,
+    paddingHorizontal: 30,
+  },
+
+  emptyIconBadge: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: colors.mintSoft,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 16,
+  },
+
   emptyText: {
     textAlign: "center",
-    marginTop: 40,
     fontSize: 16,
     color: colors.textSecondary,
   },
 
   listContent: {
-    paddingBottom: 20,
+    paddingBottom: 110,
   },
 
   card: {

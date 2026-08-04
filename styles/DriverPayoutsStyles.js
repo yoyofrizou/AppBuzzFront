@@ -97,10 +97,20 @@ export default StyleSheet.create({
   emptyContainer: {
     backgroundColor: colors.surface,
     borderRadius: 22,
-    padding: 24,
+    padding: 28,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 12,
+    ...shadow.card,
+  },
+
+  emptyIconBadge: {
+    width: 88,
+    height: 88,
+    borderRadius: 44,
+    backgroundColor: colors.mintSoft,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   emptyTitle: {

@@ -153,6 +153,7 @@ export default function PassengerSearchScreen({ navigation }) {
   const [dropoffWalkMinutes, setDropoffWalkMinutes] = useState(10);
 
   const [departureDateTime, setDepartureDateTime] = useState(new Date()); //Par défaut : maintenant
+  const [dateTimeWasChanged, setDateTimeWasChanged] = useState(false);
 
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
@@ -288,11 +289,6 @@ export default function PassengerSearchScreen({ navigation }) {
     setShowDatePicker(true);
   };
 
-  const openTimePicker = () => { //pareil
-    setTempTime(new Date(departureDateTime)); 
-    setShowTimePicker(true);
-  };
-
   const handleConfirmDate = () => { //On part de la date/heure actuelle sélectionnée.
     const updated = new Date(departureDateTime);
 
@@ -304,6 +300,12 @@ export default function PassengerSearchScreen({ navigation }) {
 
     setDepartureDateTime(updated); //On enregistre la nouvelle date finale et on ferme la modale.
     setShowDatePicker(false);
+
+    // Enchaîne directement sur le choix de l'heure pour n'avoir qu'un seul geste
+    setTempTime(updated);
+    setTimeout(() => {
+      setShowTimePicker(true);
+    }, 250);
   };
 
   const handleConfirmTime = () => { //On repart encore de la date actuelle
@@ -312,6 +314,7 @@ export default function PassengerSearchScreen({ navigation }) {
     updated.setHours(tempTime.getHours(), tempTime.getMinutes(), 0, 0); //on remplace, heure, minute, seconde et milliseconde
 
     setDepartureDateTime(updated); //enregistre et ferme la modale
+    setDateTimeWasChanged(true);
     setShowTimePicker(false);
   };
 
@@ -552,38 +555,29 @@ export default function PassengerSearchScreen({ navigation }) {
                 onChange={setDropoffWalkMinutes}
               />
 
-              <View style={styles.dateTimeButton}>
+              <TouchableOpacity
+                style={styles.dateTimeButton}
+                activeOpacity={0.85}
+                onPress={openDatePicker}
+              >
                 <Ionicons
                   name="calendar-outline"
-                  size={24}
+                  size={22}
                   color={colors.textPrimary}
                 />
+
                 <Text style={styles.dateTimeText}>
-                  {formatDateTimeLabel(departureDateTime)}
+                  {dateTimeWasChanged
+                    ? formatDateTimeLabel(departureDateTime)
+                    : "Maintenant"}
                 </Text>
-              </View>
 
-              <View style={styles.dateTimeActions}>
-                <TouchableOpacity
-                  style={styles.smallDateButton}
-                  activeOpacity={0.8}
-                  onPress={openDatePicker}
-                >
-                  <Text style={styles.smallDateButtonText}>
-                    Changer la date
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.smallDateButton}
-                  activeOpacity={0.8}
-                  onPress={openTimePicker}
-                >
-                  <Text style={styles.smallDateButtonText}>
-                    Changer l'heure
-                  </Text>
-                </TouchableOpacity>
-              </View>
+                <Ionicons
+                  name="chevron-forward"
+                  size={20}
+                  color={colors.textSecondary}
+                />
+              </TouchableOpacity>
 
               <Text style={styles.infoText}>
                 Plus vous acceptez de marcher, plus nous trouvons de trajets

@@ -11,11 +11,12 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { logout, updateProfilePhoto } from "../redux/reducers/user";
+import { persistUser } from "../utils/persistUser";
 import { resetRidesState } from "../redux/reducers/rides";
 
 import styles from "../styles/DriverProfileStyles";
@@ -118,8 +119,7 @@ export default function DriverProfileScreen() {
 
       setProfileImage(newPhoto);
       dispatch(updateProfilePhoto(newPhoto));
-
-      Alert.alert("Succès", "Photo de profil mise à jour.");
+      await persistUser({ ...user, profilePhoto: newPhoto });
     } catch (error) {
       Alert.alert("Erreur", "Erreur serveur ou problème réseau.");
     } finally {
@@ -180,7 +180,6 @@ const confirmDeleteAccount = async () => {
     dispatch(resetRidesState());
     dispatch(logout());
 
-    Alert.alert("Succès", "Compte supprimé avec succès.");
   } catch (error) {
     Alert.alert("Erreur", "Erreur serveur ou problème réseau.");
   }
@@ -188,17 +187,14 @@ const confirmDeleteAccount = async () => {
 
   return (
     <SafeAreaView style={styles.screen}>
-      <View style={styles.header}>
-        <View style={styles.backButtonWrapper}>
-          <BackButton color={colors.textPrimary} />
+      <View style={styles.hero}>
+        <View style={styles.header}>
+          <View style={styles.backButtonWrapper}>
+            <BackButton color={colors.textPrimary} />
+          </View>
+          <Text style={styles.headerTitle}>Mon compte</Text>
         </View>
-        <Text style={styles.headerTitle}>Mon compte Togo</Text>
-      </View>
 
-      <ScrollView
-        contentContainerStyle={styles.container}
-        showsVerticalScrollIndicator={false}
-      >
         <TouchableOpacity
           style={styles.avatarWrapper}
           onPress={pickImage}
@@ -213,86 +209,123 @@ const confirmDeleteAccount = async () => {
           <View style={styles.plusBadge}>
             <Text style={styles.plusText}>{loadingPhoto ? "..." : "+"}</Text>
           </View>
+
+          {user?.driverProfile?.isVerified && (
+            <View style={styles.verifiedBadge}>
+              <Ionicons name="checkmark" size={16} color={colors.textPrimary} />
+            </View>
+          )}
         </TouchableOpacity>
 
         <Text style={styles.name}>
           {user?.prenom} {user?.nom}
         </Text>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("DriverInformations")}
-        >
-          <Text style={styles.buttonText}>Mes informations</Text>
-          <FontAwesome name="angle-right" size={20} color={colors.textPrimary} />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("DriverVehicule")}
-        >
-          <View style={styles.buttonLeft}>
-            <Text style={styles.buttonText}>Ma voiture</Text>
-
-            {!hasCarInfo && (
-              <FontAwesome
-                name="exclamation-circle"
-                size={16}
-                color={colors.danger}
-                style={styles.warningIcon}
-              />
-            )}
-          </View>
-
-          <FontAwesome name="angle-right" size={20} color={colors.textPrimary} />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("DriverDocuments")}
-        >
-          <View style={styles.buttonLeft}>
-            <Text style={styles.buttonText}>Mes documents</Text>
-
-            {!hasDriverDocuments && (
-              <FontAwesome
-                name="exclamation-circle"
-                size={16}
-                color={colors.danger}
-                style={styles.warningIcon}
-              />
-            )}
-          </View>
-
-          <FontAwesome name="angle-right" size={20} color={colors.textPrimary} />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("DriverEvaluations")}
-        >
-          <Text style={styles.buttonText}>Mes évaluations</Text>
-          <FontAwesome name="angle-right" size={20} color={colors.textPrimary} />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("DriverPayouts")}
-        >
-          <Text style={styles.buttonText}>Mes versements</Text>
-          <FontAwesome name="angle-right" size={20} color={colors.textPrimary} />
-        </TouchableOpacity>
-      </ScrollView>
-
-      <View style={styles.bottomContainer}>
-        <TouchableOpacity onPress={handleLogout}>
-          <Text style={styles.logoutText}>Se déconnecter</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={handleDeleteAccount}>
-          <Text style={styles.deleteText}>Supprimer le compte</Text>
-        </TouchableOpacity>
       </View>
+
+      <ScrollView
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
+        <Text style={styles.sectionLabel}>Mon compte</Text>
+
+        <View style={styles.menuCard}>
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate("DriverInformations")}
+          >
+            <View style={styles.menuIconBadge}>
+              <Ionicons name="person-outline" size={18} color={colors.textPrimary} />
+            </View>
+            <Text style={styles.buttonText}>Mes informations</Text>
+            <FontAwesome name="angle-right" size={18} color={colors.textSecondary} />
+          </TouchableOpacity>
+
+          <View style={styles.menuDivider} />
+
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate("DriverVehicule")}
+          >
+            <View style={styles.menuIconBadgeWrapper}>
+              <View style={styles.menuIconBadge}>
+                <Ionicons name="car-outline" size={18} color={colors.textPrimary} />
+              </View>
+              {!hasCarInfo && <View style={styles.menuWarningDot} />}
+            </View>
+            <Text style={styles.buttonText}>Ma voiture</Text>
+            <FontAwesome name="angle-right" size={18} color={colors.textSecondary} />
+          </TouchableOpacity>
+
+          <View style={styles.menuDivider} />
+
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate("DriverDocuments")}
+          >
+            <View style={styles.menuIconBadgeWrapper}>
+              <View style={styles.menuIconBadge}>
+                <Ionicons name="document-text-outline" size={18} color={colors.textPrimary} />
+              </View>
+              {!hasDriverDocuments && <View style={styles.menuWarningDot} />}
+            </View>
+            <Text style={styles.buttonText}>Mes documents</Text>
+            <FontAwesome name="angle-right" size={18} color={colors.textSecondary} />
+          </TouchableOpacity>
+
+          <View style={styles.menuDivider} />
+
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate("DriverEvaluations")}
+          >
+            <View style={styles.menuIconBadge}>
+              <Ionicons name="star-outline" size={18} color={colors.textPrimary} />
+            </View>
+            <Text style={styles.buttonText}>Mes évaluations</Text>
+            <FontAwesome name="angle-right" size={18} color={colors.textSecondary} />
+          </TouchableOpacity>
+
+          <View style={styles.menuDivider} />
+
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate("DriverPayouts")}
+          >
+            <View style={styles.menuIconBadge}>
+              <Ionicons name="wallet-outline" size={18} color={colors.textPrimary} />
+            </View>
+            <Text style={styles.buttonText}>Mes versements</Text>
+            <FontAwesome name="angle-right" size={18} color={colors.textSecondary} />
+          </TouchableOpacity>
+        </View>
+
+        <Text style={styles.sectionLabel}>Autres</Text>
+
+        <View style={styles.menuCard}>
+          <TouchableOpacity style={styles.button} activeOpacity={0.7} onPress={handleLogout}>
+            <View style={styles.menuIconBadge}>
+              <Ionicons name="log-out-outline" size={18} color={colors.textPrimary} />
+            </View>
+            <Text style={styles.buttonText}>Se déconnecter</Text>
+            <FontAwesome name="angle-right" size={18} color={colors.textSecondary} />
+          </TouchableOpacity>
+
+          <View style={styles.menuDivider} />
+
+          <TouchableOpacity style={styles.button} activeOpacity={0.7} onPress={handleDeleteAccount}>
+            <View style={[styles.menuIconBadge, styles.menuIconBadgeDanger]}>
+              <Ionicons name="trash-outline" size={18} color={colors.danger} />
+            </View>
+            <Text style={[styles.buttonText, styles.buttonTextDanger]}>Supprimer le compte</Text>
+            <FontAwesome name="angle-right" size={18} color={colors.textSecondary} />
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
 
       <Modal visible={deleteModalVisible} transparent animationType="fade">
         <View style={styles.modalOverlay}>

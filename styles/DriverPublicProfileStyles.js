@@ -65,6 +65,8 @@ export default StyleSheet.create({
     height: 92,
     borderRadius: 46,
     marginBottom: 14,
+    borderWidth: 3,
+    borderColor: colors.mintSoft,
   },
 
   driverPlaceholder: {
@@ -73,6 +75,8 @@ export default StyleSheet.create({
     borderRadius: 46,
     marginBottom: 14,
     backgroundColor: BORDEAUX,
+    borderWidth: 3,
+    borderColor: colors.mintSoft,
     alignItems: "center",
     justifyContent: "center",
   },

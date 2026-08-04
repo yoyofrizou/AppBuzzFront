@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";  //useS
 import {
   View,
   Text,
+  Image,
   FlatList, //composant optimisé pour afficher une liste, ici tous les messages
   TextInput, //champ pour taper le message
   TouchableOpacity,
@@ -9,9 +10,11 @@ import {
   Platform, //permet de savoir si on est sur IOS ou android pour adapter keyboardAvoidingView
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context"; //Évite que le contenu soit caché sous l’encoche ou la barre du haut
-import { useSelector } from "react-redux";   //Lire des données dans Redux, ici utilisateur 
+import { Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";   //Lire des données dans Redux, ici utilisateur
 import { useFocusEffect } from "@react-navigation/native"; //Déclencher une action quand l’écran reprend le focus, ici recharger les messages quand on arrive sur le chat
 import styles from "../styles/ChatStyles";
+import { colors } from "../styles/theme";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -186,9 +189,19 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
         behavior={Platform.OS === "ios" ? "padding" : undefined} 
       >
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={styles.backArrow}>←</Text>
+          <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={22} color={colors.textPrimary} />
           </TouchableOpacity>
+
+          {otherUser?.profilePhoto ? (
+            <Image source={{ uri: otherUser.profilePhoto }} style={styles.headerAvatar} />
+          ) : (
+            <View style={styles.headerAvatarFallback}>
+              <Text style={styles.headerAvatarText}>
+                {headerName ? headerName.charAt(0).toUpperCase() : "?"}
+              </Text>
+            </View>
+          )}
 
           <Text style={styles.headerTitle}>{headerName}</Text>
         </View>

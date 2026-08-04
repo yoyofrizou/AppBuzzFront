@@ -43,7 +43,7 @@ export default StyleSheet.create({
     borderRadius: 12,
     backgroundColor: colors.white,
     borderWidth: 6,
-    borderColor: "#2D9CDB",
+    borderColor: colors.mint,
   },
 
   destinationPinWrapper: {
@@ -74,6 +74,7 @@ export default StyleSheet.create({
     paddingTop: 22,
     paddingBottom: 28,
     minHeight: 280,
+    ...shadow.elevated,
   },
 
   etaTitle: {
@@ -172,11 +173,27 @@ export default StyleSheet.create({
   },
 
   infoCard: {
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: colors.fill,
     borderRadius: 16,
     paddingVertical: 14,
     paddingHorizontal: 14,
     marginBottom: 12,
+  },
+
+  infoIconBadge: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.mintSoft,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12,
+  },
+
+  infoTextColumn: {
+    flex: 1,
   },
 
   infoTitle: {
@@ -204,6 +221,7 @@ export default StyleSheet.create({
     borderRadius: 28,
     alignItems: "center",
     marginTop: 8,
+    ...shadow.card,
   },
 
   arrivedButtonText: {

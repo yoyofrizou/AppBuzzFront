@@ -329,7 +329,6 @@ export default function PassengerTripsScreen({ navigation, route }) {
               }
 
               dispatch(removePassengerBooking(bookingId));
-              Alert.alert("Réservation annulée");
               await fetchPassengerBookings();
             } catch (error) {
              
@@ -369,15 +368,27 @@ export default function PassengerTripsScreen({ navigation, route }) {
               {formatDateTime(ride.departureDateTime)}
             </Text>
 
-            <Text style={styles.tripRouteText}>
-              <Text style={styles.labelBold}>Départ : </Text>
-              {ride.departureAddress || "Non renseigné"}
-            </Text>
+            <View style={styles.routeTimeline}>
+              <View style={styles.routeIndicators}>
+                <View style={styles.routeDotStart} />
+                <View style={styles.routeConnector} />
+                <View style={styles.routeDotEnd} />
+              </View>
 
-            <Text style={styles.tripRouteText}>
-              <Text style={styles.labelBold}>Arrivée : </Text>
-              {ride.destinationAddress || "Non renseigné"}
-            </Text>
+              <View style={styles.routeTextColumn}>
+                <View style={styles.routeAddressRow}>
+                  <Text style={styles.routeAddressText} numberOfLines={1}>
+                    {ride.departureAddress || "Non renseigné"}
+                  </Text>
+                </View>
+
+                <View style={styles.routeAddressRow}>
+                  <Text style={styles.routeAddressText} numberOfLines={1}>
+                    {ride.destinationAddress || "Non renseigné"}
+                  </Text>
+                </View>
+              </View>
+            </View>
 
             <View style={styles.tripDivider} />
 
@@ -551,6 +562,9 @@ export default function PassengerTripsScreen({ navigation, route }) {
 
     return (
       <View style={styles.emptyContainer}>
+        <View style={styles.emptyIconBadge}>
+          <Ionicons name="briefcase-outline" size={40} color={colors.textPrimary} />
+        </View>
         <Text style={styles.emptyTitle}>{title}</Text>
         <Text style={styles.emptySubtitle}>{subtitle}</Text>
       </View>

@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.textPrimary,
     borderRadius: 16,
     height: 56,
+    paddingHorizontal: 8,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -123,6 +124,7 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 17,
     fontWeight: "700",
+    textAlign: "center",
   },
 
   denyButton: {
@@ -130,6 +132,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
     borderRadius: 16,
     height: 56,
+    paddingHorizontal: 8,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
@@ -140,11 +143,12 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     fontSize: 17,
     fontWeight: "600",
+    textAlign: "center",
   },
 
   switchModeToggle: {
     position: "absolute",
-    bottom: 40,
+    bottom: 110,
     alignSelf: "center",
     flexDirection: "row",
     backgroundColor: colors.surface,

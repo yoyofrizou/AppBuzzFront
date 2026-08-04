@@ -120,16 +120,7 @@ export default function AddDefaultCardScreen({ navigation, route }) {  //c’est
         );
       }
 
-      Alert.alert( //affiche succes 
-        "Carte enregistrée",
-        "Votre carte par défaut a bien été enregistrée.",
-        [
-          {
-            text: "OK",
-            onPress: () => navigation.goBack(),   //revient a l ecran precedent quand clique sur ok
-          },
-        ]
-      );
+      navigation.goBack();
     } catch (error) {
       Alert.alert(
         "Erreur paiement",

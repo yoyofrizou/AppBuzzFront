@@ -157,6 +157,7 @@ export default function PassengerPaymentsScreen({ navigation }) {
             <View style={styles.cardBox}>
               <View style={styles.cardTopRow}>
                 <View>
+                  <View style={styles.cardChip} />
                   <Text style={styles.cardBrand}>
                     {String(defaultCard.brand || "Carte").toUpperCase()} ••••{" "}
                     {defaultCard.last4 || "0000"}
@@ -173,18 +174,20 @@ export default function PassengerPaymentsScreen({ navigation }) {
               </View>
 
               <TouchableOpacity
-                style={styles.primaryAction}
+                style={styles.primaryActionOnDark}
                 onPress={goToAddDefaultCard}
                 activeOpacity={0.8}
               >
-                <Text style={styles.primaryActionText}>
+                <Text style={styles.primaryActionOnDarkText}>
                   Remplacer la carte par défaut
                 </Text>
               </TouchableOpacity>
             </View>
           ) : (
             <View style={styles.emptyCardBox}>
-              <Ionicons name="card-outline" size={30} color={colors.textPrimary} />
+              <View style={styles.emptyIconBadge}>
+                <Ionicons name="card-outline" size={30} color={colors.textPrimary} />
+              </View>
               <Text style={styles.emptyCardTitle}>Aucune carte enregistrée</Text>
               <Text style={styles.emptyCardText}>
                 Ajoute une carte par défaut pour payer plus rapidement tes
@@ -219,7 +222,9 @@ export default function PassengerPaymentsScreen({ navigation }) {
             </View>
           ) : paymentHistory.length === 0 ? (
             <View style={styles.emptyHistoryBox}>
-              <Ionicons name="receipt-outline" size={30} color={colors.textPrimary} />
+              <View style={styles.emptyIconBadge}>
+                <Ionicons name="receipt-outline" size={30} color={colors.textPrimary} />
+              </View>
               <Text style={styles.emptyHistoryTitle}>
                 Aucun paiement enregistré
               </Text>
@@ -230,18 +235,24 @@ export default function PassengerPaymentsScreen({ navigation }) {
           ) : (
             paymentHistory.map((payment) => (
               <View key={payment._id} style={styles.historyCard}>
-                <View style={styles.historyTopRow}>
-                  <Text style={styles.historyTitle}>
-                    {payment.title || "Trajet"}
-                  </Text>
-                  <Text style={styles.historyAmount}>
-                    {formatAmount(payment.amount || 0)}
-                  </Text>
+                <View style={styles.historyIconBadge}>
+                  <Ionicons name="car-outline" size={18} color={colors.textPrimary} />
                 </View>
 
-                <Text style={styles.historyDate}>
-                  {formatDate(payment.date)}
-                </Text>
+                <View style={styles.historyContent}>
+                  <View style={styles.historyTopRow}>
+                    <Text style={styles.historyTitle}>
+                      {payment.title || "Trajet"}
+                    </Text>
+                    <Text style={styles.historyAmount}>
+                      {formatAmount(payment.amount || 0)}
+                    </Text>
+                  </View>
+
+                  <Text style={styles.historyDate}>
+                    {formatDate(payment.date)}
+                  </Text>
+                </View>
               </View>
             ))
           )}

@@ -349,7 +349,7 @@ useFocusEffect(
           <Polyline
             coordinates={polylineCoordinates}
             strokeWidth={6}
-            strokeColor="#1DA1F2"
+            strokeColor={colors.textPrimary}
           />
         )}
 
@@ -379,26 +379,46 @@ useFocusEffect(
             : "-- km restants"}
         </Text>
 <View style={styles.infoCard}>
-  <Text style={styles.infoTitle}>Conducteur</Text>
-  <Text style={styles.infoText}>
-    {driver?.prenom || driver?.firstname || ""}{" "}
-    {driver?.nom || driver?.lastname || ""}
-  </Text>
-  <Text style={styles.infoSubtext}>
-    {driver?.car?.brand || "Voiture"}{" "}
-    {driver?.car?.model || ""}
-  </Text>
+  <View style={styles.infoIconBadge}>
+    <Ionicons name="person" size={20} color={colors.textPrimary} />
+  </View>
+  <View style={styles.infoTextColumn}>
+    <Text style={styles.infoTitle}>Conducteur</Text>
+    <Text style={styles.infoText}>
+      {driver?.prenom || driver?.firstname || ""}{" "}
+      {driver?.nom || driver?.lastname || ""}
+    </Text>
+    <Text style={styles.infoSubtext}>
+      {driver?.car?.brand || "Voiture"}{" "}
+      {driver?.car?.model || ""}
+    </Text>
+  </View>
 </View>
 
         <View style={styles.infoCard}>
-          <Text style={styles.infoTitle}>Statut</Text>
-          <Text style={styles.infoText}>
-            {ride.status === "started"
-              ? "Le trajet est en cours"
-              : ride.status === "completed"
-              ? "Le trajet est terminé"
-              : "En attente du départ"}
-          </Text>
+          <View style={styles.infoIconBadge}>
+            <Ionicons
+              name={
+                ride.status === "started"
+                  ? "navigate"
+                  : ride.status === "completed"
+                  ? "checkmark-circle"
+                  : "time"
+              }
+              size={20}
+              color={colors.textPrimary}
+            />
+          </View>
+          <View style={styles.infoTextColumn}>
+            <Text style={styles.infoTitle}>Statut</Text>
+            <Text style={styles.infoText}>
+              {ride.status === "started"
+                ? "Le trajet est en cours"
+                : ride.status === "completed"
+                ? "Le trajet est terminé"
+                : "En attente du départ"}
+            </Text>
+          </View>
         </View>
 
        <TouchableOpacity

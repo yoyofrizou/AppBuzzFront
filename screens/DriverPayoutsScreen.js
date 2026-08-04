@@ -126,7 +126,9 @@ export default function DriverPayoutsScreen({ navigation }) {
   const renderEmptyState = () => {
     return (
       <View style={styles.emptyContainer}>
-        <Ionicons name="card-outline" size={58} color={colors.textSecondary} />
+        <View style={styles.emptyIconBadge}>
+          <Ionicons name="card-outline" size={40} color={colors.textPrimary} />
+        </View>
         <Text style={styles.emptyTitle}>Aucun versement</Text>
         <Text style={styles.emptyText}>
           Vos versements apparaîtront ici après vos trajets.

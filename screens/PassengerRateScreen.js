@@ -116,13 +116,7 @@ export default function PassengerRateScreen({ navigation, route }) {
 
       if (data.error === "ALREADY_RATED") {
         await completeRideIfNeeded();
-
-        Alert.alert("Information", "Vous avez déjà évalué ce trajet.", [
-          {
-            text: "OK",
-            onPress: goToPastTrips,
-          },
-        ]);
+        goToPastTrips();
         return;
       }
 
@@ -131,13 +125,7 @@ export default function PassengerRateScreen({ navigation, route }) {
       }
 
       await completeRideIfNeeded();
-
-      Alert.alert("Merci", "Votre évaluation a bien été envoyée.", [
-        {
-          text: "OK",
-          onPress: goToPastTrips,
-        },
-      ]);
+      goToPastTrips();
     } catch (error) {
       Alert.alert(
         "Erreur",

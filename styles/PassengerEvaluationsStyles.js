@@ -192,4 +192,24 @@ export default StyleSheet.create({
     color: colors.textPrimary,
     lineHeight: 22,
   },
+
+  emptyReviewsBox: {
+    alignItems: "center",
+    paddingVertical: 20,
+  },
+
+  emptyIconBadge: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    backgroundColor: colors.mintSoft,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 14,
+  },
+
+  emptyReviewsText: {
+    fontSize: 14,
+    color: colors.textSecondary,
+  },
 });

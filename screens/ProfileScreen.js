@@ -16,6 +16,7 @@ import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { logout, updateProfilePhoto } from "../redux/reducers/user";
+import { persistUser } from "../utils/persistUser";
 import { resetRidesState } from "../redux/reducers/rides";
 
 import styles from "../styles/ProfileStyles";
@@ -94,8 +95,7 @@ export default function ProfileScreen() {
 
       setProfileImage(newPhoto);
       dispatch(updateProfilePhoto(newPhoto));
-
-      Alert.alert("Succès", "Photo de profil mise à jour.");
+      await persistUser({ ...user, profilePhoto: newPhoto });
     } catch (error) {
       Alert.alert("Erreur", "Erreur serveur ou problème réseau.");
     } finally {
@@ -150,7 +150,6 @@ const confirmLogout = async () => {
     dispatch(resetRidesState());
     dispatch(logout());
 
-    Alert.alert("Succès", "Compte supprimé avec succès.");
   } catch (error) {
     Alert.alert("Erreur", "Erreur serveur ou problème réseau.");
   }
@@ -159,17 +158,13 @@ const confirmLogout = async () => {
 
   return (
     <SafeAreaView style={styles.screen}>
-      <View style={styles.header}>
-  <View style={styles.backButtonWrapper}>
-    <BackButton color={colors.textPrimary} />
-  </View>
-  <Text style={styles.headerTitle}>Mon compte Togo</Text>
-</View>
-
-      <ScrollView
-        contentContainerStyle={styles.container}
-        showsVerticalScrollIndicator={false}
-      >
+      <View style={styles.hero}>
+        <View style={styles.header}>
+          <View style={styles.backButtonWrapper}>
+            <BackButton color={colors.textPrimary} />
+          </View>
+          <Text style={styles.headerTitle}>Mon compte</Text>
+        </View>
 
         <TouchableOpacity
           style={styles.avatarWrapper}
@@ -182,7 +177,7 @@ const confirmLogout = async () => {
             <View style={styles.avatarPlaceholder} />
           )}
 
-         <View style={styles.plusBadge}>
+          <View style={styles.plusBadge}>
             <Text style={styles.plusText}>{loadingPhoto ? "..." : "+"}</Text>
           </View>
         </TouchableOpacity>
@@ -191,37 +186,76 @@ const confirmLogout = async () => {
           {user.prenom} {user.nom}
         </Text>
 
-         <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("PassengerInformations")}
-        >
-          <Text style={styles.buttonText}>Mes informations</Text>
-          <FontAwesome name="angle-right" size={20} color="#000" />
-        </TouchableOpacity>
+        {!!user.email && <Text style={styles.emailText}>{user.email}</Text>}
+      </View>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('PassengerEvaluations')}
-        >
-          <Text style={styles.buttonText}>Mes évaluations</Text>
-          <FontAwesome name="angle-right" size={20} color="#000" />
-        </TouchableOpacity>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
+        <Text style={styles.sectionLabel}>Mon compte</Text>
 
-        <TouchableOpacity
-  style={styles.button}
-  onPress={() => navigation.navigate("PassengerPayments")}
->
-  <Text style={styles.buttonText}>Paiement</Text>
-  <FontAwesome name="angle-right" size={20} color="#000" />
-</TouchableOpacity>
-
-        <View style={styles.bottomContainer}>
-          <TouchableOpacity onPress={handleLogout}>
-            <Text style={styles.logoutText}>Se déconnecter</Text>
+        <View style={styles.menuCard}>
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate("PassengerInformations")}
+          >
+            <View style={styles.menuIconBadge}>
+              <Ionicons name="person-outline" size={18} color={colors.textPrimary} />
+            </View>
+            <Text style={styles.buttonText}>Mes informations</Text>
+            <FontAwesome name="angle-right" size={18} color={colors.textSecondary} />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={handleDeleteAccount}>
-            <Text style={styles.deleteText}>Supprimer le compte</Text>
+          <View style={styles.menuDivider} />
+
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate('PassengerEvaluations')}
+          >
+            <View style={styles.menuIconBadge}>
+              <Ionicons name="star-outline" size={18} color={colors.textPrimary} />
+            </View>
+            <Text style={styles.buttonText}>Mes évaluations</Text>
+            <FontAwesome name="angle-right" size={18} color={colors.textSecondary} />
+          </TouchableOpacity>
+
+          <View style={styles.menuDivider} />
+
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate("PassengerPayments")}
+          >
+            <View style={styles.menuIconBadge}>
+              <Ionicons name="card-outline" size={18} color={colors.textPrimary} />
+            </View>
+            <Text style={styles.buttonText}>Paiement</Text>
+            <FontAwesome name="angle-right" size={18} color={colors.textSecondary} />
+          </TouchableOpacity>
+        </View>
+
+        <Text style={styles.sectionLabel}>Autres</Text>
+
+        <View style={styles.menuCard}>
+          <TouchableOpacity style={styles.button} activeOpacity={0.7} onPress={handleLogout}>
+            <View style={styles.menuIconBadge}>
+              <Ionicons name="log-out-outline" size={18} color={colors.textPrimary} />
+            </View>
+            <Text style={styles.buttonText}>Se déconnecter</Text>
+            <FontAwesome name="angle-right" size={18} color={colors.textSecondary} />
+          </TouchableOpacity>
+
+          <View style={styles.menuDivider} />
+
+          <TouchableOpacity style={styles.button} activeOpacity={0.7} onPress={handleDeleteAccount}>
+            <View style={[styles.menuIconBadge, styles.menuIconBadgeDanger]}>
+              <Ionicons name="trash-outline" size={18} color={colors.danger} />
+            </View>
+            <Text style={[styles.buttonText, styles.buttonTextDanger]}>Supprimer le compte</Text>
+            <FontAwesome name="angle-right" size={18} color={colors.textSecondary} />
           </TouchableOpacity>
         </View>
 

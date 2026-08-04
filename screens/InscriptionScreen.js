@@ -137,16 +137,7 @@ const handleSignup = async () => {
       return;
     }
 
-    Alert.alert(
-      "Compte créé",
-      "Votre compte a bien été créé. Vous pouvez maintenant vous connecter.",
-      [
-        {
-          text: "OK",
-          onPress: () => navigation.replace("Connexion"),
-        },
-      ]
-    );
+    navigation.replace("Connexion");
   } catch (error) {
     Alert.alert("Erreur", "Erreur serveur ou problème réseau.");
   } finally {

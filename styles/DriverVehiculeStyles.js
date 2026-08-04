@@ -82,6 +82,21 @@ export default StyleSheet.create({
     marginRight: 10,
   },
 
+  dropdownIcon: {
+    marginRight: 10,
+  },
+
+  inputIcon: {
+    position: "absolute",
+    left: 14,
+    top: 16,
+    zIndex: 1,
+  },
+
+  inputWithIcon: {
+    paddingLeft: 42,
+  },
+
   dropdownPlaceholder: {
     color: colors.textSecondary,
   },

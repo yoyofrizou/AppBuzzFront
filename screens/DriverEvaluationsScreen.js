@@ -220,6 +220,17 @@ export default function DriverEvaluationsScreen({ navigation }) { //fonction sp√
               </View>
             </View>
           ))}
+
+          {rates.length === 0 && (
+            <View style={styles.emptyReviewsBox}>
+              <View style={styles.emptyIconBadge}>
+                <Ionicons name="chatbubbles-outline" size={32} color={colors.textPrimary} />
+              </View>
+              <Text style={styles.emptyReviewsText}>
+                Aucun avis pour le moment.
+              </Text>
+            </View>
+          )}
         </ScrollView>
       </View>
     </SafeAreaView>

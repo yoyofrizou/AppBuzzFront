@@ -58,6 +58,23 @@ export default StyleSheet.create({
     marginRight: 10,
   },
 
+  statusBadge: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12,
+  },
+
+  statusBadgeDone: {
+    backgroundColor: colors.success,
+  },
+
+  statusBadgeMissing: {
+    backgroundColor: "#F6E2DF",
+  },
+
   rowTitle: {
     fontSize: 16,
     color: colors.textPrimary,

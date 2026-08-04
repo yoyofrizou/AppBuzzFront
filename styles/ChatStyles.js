@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors } from "./theme";
+import { colors, shadow } from "./theme";
 
 export default StyleSheet.create({
   container: {
@@ -8,16 +8,49 @@ export default StyleSheet.create({
   },
 
   header: {
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: colors.surface,
-    paddingVertical: 18,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
+  },
+
+  backButton: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     alignItems: "center",
     justifyContent: "center",
+    marginRight: 6,
+  },
+
+  headerAvatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 10,
+  },
+
+  headerAvatarFallback: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.mint,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
+  },
+
+  headerAvatarText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: colors.textPrimary,
   },
 
   headerTitle: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: "700",
     color: colors.textPrimary,
   },
@@ -75,6 +108,7 @@ export default StyleSheet.create({
     borderRadius: 18,
     paddingVertical: 12,
     paddingHorizontal: 14,
+    ...shadow.card,
   },
 
   myMessageBubble: {
@@ -128,12 +162,5 @@ export default StyleSheet.create({
     color: colors.white,
     fontWeight: "700",
     fontSize: 14,
-  },
-
-  backArrow: {
-    position: "absolute",
-    left: -170,
-    fontSize: 24,
-    color: colors.textPrimary,
   },
 });

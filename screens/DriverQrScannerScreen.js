@@ -67,17 +67,10 @@ export default function DriverQrScannerScreen({ navigation, route }) {
         throw new Error(data.error || "Impossible de valider le QR code.");
       }
 
-      Alert.alert("Succès", data.message || "QR code validé.", [
-        {
-          text: "OK",
-          onPress: () => {
-            if (route?.params?.onValidated) {
-              route.params.onValidated();
-            }
-            navigation.goBack();
-          },
-        },
-      ]);
+      if (route?.params?.onValidated) {
+        route.params.onValidated();
+      }
+      navigation.goBack();
     } catch (error) {
       Alert.alert("Erreur", error.message || "Impossible de valider le QR code.", [
         {
@@ -191,21 +184,10 @@ export default function DriverQrScannerScreen({ navigation, route }) {
               );
             }
 
-            Alert.alert(
-              "Succès",
-              data.message || "Passager validé manuellement.",
-              [
-                {
-                  text: "OK",
-                  onPress: () => {
-                    if (route?.params?.onValidated) {
-                      route.params.onValidated();
-                    }
-                    navigation.goBack();
-                  },
-                },
-              ]
-            );
+            if (route?.params?.onValidated) {
+              route.params.onValidated();
+            }
+            navigation.goBack();
           } catch (error) {
             Alert.alert(
               "Erreur",
