@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors } from "./theme";
+import { colors, shadow } from "./theme";
 
 const PRIMARY = colors.textPrimary;
 const BACKGROUND = colors.backgroundAlt;
@@ -28,10 +28,12 @@ export default StyleSheet.create({
     marginBottom: 28,
   },
 
-  backText: {
-    fontSize: 28,
-    color: PRIMARY,
-    fontWeight: "400",
+  backButton: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   title: {
@@ -42,15 +44,25 @@ export default StyleSheet.create({
   },
 
   placeholder: {
-    width: 24,
+    width: 38,
   },
 
   card: {
     backgroundColor: WHITE,
     borderRadius: 24,
     padding: 22,
-    borderWidth: 1,
-    borderColor: BORDER,
+    alignItems: "center",
+    ...shadow.card,
+  },
+
+  iconBadge: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: colors.mintSoft,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 18,
   },
 
   description: {
@@ -62,12 +74,14 @@ export default StyleSheet.create({
   },
 
   addButton: {
+    width: "100%",
     backgroundColor: PRIMARY,
     minHeight: 56,
     borderRadius: 999,
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 18,
+    ...shadow.elevated,
   },
 
   addButtonText: {

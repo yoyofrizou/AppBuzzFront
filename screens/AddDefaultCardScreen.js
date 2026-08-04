@@ -8,6 +8,7 @@ import {   //import des composants react native
   Alert, //afficher une fenetre native de message (succes, erreur, etc)
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context"; //zone “sûre” qui évite que ton contenu passe sous l'enoche, la barre du haut ou des bords de l'ecran
+import { Ionicons } from "@expo/vector-icons";
 import { useStripe } from "@stripe/stripe-react-native";  //hook fournit par stripe
 import { useSelector } from "react-redux";  //importe deux hook redux, pour lire une donnee et pour envoyer une action Redux
 import styles from "../styles/AddDefaultCardStyles"; //importe les styles de cet ecran, je separe logique et visuel
@@ -135,35 +136,35 @@ export default function AddDefaultCardScreen({ navigation, route }) {  //c’est
     <SafeAreaView style={styles.safeArea}>  
       <View style={styles.container}> 
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}> 
-            <Text style={styles.backText}> </Text>
+          <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={22} color={colors.textPrimary} />
           </TouchableOpacity>
 
-          <Text style={styles.title}>{title}</Text> 
+          <Text style={styles.title}>{title}</Text>
 
-          <View style={styles.placeholder} /> 
+          <View style={styles.placeholder} />
         </View>
 
-        <View style={styles.card}> 
-          <Text style={styles.description}>{description}</Text> 
+        <View style={styles.card}>
+          <View style={styles.iconBadge}>
+            <Ionicons name="card-outline" size={26} color={colors.textPrimary} />
+          </View>
+
+          <Text style={styles.description}>{description}</Text>
 
           <TouchableOpacity
             style={styles.addButton}
             onPress={handleAddCard}
-            disabled={loading} 
+            disabled={loading}
             activeOpacity={0.85}
           >
 
-            {loading ? ( 
+            {loading ? (
               <ActivityIndicator color={colors.white} />
             ) : (
               <Text style={styles.addButtonText}>{buttonLabel}</Text>
             )}
           </TouchableOpacity>
-
-          <Text style={styles.testCard}>
-            Carte test Stripe : 4242 4242 4242 4242 — 12/34 — 123 
-          </Text>
         </View>
       </View>
     </SafeAreaView>

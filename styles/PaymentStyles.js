@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors } from "./theme";
+import { colors, shadow } from "./theme";
 
 const PRIMARY = colors.textPrimary;
 const PRIMARY_LIGHT = colors.textSecondary;
@@ -30,10 +30,12 @@ export default StyleSheet.create({
     marginBottom: 22,
   },
 
-  backText: {
-    fontSize: 28,
-    color: PRIMARY,
-    fontWeight: "400",
+  backButton: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   headerTitle: {
@@ -47,8 +49,7 @@ export default StyleSheet.create({
     borderRadius: 24,
     padding: 20,
     marginBottom: 22,
-    borderWidth: 1,
-    borderColor: BORDER,
+    ...shadow.card,
   },
 
   amountLabel: {
@@ -82,32 +83,50 @@ export default StyleSheet.create({
   },
 
   cardBox: {
-    backgroundColor: WHITE,
+    backgroundColor: PRIMARY,
     borderRadius: 20,
     padding: 18,
-    borderWidth: 1,
-    borderColor: BORDER,
+    marginBottom: 14,
+    ...shadow.card,
+  },
+
+  cardChip: {
+    width: 30,
+    height: 20,
+    borderRadius: 5,
+    backgroundColor: colors.mintSoft,
     marginBottom: 14,
   },
 
   cardText: {
     fontSize: 17,
     fontWeight: "700",
-    color: TEXT,
+    color: colors.white,
     marginBottom: 6,
   },
 
   cardMeta: {
     fontSize: 14,
-    color: MUTED,
+    color: colors.onDarkMuted,
   },
 
-  link: {
-    fontSize: 16,
-    color: PRIMARY,
+  linkRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: WHITE,
+    borderRadius: 14,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    marginBottom: 10,
+    ...shadow.card,
+  },
+
+  linkRowText: {
+    flex: 1,
+    fontSize: 15,
     fontWeight: "600",
-    marginBottom: 12,
-    textDecorationLine: "underline",
+    color: TEXT,
+    marginLeft: 12,
   },
 
   primaryButton: {
@@ -118,6 +137,7 @@ export default StyleSheet.create({
     justifyContent: "center",
     marginBottom: 12,
     paddingHorizontal: 16,
+    ...shadow.card,
   },
 
   primaryButtonText: {
@@ -153,6 +173,7 @@ export default StyleSheet.create({
     justifyContent: "center",
     marginTop: 16,
     paddingHorizontal: 18,
+    ...shadow.elevated,
   },
 
   mainButtonText: {

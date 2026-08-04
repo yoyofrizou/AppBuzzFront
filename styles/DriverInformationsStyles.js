@@ -48,7 +48,13 @@ export default StyleSheet.create({
     alignItems: "center",
   },
 
-  rowIcon: {
+  iconBadge: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.mintSoft,
+    alignItems: "center",
+    justifyContent: "center",
     marginRight: 12,
   },
 
@@ -66,8 +72,9 @@ export default StyleSheet.create({
     marginTop: 35,
     backgroundColor: colors.textPrimary,
     paddingVertical: 14,
-    borderRadius: 10,
+    borderRadius: 14,
     alignItems: "center",
+    ...shadow.card,
   },
 
   editButtonText: {

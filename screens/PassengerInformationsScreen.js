@@ -29,7 +29,9 @@ const fullName =
   const InfoRow = ({ icon, value }) => (
     <View style={styles.row}>
       <View style={styles.rowLeft}>
-        <Feather name={icon} size={22} color={colors.textSecondary} style={styles.rowIcon} />
+        <View style={styles.iconBadge}>
+          <Feather name={icon} size={18} color={colors.textPrimary} />
+        </View>
         <Text style={styles.rowValue}>{value}</Text>
       </View>
     </View>

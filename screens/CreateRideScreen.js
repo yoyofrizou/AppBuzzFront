@@ -23,7 +23,7 @@ import { colors } from "../styles/theme";
 
 const EXPO_PUBLIC_API_URL = process.env.EXPO_PUBLIC_API_URL;
 const EXPO_PUBLIC_MAPBOX_TOKEN = process.env.EXPO_PUBLIC_MAPBOX_TOKEN;
-console.log("MAPBOX TOKEN =", EXPO_PUBLIC_MAPBOX_TOKEN);
+
 
 function formatDate(date) {
   return date.toLocaleDateString("fr-FR");

@@ -8,6 +8,7 @@ import {
   Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 import styles from "../styles/PaymentStyles";
@@ -212,12 +213,12 @@ export default function PaymentScreen({ navigation, route }) {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={styles.backText}>←</Text>
+          <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={22} color={colors.textPrimary} />
           </TouchableOpacity>
 
           <Text style={styles.headerTitle}>Paiement</Text>
-          <View style={{ width: 30 }} />
+          <View style={{ width: 38 }} />
         </View>
 
         <View style={styles.amountBox}>
@@ -236,6 +237,7 @@ export default function PaymentScreen({ navigation, route }) {
               <Text style={styles.sectionTitle}>Moyen de paiement</Text>
 
               <View style={styles.cardBox}>
+                <View style={styles.cardChip} />
                 <Text style={styles.cardText}>
                   {selectedCard.brand?.toUpperCase()} •••• {selectedCard.last4}
                 </Text>
@@ -245,12 +247,16 @@ export default function PaymentScreen({ navigation, route }) {
                 </Text>
               </View>
 
-              <TouchableOpacity onPress={goToAddDefaultCard}>
-                <Text style={styles.link}>Changer de carte</Text>
+              <TouchableOpacity style={styles.linkRow} activeOpacity={0.8} onPress={goToAddDefaultCard}>
+                <Ionicons name="card-outline" size={20} color={colors.textPrimary} />
+                <Text style={styles.linkRowText}>Changer de carte</Text>
+                <Ionicons name="chevron-forward" size={18} color={colors.textSecondary} />
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={goToNewCardPayment}>
-                <Text style={styles.link}>Utiliser une nouvelle carte</Text>
+              <TouchableOpacity style={styles.linkRow} activeOpacity={0.8} onPress={goToNewCardPayment}>
+                <Ionicons name="add-circle-outline" size={20} color={colors.textPrimary} />
+                <Text style={styles.linkRowText}>Utiliser une nouvelle carte</Text>
+                <Ionicons name="chevron-forward" size={18} color={colors.textSecondary} />
               </TouchableOpacity>
             </>
           )}

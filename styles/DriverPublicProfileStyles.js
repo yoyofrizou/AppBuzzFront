@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors } from "./theme";
+import { colors, shadow } from "./theme";
 
 const BORDEAUX = colors.textPrimary;
 
@@ -58,6 +58,7 @@ export default StyleSheet.create({
     padding: 22,
     alignItems: "center",
     marginBottom: 16,
+    ...shadow.card,
   },
 
   driverImage: {
@@ -131,6 +132,7 @@ export default StyleSheet.create({
     borderRadius: 22,
     padding: 18,
     marginBottom: 16,
+    ...shadow.card,
   },
 
   sectionTitle: {

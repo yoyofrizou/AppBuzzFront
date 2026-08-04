@@ -32,18 +32,10 @@ export default function MessagesScreen({ navigation }) {
 
     try {
       setIsLoading(true);
-        console.log("LOAD CONVERSATIONS CALLED");
+       
 
       const response = await fetch(`${API_URL}/conversations/${token}`);
       const json = await response.json();
-
-       console.log(
-      "CONVERSATIONS FROM SERVER",
-      (json.conversations || []).map((c) => ({
-        id: c._id,
-        hasUnread: c.hasUnread,
-      }))
-    );
 
       if (response.ok && json.result) {
         setConversations(json.conversations || []);
@@ -51,7 +43,6 @@ export default function MessagesScreen({ navigation }) {
       
       }
     } catch (error) {
-      console.log("LOAD CONVERSATIONS ERROR", error);
     } finally {
       setIsLoading(false);
     }

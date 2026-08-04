@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors } from "./theme";
+import { colors, shadow } from "./theme";
 
 const BORDEAUX = colors.textPrimary;
 
@@ -94,10 +94,11 @@ export default StyleSheet.create({
   },
 
   ratingCard: {
-    backgroundColor: colors.fill,
+    backgroundColor: colors.surface,
     borderRadius: 20,
     padding: 18,
     marginBottom: 20,
+    ...shadow.card,
   },
 
   ratingCardTitle: {

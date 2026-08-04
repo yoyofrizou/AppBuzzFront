@@ -7,6 +7,7 @@ import {
   Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 import { useStripe } from "@stripe/stripe-react-native";
 import { useSelector } from "react-redux";
 import styles from "../styles/PayWithNewCardStyles";
@@ -133,8 +134,8 @@ export default function PayWithNewCardScreen({ navigation, route }) {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={styles.backText}>←</Text>
+          <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={22} color={colors.textPrimary} />
           </TouchableOpacity>
 
           <Text style={styles.title}>Nouvelle carte</Text>

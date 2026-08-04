@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors } from "./theme";
+import { colors, shadow } from "./theme";
 
 const PRIMARY = colors.textPrimary;
 const BACKGROUND = colors.backgroundAlt;
@@ -25,9 +25,12 @@ export default StyleSheet.create({
     marginBottom: 28,
   },
 
-  backText: {
-    fontSize: 28,
-    color: PRIMARY,
+  backButton: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   title: {
@@ -37,7 +40,7 @@ export default StyleSheet.create({
   },
 
   placeholder: {
-    width: 24,
+    width: 38,
   },
 
   card: {
@@ -45,6 +48,7 @@ export default StyleSheet.create({
     borderRadius: 24,
     padding: 22,
     marginBottom: 24,
+    ...shadow.card,
   },
 
   amountLabel: {
@@ -72,6 +76,7 @@ export default StyleSheet.create({
     minHeight: 56,
     alignItems: "center",
     justifyContent: "center",
+    ...shadow.elevated,
   },
 
   payButtonDisabled: {

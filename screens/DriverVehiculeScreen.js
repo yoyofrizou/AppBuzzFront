@@ -381,7 +381,9 @@ export default function DriverVehiculeScreen({ navigation }) {
                   style={[styles.input, styles.inputWithIcon]}
                   maxLength={9}
                   returnKeyType="done"
-              />
+                
+                />
+                </View>
             </View>
 
             <TouchableOpacity style={styles.saveButton} onPress={saveVehicle}>

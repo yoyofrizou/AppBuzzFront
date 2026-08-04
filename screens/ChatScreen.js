@@ -50,18 +50,18 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
 
   const loadMessages = async () => {
   try {
-    console.log("LOAD MESSAGES CALLED");
+
 
     setIsLoading(true);
 
     const url = `${API_URL}/messages/${conversationId}/${token}`;
-    console.log("FETCH URL =", url);
+  
 
     const response = await fetch(url);
-    console.log("RESPONSE STATUS =", response.status);
+ 
 
     const data = await response.json();
-    console.log("MESSAGES DATA =", data);
+
 
     if (data.result) {
       setMessages(data.messages || []);
@@ -69,7 +69,7 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
       setMessages([]);
     }
   } catch (error) {
-    console.log("LOAD MESSAGES ERROR =", error);
+   
     setMessages([]);
   } finally {
     setIsLoading(false);
@@ -98,8 +98,7 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
     if (!text.trim()) return;   //Si le texte est vide ou seulement des espaces : on n’envoie rien
 
     try {
-      console.log("SEND MESSAGE CALLED");
-    console.log("TEXT TO SEND =", text);
+ 
 
       const response = await fetch(`${API_URL}/messages/add`, { 
         method: "POST",  //Tu envoies une requête POST au backend avec token, conversationId et content
@@ -113,16 +112,16 @@ export default function ChatScreen({ route, navigation }) { //ici pour go back
         }),
       });
 
-      console.log("SEND MESSAGE STATUS =", response.status); 
+     
       const data = await response.json(); //lis la rep backend
- console.log("SEND MESSAGE DATA =", data); 
+
 
       if (data.result) {
         setText("");
         loadMessages();
       }    //apres je vide le champ texte et recharges les messages
     } catch (error) {
-      console.log("SEND MESSAGE ERROR =", error);
+     
     }  //en cas d'erreur je fais rien
   };
 
