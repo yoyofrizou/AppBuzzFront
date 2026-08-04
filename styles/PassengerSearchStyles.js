@@ -82,6 +82,88 @@ export default StyleSheet.create({
     marginLeft: 10,
   },
 
+  routeCard: {
+    marginBottom: 20,
+    backgroundColor: colors.surface,
+    borderRadius: 22,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    zIndex: 20,
+    ...shadow.card,
+  },
+
+  routeRow: {
+    flexDirection: "row",
+    alignItems: "stretch",
+  },
+
+  routeIndicatorColumn: {
+    width: 16,
+    alignItems: "center",
+    paddingTop: 26,
+    paddingBottom: 26,
+  },
+
+  routeDotStart: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: colors.mint,
+    borderWidth: 2,
+    borderColor: colors.textPrimary,
+  },
+
+  routeConnectorVertical: {
+    width: 2,
+    flex: 1,
+    minHeight: 26,
+    backgroundColor: colors.border,
+    marginVertical: 6,
+    borderRadius: 1,
+  },
+
+  routeDotEnd: {
+    width: 10,
+    height: 10,
+    borderRadius: 3,
+    backgroundColor: colors.textPrimary,
+  },
+
+  routeInputsColumn: {
+    flex: 1,
+    marginLeft: 12,
+    marginRight: 6,
+  },
+
+  routeInputBlock: {
+    minHeight: 60,
+    justifyContent: "center",
+  },
+
+  routeInput: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: colors.textPrimary,
+    paddingVertical: 8,
+  },
+
+  routeInputDivider: {
+    height: 1,
+    backgroundColor: colors.border,
+  },
+
+  swapButton: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: colors.mintSoft,
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+  },
+
   suggestionsLoader: {
     marginTop: 10,
   },
@@ -119,6 +201,35 @@ export default StyleSheet.create({
     fontSize: 24,
     fontWeight: "800",
     color: colors.textPrimary,
+  },
+
+  advancedToggle: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    paddingVertical: 14,
+    marginBottom: 4,
+  },
+
+  advancedToggleIconBadge: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: colors.mintSoft,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  advancedToggleText: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: "700",
+    color: colors.textPrimary,
+  },
+
+  advancedSection: {
+    marginBottom: 6,
+    paddingTop: 6,
   },
 
   sliderSection: {

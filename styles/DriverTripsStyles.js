@@ -451,6 +451,50 @@ export default StyleSheet.create({
     marginBottom: 6,
   },
 
+  dateBadgeRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  dateBadge: {
+    width: 50,
+    height: 50,
+    borderRadius: 14,
+    backgroundColor: colors.mintSoft,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12,
+  },
+
+  dateBadgeDay: {
+    fontSize: 18,
+    fontWeight: "900",
+    color: colors.textPrimary,
+    lineHeight: 20,
+  },
+
+  dateBadgeMonth: {
+    fontSize: 10,
+    fontWeight: "800",
+    color: colors.textPrimary,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+  },
+
+  rideDayLabel: {
+    fontSize: 15,
+    fontWeight: "800",
+    color: colors.textPrimary,
+    textTransform: "capitalize",
+  },
+
+  rideTimeText: {
+    fontSize: 13,
+    color: colors.textSecondary,
+    fontWeight: "600",
+    marginTop: 2,
+  },
+
   cancelRideButton: {
     marginTop: 10,
     backgroundColor: colors.surface,

@@ -152,6 +152,8 @@ export default function PassengerSearchScreen({ navigation }) {
   const [pickupWalkMinutes, setPickupWalkMinutes] = useState(5);
   const [dropoffWalkMinutes, setDropoffWalkMinutes] = useState(10);
 
+  const [showAdvanced, setShowAdvanced] = useState(false);
+
   const [departureDateTime, setDepartureDateTime] = useState(new Date()); //Par défaut : maintenant
   const [dateTimeWasChanged, setDateTimeWasChanged] = useState(false);
 
@@ -281,6 +283,22 @@ export default function PassengerSearchScreen({ navigation }) {
     setSelectedDestination(item);
     setDestinationQuery(item.label);
     setDestinationSuggestions([]);
+    setShowDestinationSuggestions(false);
+  };
+
+  const swapAddresses = () => { //échange départ et arrivée en un geste
+    const previousDeparture = selectedDeparture;
+    const previousDepartureQuery = departureQuery;
+
+    setSelectedDeparture(selectedDestination);
+    setDepartureQuery(destinationQuery);
+
+    setSelectedDestination(previousDeparture);
+    setDestinationQuery(previousDepartureQuery);
+
+    setDepartureSuggestions([]);
+    setDestinationSuggestions([]);
+    setShowDepartureSuggestions(false);
     setShowDestinationSuggestions(false);
   };
 
@@ -462,98 +480,138 @@ export default function PassengerSearchScreen({ navigation }) {
             </View>
 
             <View style={styles.card}>
-              <View style={styles.fieldBlock}>
-                <View style={styles.inputRow}>
-                  <Ionicons name="location" size={24} color={colors.textPrimary} />
-                  <TextInput
-                    value={departureQuery}
-                    onChangeText={(text) => {
-                      setDepartureQuery(text);
-                      setSelectedDeparture(null);
-                      setShowDepartureSuggestions(true);
-                    }}
-                    onFocus={() => setShowDepartureSuggestions(true)}
-                    placeholder="Adresse de départ"
-                    placeholderTextColor={colors.textSecondary}
-                    style={styles.input}
-                  />
-                </View>
-
-                {loadingDepartureSuggestions && (
-                  <ActivityIndicator
-                    style={styles.suggestionsLoader}
-                    color={colors.textPrimary}
-                  />
-                )}
-
-                {showDepartureSuggestions && departureSuggestions.length > 0 && (
-                  <View style={styles.suggestionsBox}>
-                    {departureSuggestions.map((item) =>
-                      renderSuggestionItem(item, selectDeparture)
-                    )}
+              <View style={styles.routeCard}>
+                <View style={styles.routeRow}>
+                  <View style={styles.routeIndicatorColumn}>
+                    <View style={styles.routeDotStart} />
+                    <View style={styles.routeConnectorVertical} />
+                    <View style={styles.routeDotEnd} />
                   </View>
-                )}
-              </View>
 
-              <View style={styles.fieldBlock}>
-                <View style={styles.inputRow}>
-                  <Ionicons name="location" size={24} color={colors.textPrimary} />
-                  <TextInput
-                    value={destinationQuery}
-                    onChangeText={(text) => {
-                      setDestinationQuery(text);
-                      setSelectedDestination(null);
-                      setShowDestinationSuggestions(true);
-                    }}
-                    onFocus={() => setShowDestinationSuggestions(true)}
-                    placeholder="Adresse d'arrivée"
-                    placeholderTextColor={colors.textSecondary}
-                    style={styles.input}
-                  />
+                  <View style={styles.routeInputsColumn}>
+                    <View style={styles.routeInputBlock}>
+                      <TextInput
+                        value={departureQuery}
+                        onChangeText={(text) => {
+                          setDepartureQuery(text);
+                          setSelectedDeparture(null);
+                          setShowDepartureSuggestions(true);
+                        }}
+                        onFocus={() => setShowDepartureSuggestions(true)}
+                        placeholder="Adresse de départ"
+                        placeholderTextColor={colors.textSecondary}
+                        style={styles.routeInput}
+                      />
+
+                      {loadingDepartureSuggestions && (
+                        <ActivityIndicator
+                          style={styles.suggestionsLoader}
+                          color={colors.textPrimary}
+                        />
+                      )}
+
+                      {showDepartureSuggestions &&
+                        departureSuggestions.length > 0 && (
+                          <View style={styles.suggestionsBox}>
+                            {departureSuggestions.map((item) =>
+                              renderSuggestionItem(item, selectDeparture)
+                            )}
+                          </View>
+                        )}
+                    </View>
+
+                    <View style={styles.routeInputDivider} />
+
+                    <View style={styles.routeInputBlock}>
+                      <TextInput
+                        value={destinationQuery}
+                        onChangeText={(text) => {
+                          setDestinationQuery(text);
+                          setSelectedDestination(null);
+                          setShowDestinationSuggestions(true);
+                        }}
+                        onFocus={() => setShowDestinationSuggestions(true)}
+                        placeholder="Adresse d'arrivée"
+                        placeholderTextColor={colors.textSecondary}
+                        style={styles.routeInput}
+                      />
+
+                      {loadingDestinationSuggestions && (
+                        <ActivityIndicator
+                          style={styles.suggestionsLoader}
+                          color={colors.textPrimary}
+                        />
+                      )}
+
+                      {showDestinationSuggestions &&
+                        destinationSuggestions.length > 0 && (
+                          <View style={styles.suggestionsBox}>
+                            {destinationSuggestions.map((item) =>
+                              renderSuggestionItem(item, selectDestination)
+                            )}
+                          </View>
+                        )}
+                    </View>
+                  </View>
 
                   <TouchableOpacity
-                    style={styles.inlineSearchButton}
+                    style={styles.swapButton}
                     activeOpacity={0.8}
-                    onPress={handleSearch}
+                    onPress={swapAddresses}
                   >
                     <Ionicons
-                      name="chevron-forward"
-                      size={24}
-                      color={colors.white}
+                      name="swap-vertical"
+                      size={18}
+                      color={colors.textPrimary}
                     />
                   </TouchableOpacity>
                 </View>
-
-                {loadingDestinationSuggestions && (
-                  <ActivityIndicator
-                    style={styles.suggestionsLoader}
-                    color={colors.textPrimary}
-                  />
-                )}
-
-                {showDestinationSuggestions &&
-                  destinationSuggestions.length > 0 && (
-                    <View style={styles.suggestionsBox}>
-                      {destinationSuggestions.map((item) =>
-                        renderSuggestionItem(item, selectDestination)
-                      )}
-                    </View>
-                  )}
               </View>
 
-              <Text style={styles.sectionTitle}>Ma marche acceptée</Text>
+              <TouchableOpacity
+                style={styles.advancedToggle}
+                activeOpacity={0.8}
+                onPress={() => setShowAdvanced(!showAdvanced)}
+              >
+                <View style={styles.advancedToggleIconBadge}>
+                  <Ionicons
+                    name="walk-outline"
+                    size={18}
+                    color={colors.textPrimary}
+                  />
+                </View>
 
-              <SliderBlock
-                title="Prise en charge"
-                value={pickupWalkMinutes}
-                onChange={setPickupWalkMinutes}
-              />
+                <Text style={styles.advancedToggleText}>
+                  Affiner ma marche acceptée
+                </Text>
 
-              <SliderBlock
-                title="Dépose"
-                value={dropoffWalkMinutes}
-                onChange={setDropoffWalkMinutes}
-              />
+                <Ionicons
+                  name={showAdvanced ? "chevron-up" : "chevron-down"}
+                  size={20}
+                  color={colors.textSecondary}
+                />
+              </TouchableOpacity>
+
+              {showAdvanced && (
+                <View style={styles.advancedSection}>
+                  <SliderBlock
+                    title="Prise en charge"
+                    value={pickupWalkMinutes}
+                    onChange={setPickupWalkMinutes}
+                  />
+
+                  <SliderBlock
+                    title="Dépose"
+                    value={dropoffWalkMinutes}
+                    onChange={setDropoffWalkMinutes}
+                  />
+
+                  <Text style={styles.infoText}>
+                    Plus vous acceptez de marcher, plus nous trouvons de
+                    trajets disponibles.
+                  </Text>
+                </View>
+              )}
 
               <TouchableOpacity
                 style={styles.dateTimeButton}
@@ -579,15 +637,11 @@ export default function PassengerSearchScreen({ navigation }) {
                 />
               </TouchableOpacity>
 
-              <Text style={styles.infoText}>
-                Plus vous acceptez de marcher, plus nous trouvons de trajets
-                disponibles.
-              </Text>
-
               <TouchableOpacity
                 style={[
                   styles.searchButton,
                   loadingSearch && styles.searchButtonDisabled,
+                  { marginTop: 18 },
                 ]}
                 activeOpacity={0.8}
                 disabled={loadingSearch}

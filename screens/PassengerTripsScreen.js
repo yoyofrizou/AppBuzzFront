@@ -41,6 +41,53 @@ function formatDateTime(dateString) {
   return `${formattedDate} à ${formattedTime}`;
 }
 
+function getRelativeDayLabel(dateString) {
+  if (!dateString) return "";
+
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return "";
+
+  const now = new Date();
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const startOfDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const diffDays = Math.round((startOfDate - startOfToday) / 86400000);
+
+  if (diffDays === 0) return "Aujourd'hui";
+  if (diffDays === 1) return "Demain";
+  if (diffDays === -1) return "Hier";
+
+  return date.toLocaleDateString("fr-FR", {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+  });
+}
+
+function formatTimeOnly(dateString) {
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return "--:--";
+
+  return date.toLocaleTimeString("fr-FR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function getDayNumber(dateString) {
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return "--";
+  return String(date.getDate()).padStart(2, "0");
+}
+
+function getMonthAbbrev(dateString) {
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return "";
+  return date
+    .toLocaleDateString("fr-FR", { month: "short" })
+    .replace(".", "")
+    .toUpperCase();
+}
+
 function getTripCategory(ride) {
   if (!ride) return "upcoming";
 
@@ -364,9 +411,25 @@ export default function PassengerTripsScreen({ navigation, route }) {
       <View style={styles.tripCard}>
         <View style={styles.tripMainRow}>
           <View style={styles.tripLeft}>
-            <Text style={styles.tripDateTimeText}>
-              {formatDateTime(ride.departureDateTime)}
-            </Text>
+            <View style={styles.dateBadgeRow}>
+              <View style={styles.dateBadge}>
+                <Text style={styles.dateBadgeDay}>
+                  {getDayNumber(ride.departureDateTime)}
+                </Text>
+                <Text style={styles.dateBadgeMonth}>
+                  {getMonthAbbrev(ride.departureDateTime)}
+                </Text>
+              </View>
+
+              <View>
+                <Text style={styles.tripDayLabel}>
+                  {getRelativeDayLabel(ride.departureDateTime)}
+                </Text>
+                <Text style={styles.tripTimeText}>
+                  {formatTimeOnly(ride.departureDateTime)}
+                </Text>
+              </View>
+            </View>
 
             <View style={styles.routeTimeline}>
               <View style={styles.routeIndicators}>

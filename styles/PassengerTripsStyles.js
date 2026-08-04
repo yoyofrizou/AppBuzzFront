@@ -376,6 +376,51 @@ export default StyleSheet.create({
     marginBottom: 6,
   },
 
+  dateBadgeRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 6,
+  },
+
+  dateBadge: {
+    width: 50,
+    height: 50,
+    borderRadius: 14,
+    backgroundColor: colors.mintSoft,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12,
+  },
+
+  dateBadgeDay: {
+    fontSize: 18,
+    fontWeight: "900",
+    color: colors.textPrimary,
+    lineHeight: 20,
+  },
+
+  dateBadgeMonth: {
+    fontSize: 10,
+    fontWeight: "800",
+    color: colors.textPrimary,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+  },
+
+  tripDayLabel: {
+    fontSize: 15,
+    fontWeight: "800",
+    color: colors.textPrimary,
+    textTransform: "capitalize",
+  },
+
+  tripTimeText: {
+    fontSize: 13,
+    color: colors.textSecondary,
+    fontWeight: "600",
+    marginTop: 2,
+  },
+
   tripStatus: {
     marginTop: 6,
     fontSize: 13,
