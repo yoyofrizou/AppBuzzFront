@@ -9,13 +9,13 @@ import {
   Alert,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import MapView, { Marker, Callout } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector } from "react-redux";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import TogoLogo from "../components/TogoLogo";
-import styles from "../styles/DriverHomeStyles";
+import styles, { ACCENT } from "../styles/DriverHomeStyles";
 import { colors } from "../styles/theme";
 
 export default function DriverHomeScreen({ navigation }) {
@@ -23,7 +23,6 @@ export default function DriverHomeScreen({ navigation }) {
 
   const [location, setLocation] = useState(null);
   const [locationDenied, setLocationDenied] = useState(false);
-  const [driverAddress, setDriverAddress] = useState("");
 
   const [showDriverProfileModal, setShowDriverProfileModal] = useState(false);
   const [driverWarningText, setDriverWarningText] = useState("");
@@ -69,50 +68,22 @@ export default function DriverHomeScreen({ navigation }) {
     }, 300);
   };
 
-  const reverseGeocodeAddress = async (coords) => {
+  const checkLocationPermissionAgain = useCallback(async () => {
     try {
-      const result = await Location.reverseGeocodeAsync({
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-      });
+      const { status } = await Location.getForegroundPermissionsAsync();
 
-      if (result && result.length > 0) {
-        const place = result[0];
-        const formattedAddress = [
-          place.name,
-          place.street,
-          place.postalCode,
-          place.city,
-        ]
-          .filter(Boolean)
-          .join(", ");
-
-        setDriverAddress(formattedAddress || "Adresse non disponible");
+      if (status === "granted") {
+        const currentPosition = await Location.getCurrentPositionAsync({});
+        setLocation(currentPosition);
+        setLocationDenied(false);
+        centerMapOnUser(currentPosition.coords);
+      } else {
+        setLocationDenied(true);
       }
     } catch (error) {
-      
-      setDriverAddress("Adresse non disponible");
+
     }
-  };
-
-
-  const checkLocationPermissionAgain = useCallback(async () => {
-  try {
-    const { status } = await Location.getForegroundPermissionsAsync();
-
-    if (status === "granted") {
-      const currentPosition = await Location.getCurrentPositionAsync({});
-      setLocation(currentPosition);
-      setLocationDenied(false);
-      centerMapOnUser(currentPosition.coords);
-      reverseGeocodeAddress(currentPosition.coords);
-    } else {
-      setLocationDenied(true);
-    }
-  } catch (error) {
-    
-  }
-}, []);
+  }, []);
 
   const getDriverWarningText = () => {
     if (!hasCarInfo && !hasDriverDocuments) {
@@ -131,30 +102,30 @@ export default function DriverHomeScreen({ navigation }) {
   };
 
   const checkDriverRequirements = useCallback(async () => {
-  if (canPublishRide) {
-    setShowDriverProfileModal(false);
-    setDriverWarningText("");
-    return;
-  }
-
-  setDriverWarningText(getDriverWarningText());
-
-  try {
-    const alreadySeen = await AsyncStorage.getItem(
-      "driverProfileIntroModalAlreadyShown"
-    );
-
-    if (!alreadySeen && !showDriverProfileModal) {
-      setShowDriverProfileModal(true);
-      await AsyncStorage.setItem(
-        "driverProfileIntroModalAlreadyShown",
-        "true"
-      );
+    if (canPublishRide) {
+      setShowDriverProfileModal(false);
+      setDriverWarningText("");
+      return;
     }
-  } catch (error) {
-   
-  }
-}, [canPublishRide, showDriverProfileModal]);
+
+    setDriverWarningText(getDriverWarningText());
+
+    try {
+      const alreadySeen = await AsyncStorage.getItem(
+        "driverProfileIntroModalAlreadyShown"
+      );
+
+      if (!alreadySeen && !showDriverProfileModal) {
+        setShowDriverProfileModal(true);
+        await AsyncStorage.setItem(
+          "driverProfileIntroModalAlreadyShown",
+          "true"
+        );
+      }
+    } catch (error) {
+
+    }
+  }, [canPublishRide, showDriverProfileModal]);
 
   const handleGoToCreateRide = () => {
     if (!canPublishRide) {
@@ -173,6 +144,14 @@ export default function DriverHomeScreen({ navigation }) {
     }
   };
 
+  const handleRecenter = () => {
+    if (location?.coords) {
+      centerMapOnUser(location.coords);
+    } else {
+      checkLocationPermissionAgain();
+    }
+  };
+
   const initialRegion = {
     latitude: location?.coords?.latitude || 48.8566,
     longitude: location?.coords?.longitude || 2.3522,
@@ -182,19 +161,72 @@ export default function DriverHomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.topContainer}>
-        <View style={styles.header}>
-          <View style={styles.logoGroup}>
-            <TogoLogo size={24} style={{ marginTop: 9, marginLeft: 4 }} />
+      <View style={styles.mapContainer}>
+        <TouchableOpacity
+          style={[styles.floatButton, styles.floatButtonLeft]}
+          activeOpacity={0.8}
+          onPress={handleRecenter}
+        >
+          <Ionicons name="locate" size={20} color={colors.textPrimary} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.floatButton, styles.floatButtonRight]}
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate("DriverProfile")}
+        >
+          <Ionicons name="person-circle-outline" size={26} color={colors.textPrimary} />
+        </TouchableOpacity>
+
+        <MapView
+          ref={mapRef}
+          style={styles.map}
+          initialRegion={initialRegion}
+          showsUserLocation={false}
+          followsUserLocation={false}
+        >
+          {location?.coords && (
+            <Marker
+              coordinate={{
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+              }}
+              anchor={{ x: 0.5, y: 1 }}
+            >
+              <View style={styles.pinColumn}>
+                <View style={styles.pinBadge}>
+                  <MaterialCommunityIcons name="steering" size={14} color={ACCENT} />
+                  <Text style={styles.pinBadgeText}>Vous êtes ici</Text>
+                </View>
+                <View style={styles.pinDot} />
+              </View>
+            </Marker>
+          )}
+        </MapView>
+
+        <View style={styles.switchModeToggle}>
+          <View style={[styles.switchModeSegment, styles.switchModeSegmentActive]}>
+            <Text style={[styles.switchModeSegmentText, styles.switchModeSegmentTextActive]}>
+              Conducteur
+            </Text>
           </View>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate("DriverProfile")}
-            style={styles.profileIcon}
+            style={styles.switchModeSegment}
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate("MainTabs")}
           >
-            <Ionicons name="person-circle-outline" size={32} color={colors.textPrimary} />
+            <Text style={styles.switchModeSegmentText}>Passager</Text>
           </TouchableOpacity>
         </View>
+      </View>
+
+      <View style={styles.panel}>
+        <View style={styles.panelTopRow}>
+          <TogoLogo size={22} color={colors.white} />
+        </View>
+
+        <Text style={styles.headline}>Prêt à{"\n"}prendre la route ?</Text>
 
         <TouchableOpacity
           style={styles.searchBar}
@@ -203,7 +235,7 @@ export default function DriverHomeScreen({ navigation }) {
         >
           <Text style={styles.searchPlaceholder}>Proposer un trajet</Text>
           <View style={styles.searchBarIcon}>
-            <Ionicons name="add" size={22} color={colors.textPrimary} />
+            <Ionicons name="add" size={22} color={colors.white} />
           </View>
         </TouchableOpacity>
 
@@ -215,7 +247,7 @@ export default function DriverHomeScreen({ navigation }) {
           >
             <View style={styles.warningDot} />
             <Text style={styles.driverWarningText}>{driverWarningText}</Text>
-            <Ionicons name="chevron-forward" size={20} color={colors.textPrimary} />
+            <Ionicons name="chevron-forward" size={20} color={colors.white} />
           </TouchableOpacity>
         )}
 
@@ -230,64 +262,9 @@ export default function DriverHomeScreen({ navigation }) {
               Vous devez activer la géolocalisation pour afficher votre
               position. Appuyez ici.
             </Text>
-            <Ionicons name="chevron-forward" size={20} color={colors.textPrimary} />
+            <Ionicons name="chevron-forward" size={20} color={colors.white} />
           </TouchableOpacity>
         )}
-      </View>
-
-      <View style={styles.mapContainer}>
-        <MapView
-          ref={mapRef}
-          style={styles.map}
-          initialRegion={initialRegion}
-          showsUserLocation={true}
-          followsUserLocation={true}
-        >
-          {location?.coords && (
-            <Marker
-              coordinate={{
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-              }}
-              title="Votre position"
-            >
-              <View style={styles.driverMarker}>
-                <MaterialCommunityIcons
-                  name="steering"
-                  size={22}
-                  color={colors.white}
-                />
-              </View>
-
-              <Callout>
-                <View style={styles.calloutContainer}>
-                  <Text style={styles.calloutTitle}>Vous êtes ici</Text>
-                  <Text style={styles.calloutText}>
-                    {driverAddress || "Adresse en cours de chargement..."}
-                  </Text>
-                </View>
-              </Callout>
-            </Marker>
-          )}
-        </MapView>
-
-        <View style={styles.switchModeToggle}>
-          <View style={[styles.switchModeSegment, styles.switchModeSegmentActive]}>
-            <Text
-              style={[styles.switchModeSegmentText, styles.switchModeSegmentTextActive]}
-            >
-              Conducteur
-            </Text>
-          </View>
-
-          <TouchableOpacity
-            style={styles.switchModeSegment}
-            activeOpacity={0.8}
-            onPress={() => navigation.navigate("MainTabs")}
-          >
-            <Text style={styles.switchModeSegmentText}>Passager</Text>
-          </TouchableOpacity>
-        </View>
       </View>
 
       <Modal

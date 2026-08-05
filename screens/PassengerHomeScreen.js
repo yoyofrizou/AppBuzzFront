@@ -12,9 +12,9 @@ import { useFocusEffect } from "@react-navigation/native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import TogoLogo from "../components/TogoLogo";
-import styles from "../styles/PassengerHomeStyles";
+import styles, { ACCENT } from "../styles/PassengerHomeStyles";
 import { colors } from "../styles/theme";
 
 export default function PassengerHomeScreen({ navigation }) {
@@ -53,7 +53,7 @@ export default function PassengerHomeScreen({ navigation }) {
         setLocationDenied(true);
       }
     } catch (error) {
-     
+
     }
   }, [centerMapOnUser]);
 
@@ -70,7 +70,7 @@ export default function PassengerHomeScreen({ navigation }) {
         checkLocationPermissionAgain();
       }
     } catch (error) {
-      
+
     }
   }, [checkLocationPermissionAgain]);
 
@@ -100,7 +100,7 @@ export default function PassengerHomeScreen({ navigation }) {
       setShowLocationModal(false);
       centerMapOnUser(currentPosition.coords);
     } catch (error) {
-      
+
       setShowLocationModal(false);
     }
   };
@@ -118,6 +118,14 @@ export default function PassengerHomeScreen({ navigation }) {
     }
   };
 
+  const handleRecenter = () => {
+    if (location?.coords) {
+      centerMapOnUser(location.coords);
+    } else {
+      checkLocationPermissionAgain();
+    }
+  };
+
   const initialRegion = {
     latitude: location?.coords?.latitude || 48.8566,
     longitude: location?.coords?.longitude || 2.3522,
@@ -127,26 +135,81 @@ export default function PassengerHomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.topContainer}>
-        <View style={styles.header}>
-          <TogoLogo size={28} />
+      <View style={styles.mapContainer}>
+        <TouchableOpacity
+          style={[styles.floatButton, styles.floatButtonLeft]}
+          activeOpacity={0.8}
+          onPress={handleRecenter}
+        >
+          <Ionicons name="locate" size={20} color={colors.textPrimary} />
+        </TouchableOpacity>
 
+        <TouchableOpacity
+          style={[styles.floatButton, styles.floatButtonRight]}
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate("Profile")}
+        >
+          <Ionicons name="person-circle-outline" size={26} color={colors.textPrimary} />
+        </TouchableOpacity>
+
+        <MapView
+          ref={mapRef}
+          style={styles.map}
+          initialRegion={initialRegion}
+          showsUserLocation={false}
+          followsUserLocation={false}
+        >
+          {location?.coords && (
+            <Marker
+              coordinate={{
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+              }}
+              anchor={{ x: 0.5, y: 1 }}
+            >
+              <View style={styles.pinColumn}>
+                <View style={styles.pinBadge}>
+                  <MaterialCommunityIcons name="steering" size={14} color={ACCENT} />
+                  <Text style={styles.pinBadgeText}>Vous êtes ici</Text>
+                </View>
+                <View style={styles.pinDot} />
+              </View>
+            </Marker>
+          )}
+        </MapView>
+
+        <View style={styles.switchModeToggle}>
           <TouchableOpacity
-            onPress={() => navigation.navigate("Profile")}
-            style={styles.profileIcon}
+            style={styles.switchModeSegment}
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate("DriverTabs")}
           >
-            <Ionicons name="person-circle-outline" size={32} color={colors.textPrimary} />
+            <Text style={styles.switchModeSegmentText}>Conducteur</Text>
           </TouchableOpacity>
+
+          <View style={[styles.switchModeSegment, styles.switchModeSegmentActive]}>
+            <Text style={[styles.switchModeSegmentText, styles.switchModeSegmentTextActive]}>
+              Passager
+            </Text>
+          </View>
         </View>
+      </View>
+
+      <View style={styles.panel}>
+        <View style={styles.panelTopRow}>
+          <TogoLogo size={22} color={colors.white} />
+        </View>
+
+        <Text style={styles.headline}>Où{"\n"}allez-vous ?</Text>
 
         <TouchableOpacity
           style={styles.searchBar}
           activeOpacity={0.8}
           onPress={() => navigation.navigate("PassengerSearch")}
         >
-          <Text style={styles.searchPlaceholder}>Où allez-vous ?</Text>
+          <Text style={styles.searchPlaceholder}>Rechercher un trajet</Text>
           <View style={styles.searchBarIcon}>
-            <Ionicons name="search" size={20} color={colors.textPrimary} />
+            <Ionicons name="search" size={18} color={colors.white} />
           </View>
         </TouchableOpacity>
 
@@ -161,47 +224,9 @@ export default function PassengerHomeScreen({ navigation }) {
               Vous devez activer la géolocalisation pour voir les trajets
               disponibles autour de vous. Appuyez ici.
             </Text>
-            <Ionicons name="chevron-forward" size={20} color={colors.textPrimary} />
+            <Ionicons name="chevron-forward" size={20} color={colors.white} />
           </TouchableOpacity>
         )}
-      </View>
-
-      <View style={styles.mapContainer}>
-        <MapView
-          ref={mapRef}
-          style={styles.map}
-          initialRegion={initialRegion}
-          showsUserLocation={true}
-          followsUserLocation={true}
-        >
-          {location?.coords && (
-            <Marker
-              coordinate={{
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-              }}
-              title="Vous êtes ici"
-            />
-          )}
-        </MapView>
-
-        <View style={styles.switchModeToggle}>
-          <TouchableOpacity
-            style={styles.switchModeSegment}
-            activeOpacity={0.8}
-            onPress={() => navigation.navigate("DriverTabs")}
-          >
-            <Text style={styles.switchModeSegmentText}>Conducteur</Text>
-          </TouchableOpacity>
-
-          <View style={[styles.switchModeSegment, styles.switchModeSegmentActive]}>
-            <Text
-              style={[styles.switchModeSegmentText, styles.switchModeSegmentTextActive]}
-            >
-              Passager
-            </Text>
-          </View>
-        </View>
       </View>
 
       <Modal

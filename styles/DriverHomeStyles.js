@@ -1,87 +1,34 @@
 import { StyleSheet } from "react-native";
 import { colors, shadow } from "./theme";
 
+export const ACCENT = "#A855F7";
+export const ACCENT_DARK = "#1C1030";
+
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: colors.backgroundAlt,
   },
 
-  topContainer: {
-    paddingTop: 55,
-    paddingHorizontal: 20,
-    backgroundColor: colors.background,
-  },
-
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  floatButton: {
+    position: "absolute",
+    top: 54,
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: colors.white,
     alignItems: "center",
-    marginBottom: 20,
-  },
-
-  logoGroup: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-
-  profileIcon: {},
-
-  searchBar: {
-    height: 58,
-    borderRadius: 29,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
-    paddingLeft: 20,
-    paddingRight: 6,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 16,
-  },
-
-  searchPlaceholder: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: colors.textPrimary,
-  },
-
-  searchBarIcon: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: colors.mint,
     justifyContent: "center",
-    alignItems: "center",
+    zIndex: 5,
+    ...shadow.soft,
   },
 
-  locationWarning: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 16,
-    paddingVertical: 12,
-    paddingHorizontal: 14,
-    marginBottom: 12,
-    gap: 10,
+  floatButtonLeft: {
+    left: 16,
   },
 
-  warningDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: colors.danger,
-  },
-
-  locationWarningText: {
-    flex: 1,
-    color: colors.textPrimary,
-    fontSize: 13,
-    fontWeight: "500",
+  floatButtonRight: {
+    right: 16,
   },
 
   mapContainer: {
@@ -93,63 +40,160 @@ export default StyleSheet.create({
     flex: 1,
   },
 
-  driverMarker: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    backgroundColor: colors.textPrimary,
-    justifyContent: "center",
+  pinColumn: {
     alignItems: "center",
-    borderWidth: 3,
-    borderColor: colors.white,
   },
 
-  calloutContainer: {
-    width: 180,
-    padding: 4,
+  pinBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    backgroundColor: ACCENT_DARK,
+    borderRadius: 12,
+    paddingVertical: 7,
+    paddingHorizontal: 12,
+    ...shadow.soft,
   },
 
-  calloutTitle: {
-    fontSize: 14,
-    fontWeight: "700",
-    color: "#111",
-    marginBottom: 4,
-  },
-
-  calloutText: {
+  pinBadgeText: {
+    color: colors.white,
     fontSize: 12,
-    color: "#444",
+    fontWeight: "800",
+  },
+
+  pinDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: ACCENT_DARK,
+    marginTop: 4,
+  },
+
+  panel: {
+    backgroundColor: ACCENT,
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
+    marginTop: -22,
+    paddingHorizontal: 22,
+    paddingTop: 24,
+    paddingBottom: 110,
+    zIndex: 4,
+    ...shadow.elevated,
+  },
+
+  panelTopRow: {
+    marginBottom: 16,
   },
 
   switchModeToggle: {
     position: "absolute",
-    bottom: 110,
+    bottom: 40,
     alignSelf: "center",
     flexDirection: "row",
     backgroundColor: colors.surface,
     borderRadius: 30,
     padding: 4,
+    zIndex: 5,
     ...shadow.soft,
   },
 
   switchModeSegment: {
-    paddingVertical: 16,
-    paddingHorizontal: 32,
-    borderRadius: 30,
+    paddingVertical: 14,
+    paddingHorizontal: 26,
+    borderRadius: 26,
   },
 
   switchModeSegmentActive: {
-    backgroundColor: colors.mint,
+    backgroundColor: ACCENT,
   },
 
   switchModeSegmentText: {
     color: colors.textPrimary,
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: "500",
   },
 
   switchModeSegmentTextActive: {
+    color: colors.white,
     fontWeight: "800",
+  },
+
+  headline: {
+    fontSize: 24,
+    fontWeight: "900",
+    textTransform: "uppercase",
+    color: colors.white,
+    lineHeight: 28,
+    marginBottom: 18,
+  },
+
+  searchBar: {
+    height: 56,
+    borderRadius: 18,
+    backgroundColor: colors.white,
+    paddingLeft: 20,
+    paddingRight: 6,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+
+  searchPlaceholder: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: colors.textPrimary,
+  },
+
+  searchBarIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: ACCENT_DARK,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  driverWarning: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "rgba(255,255,255,0.14)",
+    borderRadius: 14,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    marginTop: 12,
+    gap: 10,
+  },
+
+  driverWarningText: {
+    flex: 1,
+    color: colors.white,
+    fontSize: 13,
+    fontWeight: "500",
+  },
+
+  locationWarning: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "rgba(255,255,255,0.14)",
+    borderRadius: 14,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    marginTop: 12,
+    gap: 10,
+  },
+
+  locationWarningText: {
+    flex: 1,
+    color: colors.white,
+    fontSize: 13,
+    fontWeight: "500",
+  },
+
+  warningDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: colors.danger,
   },
 
   modalOverlay: {
@@ -172,14 +216,14 @@ export default StyleSheet.create({
   modalTitle: {
     fontSize: 20,
     fontWeight: "700",
-    color: "#111",
+    color: colors.textPrimary,
     marginBottom: 10,
     textAlign: "center",
   },
 
   modalText: {
     fontSize: 15,
-    color: "#555",
+    color: colors.textSecondary,
     lineHeight: 22,
     marginBottom: 20,
     textAlign: "center",
@@ -222,29 +266,9 @@ export default StyleSheet.create({
   },
 
   denyButtonText: {
-    color: "#333",
+    color: colors.textPrimary,
     fontSize: 15,
     fontWeight: "700",
     textAlign: "center",
-  },
-
-  driverWarning: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 16,
-    paddingVertical: 12,
-    paddingHorizontal: 14,
-    marginBottom: 12,
-    gap: 10,
-  },
-
-  driverWarningText: {
-    flex: 1,
-    color: colors.textPrimary,
-    fontSize: 13,
-    fontWeight: "500",
   },
 });
