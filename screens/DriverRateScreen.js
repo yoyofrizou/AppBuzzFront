@@ -136,9 +136,7 @@ export default function DriverRateScreen({ navigation, route }) {
         throw new Error(data.error || "Impossible d'envoyer les évaluations.");
       }
 
-      navigation.navigate("DriverTabs", {
-        screen: "DriverHome",
-      });
+      navigation.navigate("DriverHome");
     } catch (error) {
       Alert.alert(
         "Erreur",

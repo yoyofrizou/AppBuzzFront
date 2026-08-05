@@ -108,7 +108,7 @@ export default function ConnexionScreen({ navigation }) {
       dispatch(login(userData));
       await AsyncStorage.setItem("user", JSON.stringify(userData));
 
-      navigation.replace("MainTabs", { screen: "PassengerHome" });
+      navigation.replace("PassengerHome");
     } catch (error) {
       Alert.alert(
         "Erreur",

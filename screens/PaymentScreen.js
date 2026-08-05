@@ -86,10 +86,7 @@ export default function PaymentScreen({ navigation, route }) {
   );
 
   const goToPassengerTripsCurrent = () => {
-    navigation.navigate("MainTabs", {
-      screen: "PassengerTrips",
-      params: { initialTab: "current" },
-    });
+    navigation.navigate("PassengerTrips", { initialTab: "current" });
   };
 
   const createBooking = async (paymentIntentId) => {

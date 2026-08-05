@@ -368,10 +368,7 @@ export default function CreateRideScreen({ navigation }) {
         return;
       }
 
-      navigation.navigate("DriverTabs", {
-        screen: "DriverTrips",
-        params: { initialTab: "upcoming" },
-      });
+      navigation.navigate("DriverTrips", { initialTab: "upcoming" });
     } catch (error) {
       Alert.alert("Erreur", "Impossible de créer le trajet.");
     } finally {

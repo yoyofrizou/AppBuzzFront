@@ -144,14 +144,6 @@ export default function DriverHomeScreen({ navigation }) {
     }
   };
 
-  const handleRecenter = () => {
-    if (location?.coords) {
-      centerMapOnUser(location.coords);
-    } else {
-      checkLocationPermissionAgain();
-    }
-  };
-
   const initialRegion = {
     latitude: location?.coords?.latitude || 48.8566,
     longitude: location?.coords?.longitude || 2.3522,
@@ -165,17 +157,17 @@ export default function DriverHomeScreen({ navigation }) {
         <TouchableOpacity
           style={[styles.floatButton, styles.floatButtonLeft]}
           activeOpacity={0.8}
-          onPress={handleRecenter}
+          onPress={() => navigation.navigate("MainMenu", { mode: "driver" })}
         >
-          <Ionicons name="locate" size={20} color={colors.textPrimary} />
+          <Ionicons name="menu" size={22} color={ACCENT} />
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.floatButton, styles.floatButtonRight]}
           activeOpacity={0.8}
-          onPress={() => navigation.navigate("DriverProfile")}
+          onPress={() => navigation.navigate("Messages")}
         >
-          <Ionicons name="person-circle-outline" size={26} color={colors.textPrimary} />
+          <MaterialCommunityIcons name="message-badge-outline" size={21} color={ACCENT} />
         </TouchableOpacity>
 
         <MapView
@@ -214,7 +206,7 @@ export default function DriverHomeScreen({ navigation }) {
           <TouchableOpacity
             style={styles.switchModeSegment}
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("MainTabs")}
+            onPress={() => navigation.navigate("PassengerHome")}
           >
             <Text style={styles.switchModeSegmentText}>Passager</Text>
           </TouchableOpacity>
@@ -226,7 +218,7 @@ export default function DriverHomeScreen({ navigation }) {
           <TogoLogo size={22} color={colors.white} />
         </View>
 
-        <Text style={styles.headline}>Prêt à{"\n"}prendre la route ?</Text>
+        <Text style={styles.headline}>Prêt à{"\n"}prendre{"\n"}la route ?</Text>
 
         <TouchableOpacity
           style={styles.searchBar}

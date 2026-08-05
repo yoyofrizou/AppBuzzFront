@@ -138,7 +138,7 @@ export default function PassengerPublicProfileScreen({ navigation, route }) {
         return;
       }
 
-      navigation.navigate("Chat", {
+      navigation.navigate("ChatScreen", {
         conversationId: data.conversation._id,
         conversation: data.conversation,
       });

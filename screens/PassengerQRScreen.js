@@ -40,10 +40,7 @@ export default function PassengerQRScreen({ navigation, route }) {
         <TouchableOpacity
           style={styles.button}
           onPress={() =>
-           navigation.navigate("MainTabs", {
-             screen: "PassengerTrips",
-             params: { initialTab: "upcoming" },
-           })
+           navigation.navigate("PassengerTrips", { initialTab: "upcoming" })
               }
           activeOpacity={0.85}
         >
@@ -53,9 +50,7 @@ export default function PassengerQRScreen({ navigation, route }) {
         <TouchableOpacity
           style={styles.secondaryButton}
           onPress={() =>
-                   navigation.navigate("MainTabs", {
-                     screen: "PassengerHome",
-                     })
+                   navigation.navigate("PassengerHome")
                      }
           activeOpacity={0.85}
         >

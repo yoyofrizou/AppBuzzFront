@@ -2,8 +2,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 
 import AuthNavigator from "./AuthNavigator";
-import MainTabs from "./MainTabs";
-import DriverTabs from "./DriverTabs";
+
+import DriverHomeScreen from "../screens/DriverHomeScreen";
+import PassengerHomeScreen from "../screens/PassengerHomeScreen";
+import DriverTripsScreen from "../screens/DriverTripsScreen";
+import PassengerTripsScreen from "../screens/PassengerTripsScreen";
+import MainMenuScreen from "../screens/MainMenuScreen";
+import HelpScreen from "../screens/HelpScreen";
 
 import DriverProfileScreen from "../screens/DriverProfileScreen";
 import DriverInformationsScreen from "../screens/DriverInformationsScreen";
@@ -52,11 +57,14 @@ export default function RootNavigator() {
         <Stack.Screen name="Auth" component={AuthNavigator} />
       ) : (
         <Stack.Group>
-        
-          <Stack.Screen name="MainTabs" component={MainTabs} />
-          <Stack.Screen name="DriverTabs" component={DriverTabs} />
 
-      
+          <Stack.Screen name="PassengerHome" component={PassengerHomeScreen} />
+          <Stack.Screen name="DriverHome" component={DriverHomeScreen} />
+          <Stack.Screen name="PassengerTrips" component={PassengerTripsScreen} />
+          <Stack.Screen name="DriverTrips" component={DriverTripsScreen} />
+          <Stack.Screen name="MainMenu" component={MainMenuScreen} />
+          <Stack.Screen name="Help" component={HelpScreen} />
+
           <Stack.Screen name="DriverProfile" component={DriverProfileScreen} />
           <Stack.Screen name="DriverInformations" component={DriverInformationsScreen} />
           <Stack.Screen name="UpdateDriverInfo" component={UpdateDriverInfoScreen} />

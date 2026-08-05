@@ -67,12 +67,9 @@ export default function PassengerRateScreen({ navigation, route }) {
   };
 
   const goToPastTrips = () => {
-    navigation.navigate("MainTabs", {
-      screen: "PassengerTrips",
-      params: {
-        initialTab: "past",
-        refreshAt: Date.now(),
-      },
+    navigation.navigate("PassengerTrips", {
+      initialTab: "past",
+      refreshAt: Date.now(),
     });
   };
 

@@ -330,7 +330,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
         return;
       }
 
-      navigation.navigate("Chat", {
+      navigation.navigate("ChatScreen", {
         conversationId: data.conversation._id,
         conversation: data.conversation,
       });
@@ -646,9 +646,7 @@ export default function PassengerTripsScreen({ navigation, route }) {
             if (navigation.canGoBack()) {
               navigation.goBack();
             } else {
-              navigation.navigate("MainTabs", {
-                screen: "PassengerHome",
-              });
+              navigation.navigate("PassengerHome");
             }
           }}
         >

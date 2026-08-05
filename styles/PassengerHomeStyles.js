@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     marginTop: -22,
     paddingHorizontal: 22,
     paddingTop: 24,
-    paddingBottom: 110,
+    paddingBottom: 36,
     zIndex: 4,
     ...shadow.elevated,
   },
